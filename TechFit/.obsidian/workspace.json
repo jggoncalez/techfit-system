@@ -1,0 +1,211 @@
+{
+  "main": {
+    "id": "fef45369aa4ab9e9",
+    "type": "split",
+    "children": [
+      {
+        "id": "781164ba21fb4d70",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "aa18233c774e1a7a",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "Funcionário/Acesso funcionários.canvas",
+                "viewState": {
+                  "x": -1270,
+                  "y": 150,
+                  "zoom": -2.5811768909896666
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "Acesso funcionários"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "48fd1ad675f6c0db",
+    "type": "split",
+    "children": [
+      {
+        "id": "9c8d971c138da4c5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6d85fe0e9ccc0fba",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "213dcdbf2774e29b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "868ac40e2930232f",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "13deb73e98e4325e",
+    "type": "split",
+    "children": [
+      {
+        "id": "48dde38e25d872e5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "41fcc7c746112ad9",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Funcionário/Acesso funcionários.canvas",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": false
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Acesso funcionários"
+            }
+          },
+          {
+            "id": "566c6ca766cf2c4f",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Exercícios.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Exercícios"
+            }
+          },
+          {
+            "id": "43f36309abc50e1e",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "4843f10fa5dbc850",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Exercícios.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Exercícios"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "6d85fe0e9ccc0fba",
+  "lastOpenFiles": [
+    "Untitled.base",
+    "Untitled.canvas",
+    "Funcionário/Acesso funcionários.canvas",
+    "Funcionário/1.png",
+    "Funcionário/Cadastro de Alunos.md",
+    "Cliente/Perfil do usuário.md",
+    "Cliente/Agendamento.canvas",
+    "Funcionário/Modelo-stick.png",
+    "Funcionário/Cadastro de Treinos.md",
+    "Funcionário/Cadastro de Aulas.md",
+    "Funcionário/Gerenciamento de Treinos.md",
+    "Pasted image 20250910163721.png",
+    "Pasted image 20250910162717.png",
+    "Pasted image 20250910162654.png",
+    "Pasted image 20250910162605.png",
+    "Funcionário/Fluxo de acesso academia.png",
+    "Funcionário/2.png",
+    "Sistema/First Training.md",
+    "Sistema/Entrada por RFID.png",
+    "Sistema/Controle de Acesso.canvas",
+    "Pasted image 20250910155110.png",
+    "Sistema",
+    "Cliente",
+    "Funcionário",
+    "Sistema/SAGEF.canvas",
+    "Treinamento.md",
+    "Sistema/Exercícios.md",
+    "Sistema/Plano de Calendário.md",
+    "Tela de Seleção.md",
+    "2025-09-10.md",
+    "Não sei sei lá.md",
+    "Informações importantes.md",
+    "Welcome.md"
+  ]
+}

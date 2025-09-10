@@ -1,0 +1,27 @@
+{
+	"nodes":[
+		{"id":"23df6ce2546eb0e5","type":"group","x":-1430,"y":-100,"width":1890,"height":920,"label":"CRUD"},
+		{"id":"306628187332df2c","type":"group","x":-3000,"y":-100,"width":1399,"height":590,"label":"Dashboard"},
+		{"id":"1f8df368cfb4cc4c","type":"file","file":"Funcionário/Gerenciamento de Treinos.md","x":-560,"y":200,"width":400,"height":400},
+		{"id":"7d8abf0b66b82979","type":"file","file":"Funcionário/Cadastro de Treinos.md","x":40,"y":0,"width":400,"height":800},
+		{"id":"f6acb34b71769bb2","type":"text","text":"Acesso gerenciamento","x":-1410,"y":370,"width":250,"height":60},
+		{"id":"52b11f6d549b93b0","type":"file","file":"Funcionário/Cadastro de Aulas.md","x":-1000,"y":600,"width":400,"height":200},
+		{"id":"28396107df644e9b","type":"file","file":"Funcionário/Cadastro de Alunos.md","x":-1000,"y":-80,"width":400,"height":280},
+		{"id":"dbb4c8708c1a2631","type":"text","text":"Dashboard informações","x":-2431,"y":10,"width":250,"height":60},
+		{"id":"47bbee3a9e1be23e","type":"file","file":"Funcionário/2.png","x":-2020,"y":-80,"width":399,"height":240},
+		{"id":"40e463b5a09bd202","type":"file","file":"Funcionário/Fluxo de acesso academia.png","x":-2505,"y":230,"width":399,"height":240},
+		{"id":"b3c0731669b53684","type":"file","file":"Funcionário/1.png","x":-2980,"y":-80,"width":399,"height":240},
+		{"id":"b80f1131972d4e0b","type":"text","text":"#### Login funcionários\n\n- Registro empresarial (RE)\n- Senha","x":-1621,"y":-520,"width":285,"height":140}
+	],
+	"edges":[
+		{"id":"fd0024f48dfbaf0a","fromNode":"1f8df368cfb4cc4c","fromSide":"right","toNode":"7d8abf0b66b82979","toSide":"left"},
+		{"id":"8b26aeb88def227b","fromNode":"f6acb34b71769bb2","fromSide":"right","toNode":"28396107df644e9b","toSide":"left"},
+		{"id":"7493f465f282b677","fromNode":"f6acb34b71769bb2","fromSide":"right","toNode":"1f8df368cfb4cc4c","toSide":"left"},
+		{"id":"a41e925894d23ca6","fromNode":"f6acb34b71769bb2","fromSide":"right","toNode":"52b11f6d549b93b0","toSide":"left"},
+		{"id":"fafd3076d87a335c","fromNode":"dbb4c8708c1a2631","fromSide":"left","toNode":"b3c0731669b53684","toSide":"right"},
+		{"id":"b37093fe3bb31683","fromNode":"dbb4c8708c1a2631","fromSide":"right","toNode":"47bbee3a9e1be23e","toSide":"left"},
+		{"id":"8681037ce4905056","fromNode":"dbb4c8708c1a2631","fromSide":"bottom","toNode":"40e463b5a09bd202","toSide":"top"},
+		{"id":"c583dc0c3636541d","fromNode":"b80f1131972d4e0b","fromSide":"left","toNode":"306628187332df2c","toSide":"top"},
+		{"id":"52f97d808fb0c1e1","fromNode":"b80f1131972d4e0b","fromSide":"right","toNode":"23df6ce2546eb0e5","toSide":"top"}
+	]
+}

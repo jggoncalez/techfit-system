@@ -1,0 +1,12 @@
+{
+	"nodes":[
+		{"id":"04d2ec27c30d6d31","type":"text","text":"Físico","x":-40,"y":40,"width":90,"height":60,"color":"3"},
+		{"id":"c68cd59804c17e5f","type":"text","text":"Digital","x":420,"y":40,"width":100,"height":60,"color":"4"},
+		{"id":"34d73f7c1a1fbb34","type":"file","file":"Sistema/Entrada por RFID.png","x":-195,"y":180,"width":400,"height":250},
+		{"id":"f7810a5c01edc8b4","type":"text","text":"==Login==\n\n- Identificador (CPF, EMAIL, USERNAME)\n- Senha\n","x":345,"y":180,"width":250,"height":150}
+	],
+	"edges":[
+		{"id":"910a1ec9301f085e","fromNode":"c68cd59804c17e5f","fromSide":"bottom","toNode":"f7810a5c01edc8b4","toSide":"top"},
+		{"id":"223e96ca52105a24","fromNode":"04d2ec27c30d6d31","fromSide":"bottom","toNode":"34d73f7c1a1fbb34","toSide":"top"}
+	]
+}

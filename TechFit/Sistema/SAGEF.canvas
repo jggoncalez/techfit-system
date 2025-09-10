@@ -1,0 +1,25 @@
+{
+	"nodes":[
+		{"id":"24f07f1515023ffa","type":"text","text":"#### Inserção de Informações Manuais\n\n##### Inserido pelo usuário\n- Nome\n- Idade\n- Gênero\n- Já treinou (y/n)\n\t- Por quanto tempo?\n\t- Quais exercícios realizou?\n- Metas\n- Disponibilidade (para gerar cronogramas de treinos)\n\n##### Inserido após exames feitos pela academia\n- % Gordura\n- Peso\n- Altura\n","x":-200,"y":-123,"width":440,"height":503},
+		{"id":"d75ed272fadb2cba","type":"text","text":"Início do processo de cadastro","x":-680,"y":97,"width":280,"height":63},
+		{"id":"a717a9ce38379b77","type":"text","text":"SAGEF -> Sistema Automatizado de Geração de Exercícios Físicos","x":-240,"y":-340,"width":520,"height":60,"color":"3"},
+		{"id":"25d3110696446748","type":"file","file":"Sistema/First Training.md","x":760,"y":-100,"width":800,"height":480},
+		{"id":"f833a75429eb0552","type":"text","text":"\n| ==Feedback (Seleção pelo usuário)==     |\n| --------------------------------------- |\n| O que você achou do exercício?          |\n| **Fácil** 1---2---3---4---5 **Difícil** |\n##### Informações retiradas pelo Feedback do usuário:\n- 1~2 -> Dificultar exercícios nas próximas vezes\n- 2~3 -> Manter\n- 3~5 -> Facilitar exercício nas próximas vezes","x":918,"y":560,"width":485,"height":320},
+		{"id":"37eb6141e18df7a2","type":"text","text":"Aumentar:\n- Atributos\n- Séries\n- Exercícios mais difíceis","x":1600,"y":649,"width":250,"height":143,"color":"1"},
+		{"id":"8952790c9a035482","type":"text","text":"Diminuir:\n- Atributos\n- Séries\n- Exercícios mais fáceis","x":1035,"y":1020,"width":250,"height":143,"color":"4"},
+		{"id":"0b75e8d9b578106c","type":"file","file":"Cliente/Perfil do usuário.md","x":1700,"y":-135,"width":285,"height":550},
+		{"id":"e3c7f05b19e9bf10","type":"file","file":"Sistema/Exercícios.md","x":2140,"y":-95,"width":540,"height":475},
+		{"id":"7d94cd5249800550","type":"file","file":"Sistema/Ex-Molde.png","x":2500,"y":85,"width":131,"height":218},
+		{"id":"7f8a700e934bb10e","x":2800,"y":86,"width":250,"height":108,"type":"text","text":"Gera 6 exercícios por dia, para a semana seguindo o cronograma"}
+	],
+	"edges":[
+		{"id":"489e0ebf31af4eb4","fromNode":"d75ed272fadb2cba","fromSide":"right","toNode":"24f07f1515023ffa","toSide":"left"},
+		{"id":"5cfb79d41a599506","fromNode":"24f07f1515023ffa","fromSide":"right","toNode":"25d3110696446748","toSide":"left","label":"Geração automática"},
+		{"id":"fe0669e2da5c5e67","fromNode":"25d3110696446748","fromSide":"bottom","toNode":"f833a75429eb0552","toSide":"top","label":"Após cada exercício"},
+		{"id":"8af70de5412c121c","fromNode":"f833a75429eb0552","fromSide":"right","toNode":"37eb6141e18df7a2","toSide":"left","color":"1","label":"Dificultar"},
+		{"id":"546ece1c9d8bd28a","fromNode":"f833a75429eb0552","fromSide":"bottom","toNode":"8952790c9a035482","toSide":"top","color":"4","label":"Facilitar"},
+		{"id":"d0466b7bab483f9f","fromNode":"0b75e8d9b578106c","fromSide":"right","toNode":"e3c7f05b19e9bf10","toSide":"left"},
+		{"id":"ea4669d2d1c0b982","fromNode":"25d3110696446748","fromSide":"right","toNode":"0b75e8d9b578106c","toSide":"left"},
+		{"id":"abea0f85cc572dcc","fromNode":"e3c7f05b19e9bf10","fromSide":"right","toNode":"7f8a700e934bb10e","toSide":"left"}
+	]
+}

@@ -1,0 +1,11 @@
+{
+	"nodes":[
+		{"id":"abdb77c7cca4aeee","type":"file","file":"Sistema/Plano de Calendário.md","x":0,"y":0,"width":780,"height":300},
+		{"id":"6bd7f6e75cf25898","type":"text","text":"|         Spinning          |\n| :-----------------------: |\n|         Descrição         |\n|      Vagas: {vagas}       |\n|   Dia 20, Quarta-Feira    |\n| 08:00               09:00 |\n|      ==Participar==       |","x":275,"y":380,"width":230,"height":220},
+		{"id":"4fd19bd9cf550897","x":505,"y":640,"width":250,"height":240,"type":"text","text":"==Participar==\n```\nif {vagas} > 0 {\n\tvagas -= 1;\n\tgetUserInfo(nome, idade, id...);\n}\n```\n"}
+	],
+	"edges":[
+		{"id":"1a70df9c8b88fd9f","fromNode":"abdb77c7cca4aeee","fromSide":"bottom","toNode":"6bd7f6e75cf25898","toSide":"top"},
+		{"id":"a0bf995d197857ed","fromNode":"6bd7f6e75cf25898","fromSide":"bottom","toNode":"4fd19bd9cf550897","toSide":"left"}
+	]
+}
