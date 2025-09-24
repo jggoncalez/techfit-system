@@ -13,15 +13,15 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Funcionário/Acesso funcionários.canvas",
+                "file": "Cliente/Agendamento.canvas",
                 "viewState": {
-                  "x": -1270,
-                  "y": 150,
-                  "zoom": -2.5811768909896666
+                  "x": 390,
+                  "y": 440.00000000000006,
+                  "zoom": -0.704544116473829
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "Acesso funcionários"
+              "title": "Agendamento"
             }
           }
         ]
@@ -174,31 +174,34 @@
   },
   "active": "6d85fe0e9ccc0fba",
   "lastOpenFiles": [
-    "Untitled.base",
-    "Untitled.canvas",
     "Funcionário/Acesso funcionários.canvas",
-    "Funcionário/1.png",
-    "Funcionário/Cadastro de Alunos.md",
-    "Cliente/Perfil do usuário.md",
+    "Sistema/SAGEF.canvas",
+    "Sistema/Controle de Acesso.canvas",
+    "Trello/Metologias Agile.canvas",
+    "Trello/Kanban.png",
+    "Trello/Lean.png",
+    "Trello/XP.png",
     "Cliente/Agendamento.canvas",
+    "Funcionário/Cadastro de Alunos.md",
+    "Funcionário/Fluxo de acesso academia.png",
     "Funcionário/Modelo-stick.png",
+    "Trello/Scrum.png",
+    "Funcionário/1.png",
+    "Funcionário/2.png",
     "Funcionário/Cadastro de Treinos.md",
     "Funcionário/Cadastro de Aulas.md",
+    "Untitled.md",
+    "Pasted image 20250924151245.png",
+    "Pasted image 20250924151126.png",
+    "Trello",
+    "Cliente/Perfil do usuário.md",
+    "Untitled.canvas",
+    "Untitled.base",
     "Funcionário/Gerenciamento de Treinos.md",
-    "Pasted image 20250910163721.png",
-    "Pasted image 20250910162717.png",
-    "Pasted image 20250910162654.png",
-    "Pasted image 20250910162605.png",
-    "Funcionário/Fluxo de acesso academia.png",
-    "Funcionário/2.png",
     "Sistema/First Training.md",
-    "Sistema/Entrada por RFID.png",
-    "Sistema/Controle de Acesso.canvas",
-    "Pasted image 20250910155110.png",
     "Sistema",
     "Cliente",
     "Funcionário",
-    "Sistema/SAGEF.canvas",
     "Treinamento.md",
     "Sistema/Exercícios.md",
     "Sistema/Plano de Calendário.md",
