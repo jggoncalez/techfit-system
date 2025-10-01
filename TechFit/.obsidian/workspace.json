@@ -13,15 +13,15 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Cliente/Agendamento.canvas",
+                "file": "Sistema/SAGEF.canvas",
                 "viewState": {
-                  "x": 390,
-                  "y": 440.00000000000006,
-                  "zoom": -0.704544116473829
+                  "x": 101.76962955913655,
+                  "y": -94.05227120978918,
+                  "zoom": -1.1320987193091308
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "Agendamento"
+              "title": "SAGEF"
             }
           }
         ]
@@ -172,27 +172,28 @@
       "bases:Create new base": false
     }
   },
-  "active": "6d85fe0e9ccc0fba",
+  "active": "aa18233c774e1a7a",
   "lastOpenFiles": [
-    "Funcionário/Acesso funcionários.canvas",
-    "Sistema/SAGEF.canvas",
     "Sistema/Controle de Acesso.canvas",
-    "Trello/Metologias Agile.canvas",
-    "Trello/Kanban.png",
-    "Trello/Lean.png",
-    "Trello/XP.png",
+    "Funcionário/Acesso funcionários.canvas",
     "Cliente/Agendamento.canvas",
-    "Funcionário/Cadastro de Alunos.md",
     "Funcionário/Fluxo de acesso academia.png",
-    "Funcionário/Modelo-stick.png",
-    "Trello/Scrum.png",
-    "Funcionário/1.png",
-    "Funcionário/2.png",
     "Funcionário/Cadastro de Treinos.md",
     "Funcionário/Cadastro de Aulas.md",
+    "Funcionário/Cadastro de Alunos.md",
+    "Trello/XP.png",
+    "Trello/Scrum.png",
+    "Trello/Metologias Agile.canvas",
+    "Trello/Lean.png",
+    "Trello/Kanban.png",
+    "Sistema/Ex-Molde.png",
+    "Sistema/Exercícios.md",
+    "Sistema/Entrada por RFID.png",
+    "Sistema/SAGEF.canvas",
+    "Funcionário/Modelo-stick.png",
+    "Funcionário/1.png",
+    "Funcionário/2.png",
     "Untitled.md",
-    "Pasted image 20250924151245.png",
-    "Pasted image 20250924151126.png",
     "Trello",
     "Cliente/Perfil do usuário.md",
     "Untitled.canvas",
@@ -203,7 +204,6 @@
     "Cliente",
     "Funcionário",
     "Treinamento.md",
-    "Sistema/Exercícios.md",
     "Sistema/Plano de Calendário.md",
     "Tela de Seleção.md",
     "2025-09-10.md",
