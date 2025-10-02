@@ -11,4 +11,3 @@ Gera um treino padrão para avaliar o usuário
 | Tempo      | -                     | -          | -                 | 45min  | -                | -                     |
 | Intervalo  | 10seg                 | 30seg      | 45seg             | -      | 30seg            | 10seg                 |
 | Atributos  | -                     | 5kg        |                   |        |                  |                       |
-[[SAGEF.canvas|SAGEF]]

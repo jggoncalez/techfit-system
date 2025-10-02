@@ -10,7 +10,7 @@
 		{"id":"0b75e8d9b578106c","type":"file","file":"Cliente/Perfil do usuário.md","x":1700,"y":-135,"width":285,"height":550},
 		{"id":"e3c7f05b19e9bf10","type":"file","file":"Sistema/Exercícios.md","x":2140,"y":-95,"width":540,"height":475},
 		{"id":"7d94cd5249800550","type":"file","file":"Sistema/Ex-Molde.png","x":2500,"y":85,"width":131,"height":218},
-		{"id":"7f8a700e934bb10e","x":2800,"y":86,"width":250,"height":108,"type":"text","text":"Gera 6 exercícios por dia, para a semana seguindo o cronograma"}
+		{"id":"7f8a700e934bb10e","type":"text","text":"Gera 6 exercícios por dia, para a semana seguindo o cronograma","x":2800,"y":86,"width":250,"height":108}
 	],
 	"edges":[
 		{"id":"489e0ebf31af4eb4","fromNode":"d75ed272fadb2cba","fromSide":"right","toNode":"24f07f1515023ffa","toSide":"left"},
