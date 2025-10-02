@@ -15,9 +15,15 @@
               "state": {
                 "file": "Sistema/SAGEF.canvas",
                 "viewState": {
+<<<<<<< HEAD:TechFit/Obsidian/.obsidian/workspace.json
                   "x": 133.10332395890188,
                   "y": -242.36521730983947,
                   "zoom": -0.5930725027548331
+=======
+                  "x": 101.76962955913655,
+                  "y": -94.05227120978918,
+                  "zoom": -1.1320987193091308
+>>>>>>> 8e00bff240a9d2f2274af5a3656d6b296fd6f000:TechFit/.obsidian/workspace.json
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -172,15 +178,32 @@
       "bases:Criar nova base": false
     }
   },
+<<<<<<< HEAD:TechFit/Obsidian/.obsidian/workspace.json
   "active": "8e50fb4f1d969a26",
+=======
+  "active": "aa18233c774e1a7a",
+>>>>>>> 8e00bff240a9d2f2274af5a3656d6b296fd6f000:TechFit/.obsidian/workspace.json
   "lastOpenFiles": [
     "Sistema/Controle de Acesso.canvas",
     "Funcionário/Acesso funcionários.canvas",
     "Cliente/Agendamento.canvas",
+<<<<<<< HEAD:TechFit/Obsidian/.obsidian/workspace.json
+=======
+    "Funcionário/Fluxo de acesso academia.png",
+    "Funcionário/Cadastro de Treinos.md",
+    "Funcionário/Cadastro de Aulas.md",
+    "Funcionário/Cadastro de Alunos.md",
+    "Trello/XP.png",
+    "Trello/Scrum.png",
+    "Trello/Metologias Agile.canvas",
+    "Trello/Lean.png",
+    "Trello/Kanban.png",
+>>>>>>> 8e00bff240a9d2f2274af5a3656d6b296fd6f000:TechFit/.obsidian/workspace.json
     "Sistema/Ex-Molde.png",
     "Sistema/Exercícios.md",
     "Sistema/Entrada por RFID.png",
     "Sistema/SAGEF.canvas",
+<<<<<<< HEAD:TechFit/Obsidian/.obsidian/workspace.json
     "Cliente/Perfil do usuário.md",
     "Sistema/Plano de Calendário.md",
     "Sistema/First Training.md",
@@ -198,10 +221,26 @@
     "Pasted image 20250910162717.png",
     "Pasted image 20250910162654.png",
     "Pasted image 20250910162605.png",
+=======
+    "Funcionário/Modelo-stick.png",
+    "Funcionário/1.png",
+    "Funcionário/2.png",
+    "Untitled.md",
+    "Trello",
+    "Cliente/Perfil do usuário.md",
+    "Untitled.canvas",
+    "Untitled.base",
+    "Funcionário/Gerenciamento de Treinos.md",
+    "Sistema/First Training.md",
+>>>>>>> 8e00bff240a9d2f2274af5a3656d6b296fd6f000:TechFit/.obsidian/workspace.json
     "Sistema",
     "Cliente",
     "Funcionário",
     "Treinamento.md",
+<<<<<<< HEAD:TechFit/Obsidian/.obsidian/workspace.json
+=======
+    "Sistema/Plano de Calendário.md",
+>>>>>>> 8e00bff240a9d2f2274af5a3656d6b296fd6f000:TechFit/.obsidian/workspace.json
     "Tela de Seleção.md",
     "2025-09-10.md",
     "Não sei sei lá.md",
