@@ -2,28 +2,30 @@
 include_once 'Assets/views/include/header.php';
 ?>
     <main>
-        <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary">
+        <!-- Começo da página -->
+        <div class= "imagem-fundo ">
+        <div class="position-relative overflow-hidden p-3 p-md-5 md-3 mt-0 text-center">
             <div class="col-md-6 p-lg-5 mx-auto my-5">
-                <h3 class="fw-normal text-muted mb-3">A tecnologia que treina com você</h3>
-                <h1 class="display-3 fw-bold">Bem Vindo A Tech Fit</h1>
-                <div class="d-flex gap-3 justify-content-center lead fw-normal"> <a class="icon-link" href="#">
-                        Seja um Cliente
-                        <svg class="bi" aria-hidden="true">
-                            <use xlink:href="#chevron-right"></use>
-                        </svg> </a> <a class="icon-link" href="#">
+                <h3 class="fw-normal mb3 " style="color: #000000;">A tecnologia que treina com você</h3>
+                <h1 class="display-2 text-primary fw-bold " style="text-shadow:0px 4px 4px #000;">Bem Vindo A Tech Fit</h1>
+                <div class="d-flex gap-3 justify-content-center lead fw-normal"> 
+                    <button class="btn bg-primary text-secondary">
+                        Seja Um Cliente
+                     </button>
+                    <button class="btn btn-outline-primary">
                         Nos Conheça
-                        <svg class="bi" aria-hidden="true">
-                            <use xlink:href="#chevron-right"></use>
-                        </svg> </a> </div>
+                     </button> </div>
+            </div>
             </div>
             <div class="product-device shadow-sm d-none d-md-block"></div>
             <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
         </div>
-        <div class="sobre">
-        <div class="row featurette">
-            <div class="col-md-7 align-items-center justify-content-center">
+
+        <!-- Sobre nós -->
+        <div class="row featurette mb-3">
+            <div class="col-md-7 align-items-center justify-content-center p-5">
                 <h2 class="featurette-heading fw-normal lh-1 ">Sobre a TechFit </h2>
-                <p class="lead  ">A Techfit une tecnologia e saúde para transformar a forma de treinar. Com o SAGEF – Sistema Automatizado de Geração de Exercícios Físicos, criamos treinos personalizados a partir dos dados e objetivos de cada usuário, ajustando séries, repetições e cargas conforme o feedback. Assim, garantimos evolução contínua, segurança e motivação em cada etapa.</p>
+                <p class="lead ">A Techfit une tecnologia e saúde para transformar a forma de treinar. Com o SAGEF – Sistema Automatizado de Geração de Exercícios Físicos, criamos treinos personalizados a partir dos dados e objetivos de cada usuário, ajustando séries, repetições e cargas conforme o feedback. Assim, garantimos evolução contínua, segurança e motivação em cada etapa.</p>
             </div>
             <div class="col-md-5"> <svg aria-label="Placeholder: 500x500"
                     class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" height="500"
@@ -33,64 +35,73 @@ include_once 'Assets/views/include/header.php';
                         fill="var(--bs-secondary-color)" dy=".3em">500x500</text>
                 </svg> </div>
         </div>
-        </div>
-        <div class="row row-cols-1 row-cols-md-6 mb-3 text-center align-items-center justify-content-center">
+        <!-- Cards de planos -->
+        <h2 class="text-center m-5" >Planos da Academia</h1>
+        <div class="row row-cols-1 row-cols-md-4  align-items-center justify-content-center mb-5 ">
             <div class="col">
-                <div class="card mb-1 rounded-3 shadow-sm">
+                <div class="card mb-1 rounded-3 shadow-p">
                     <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">Free</h4>
+                        <h4 class="my-0 fw-bold">Starter</h4>
+                        <h6 class="my-0 fw-normal">Basicão</h4>
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title pricing-card-title">$0<small
-                                class="text-body-secondary fw-light">/mo</small></h1>
+                        <h1 class="card-title pricing-card-title text-center">R$60<small
+                                class="text-body-secondary fw-light">/mês</small></h1>
                         <ul class="list-unstyled mt-3 mb-4">
-                            <li>10 users included</li>
-                            <li>2 GB of storage</li>
-                            <li>Email support</li>
-                            <li>Help center access</li>
-                        </ul> <button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up for
-                            free</button>
+                            <li>✓ First Training</li>
+                            <li>✓ Acesso a uma academia</li>
+                            <li>✓ Sistemas de Rankings</li>
+
+                        </ul> <button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up</button>
                     </div>
                 </div>
             </div>
+           
             <div class="col">
-                <div class="card mb-1 rounded-3 shadow-sm">
-                    <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">Pro</h4>
+                <div class="card mb-1 rounded-3 border-primary" style="box-shadow: 0px 5px 19px #DA614E ;">
+                    <div class="card-header py-1 text-bg-primary border-primary ">
+                        <h4 class="my-0 fw-normal text-secondary text-center">O mais pedido</h4>
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title pricing-card-title">$15<small
-                                class="text-body-secondary fw-light">/mo</small></h1>
+                        <h4 class="my-0 fw-bold">Basic</h4>
+                        <h6 class="my-0 fw-normal">O custo benefício</h4>
+                        <h1 class="card-title pricing-card-title text-center">R$100<small
+                                class="text-body-secondary fw-light">/mês</small></h1>
                         <ul class="list-unstyled mt-3 mb-4">
-                            <li>20 users included</li>
-                            <li>10 GB of storage</li>
-                            <li>Priority email support</li>
-                            <li>Help center access</li>
-                        </ul> <button type="button" class="w-100 btn btn-lg btn-primary">Get started</button>
+                            <li>✓ First Training</li>
+                            <li>✓ Acesso a todas as academias</li>
+                            <li>✓ Treinos Personalizados</li>
+                            <li>✓ Sistema de Rankings</li>
+                            <li>✓ Sistema de Rendimento por Treino</li>
+                        </ul> <button type="button" class="w-100 btn btn-lg btn-primary">Sign Up</button>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card mb- rounded-3 shadow-sm border-primary">
-                    <div class="card-header py-3 text-bg-primary border-primary">
-                        <h4 class="my-0 fw-normal">Enterprise</h4>
+             <div class="col">
+               <div class="card mb-1 rounded-3 shadow-p">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-bold">Advanced</h4>
+                        <h6 class="my-0 fw-normal">Só para os entusiastas</h4>
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title pricing-card-title">$29<small
-                                class="text-body-secondary fw-light">/mo</small></h1>
+                        <h1 class="card-title pricing-card-title text-center">R$150<small
+                                class="text-body-secondary fw-light">/mês</small></h1>
                         <ul class="list-unstyled mt-3 mb-4">
-                            <li>30 users included</li>
-                            <li>15 GB of storage</li>
-                            <li>Phone and email support</li>
-                            <li>Help center access</li>
-                        </ul> <button type="button" class="w-100 btn btn-lg btn-primary">Contact us</button>
+                            <li>✓ First Training</li>
+                            <li>✓ Acesso a todas as academias</li>
+                            <li>✓ Treinos Personalizados</li>
+                            <li>✓ Sistema de Rankings</li>
+                            <li>✓ Sistema de Rendimento por treio</li>
+                            <li>✓ 1 treino com personal por semana</li>
+
+                        </ul> <button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up</button>
                     </div>
                 </div>
             </div>
         </div>
         </div>
         <div class="cards">
-        <div class="card" style="width: 18rem;">
+        <!-- <div class="card" style="width: 18rem;">
             <img src="..." class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">Card title</h5>
@@ -116,7 +127,7 @@ include_once 'Assets/views/include/header.php';
                     card’s content.</p>
                 <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
-        </div>
+        </div> -->
         </div>
     </main>
 

@@ -1,9 +1,9 @@
 $primary: #e35c38;
+$secondary: #ffffff;
 $border-radius: 0.5rem; // arredonda botões
 
 // Cores do tema
-$body-bg: #ffffff;
-$body-color: #1f2937;
+$body-bg: #FFFDFA;
 
 // Tipografia
 $font-family-base: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -38,9 +38,8 @@ $navbar-dark-hover-color: rgba(255, 255, 255, 1);
 $navbar-padding-y: 1rem;
 
 body {
-    background-color: #fdf8f2 !important;
+    overflow-x: hidden;
 }
-
 .cards {
     display: flex;
     align-items: center;
@@ -51,14 +50,15 @@ body {
     margin-bottom: 20px;
 }
 
-header .text-bg-light {
-    background-color: #fdf8f2 !important;
-}
 
-.sobre {
-    margin-top: 50px !important;
-    margin-bottom: 50px !important;
-}
 
+.imagem-fundo{
+    position: relative;
+    background-image: url(https://images.unsplash.com/photo-1649068618811-9f3547ef98fc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-attachment: scroll;
+}
 
 @import "../../node_modules/bootstrap/scss/bootstrap";

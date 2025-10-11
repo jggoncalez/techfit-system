@@ -1,8 +1,12 @@
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+               <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> <a
+                        href="/"
+                        class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-black text-decoration-none"> <img
+                            class="bi me-2" width="50%" height="50%" src="logo-fixed.webp"></img>
         <div class="col-md-4 d-flex align-items-center"> <a href="/"
                 class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1" aria-label="Bootstrap"> <svg
                     class="bi" width="30" height="24" aria-hidden="true">
-                    <use xlink:href="#bootstrap"></use>
+                    <use xlink:href=""></use>
                 </svg> </a> <span class="mb-3 mb-md-0 text-body-secondary">© 2025 Company, Inc</span> </div>
         <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
             <li class="ms-3"><a class="text-body-secondary" href="#" aria-label="Instagram"><svg class="bi" width="24"
@@ -23,6 +27,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
+        <script src="Assets/script/script.js"></script>
 </body>
 
 </html>
