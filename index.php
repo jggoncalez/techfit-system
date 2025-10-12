@@ -27,13 +27,9 @@ include_once 'Assets/views/include/header.php';
                 <h2 class="featurette-heading fw-normal lh-1 ">Sobre a TechFit </h2>
                 <p class="lead ">A Techfit une tecnologia e saúde para transformar a forma de treinar. Com o SAGEF – Sistema Automatizado de Geração de Exercícios Físicos, criamos treinos personalizados a partir dos dados e objetivos de cada usuário, ajustando séries, repetições e cargas conforme o feedback. Assim, garantimos evolução contínua, segurança e motivação em cada etapa.</p>
             </div>
-            <div class="col-md-5"> <svg aria-label="Placeholder: 500x500"
-                    class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" height="500"
-                    preserveAspectRatio="xMidYMid slice" role="img" width="500" xmlns="http://www.w3.org/2000/svg">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect><text x="50%" y="50%"
-                        fill="var(--bs-secondary-color)" dy=".3em">500x500</text>
-                </svg> </div>
+            <div class="col-md-5 d-flex align-items-center justify-content-center " style="height: 500px; width:500px;"> 
+                <img src="logo-fixed.webp" alt="aaaa">
+            </div>
         </div>
         <!-- Cards de planos -->
         <h2 class="text-center m-5" >Planos da Academia</h1>
@@ -93,7 +89,6 @@ include_once 'Assets/views/include/header.php';
                             <li>✓ Sistema de Rankings</li>
                             <li>✓ Sistema de Rendimento por treio</li>
                             <li>✓ 1 treino com personal por semana</li>
-
                         </ul> <button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up</button>
                     </div>
                 </div>
