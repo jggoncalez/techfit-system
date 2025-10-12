@@ -2,14 +2,14 @@
                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start ms-5"> <a
                         href="/"
                         class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-black text-decoration-none"> <img
-                            class="bi me-2" width="206.5px" height="32.63px" src="logo-fixed.webp"></img>
+                            class="bi me-2" width="206.5px" height="32.63px" src="Assets\images\logo-fixed.webp"></img>
         <div class="col-md-4 d-flex align-items-center"> <span class="ms-5 mb-3 mb-md-0 text-body-secondary">Features</span> </div>
         <div class="col-md-4 d-flex align-items-center"> <span class="ms-5 mb-3 mb-md-0 text-body-secondary">Learn More</span> </div>
         <div class="col-md-4 d-flex align-items-center"> <span class="ms-5 mb-3 mb-md-0 text-body-secondary">Support</span> </div>
         <ul class="nav col-md-5 justify-content-end list-unstyled d-flex">
-            <li class="ms-3 "><img src="black-instagram-logo-3497.svg" alt="insta" style="height: 24px; width:24px;"></li>
-            <li class="ms-3 "><img src="facebook_icon.svg" alt="face" style="height: 24px; width:24px;"></li>
-            <li class="ms-3 "><img src="linkedin-2166.svg" alt="linkedin" style="height: 24px; width:24px;"></li>
+            <li class="ms-3 "><img src="Assets\images\black-instagram-logo-3497.svg" alt="insta" style="height: 24px; width:24px;"></li>
+            <li class="ms-3 "><img src="Assets\images\facebook_icon.svg" alt="face" style="height: 24px; width:24px;"></li>
+            <li class="ms-3 "><img src="Assets\images\linkedin-2166.svg" alt="linkedin" style="height: 24px; width:24px;"></li>
         </ul></div>
     </footer>
     <!-- Bootstrap JavaScript Libraries -->

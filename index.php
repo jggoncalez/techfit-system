@@ -28,7 +28,7 @@ include_once 'Assets/views/include/header.php';
                 <p class="lead ">A Techfit une tecnologia e saúde para transformar a forma de treinar. Com o SAGEF – Sistema Automatizado de Geração de Exercícios Físicos, criamos treinos personalizados a partir dos dados e objetivos de cada usuário, ajustando séries, repetições e cargas conforme o feedback. Assim, garantimos evolução contínua, segurança e motivação em cada etapa.</p>
             </div>
             <div class="col-md-5 d-flex align-items-center justify-content-center " style="height: 500px; width:500px;"> 
-                <img src="logo-fixed.webp" alt="aaaa">
+                <img src="Assets\images\logo-fixed.webp" alt="logo">
             </div>
         </div>
         <!-- Cards de planos -->
