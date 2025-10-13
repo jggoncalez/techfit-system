@@ -1,72 +1,82 @@
 [
     {
         "id": 1,
-        "img": "",
+        "img": "https://placehold.co/225x400?text=Techfit+Limeira",
         "title": "Techfit Limeira",
         "address": "Av. Comendador Agostinho Prada 1737, Vila San Marino, Limeira, SP, 13482-220",
-        "bio": "Academia moderna com treinos personalizados e equipamentos de ponta."
+        "bio": "Academia moderna com treinos personalizados e equipamentos de ponta.",
+        "distance": 2.5
     },
     {
         "id": 2,
-        "img": "",
+        "img": "https://placehold.co/225x400?text=Techfit+Piracicaba",
         "title": "Techfit Piracicaba",
         "address": "Rua do Porto, 80 - Centro, Piracicaba, SP, 13400-120",
-        "bio": "Espaço amplo com atividades físicas para todas as idades."
+        "bio": "Espaço amplo com atividades físicas para todas as idades.",
+        "distance": 41.7
     },
     {
         "id": 3,
-        "img": "",
+        "img": "https://placehold.co/225x400?text=Techfit+Americana",
         "title": "Techfit Americana",
         "address": "Av. Brasil, 400 - Jardim Guanabara, Americana, SP, 13465-090",
-        "bio": "Treinos funcionais e musculação com profissionais qualificados."
+        "bio": "Treinos funcionais e musculação com profissionais qualificados.",
+        "distance": 32.9
     },
     {
         "id": 4,
-        "img": "",
+        "img": "https://placehold.co/225x400?text=Techfit+Campinas",
         "title": "Techfit Campinas",
         "address": "Rua Barreto Leme, 70 - Centro, Campinas, SP, 13015-000",
-        "bio": "Academia completa, ideal para quem busca performance e saúde."
+        "bio": "Academia completa, ideal para quem busca performance e saúde.",
+        "distance": 63.4
     },
     {
         "id": 5,
-        "img": "",
+        "img": "https://placehold.co/225x400?text=Techfit+S%C3%A3o+Carlos",
         "title": "Techfit São Carlos",
         "address": "Av. Trabalhador São-Carlense, 1000 - Centro, São Carlos, SP, 13560-230",
-        "bio": "Local moderno com aulas diversas e acompanhamento personalizado."
+        "bio": "Local moderno com aulas diversas e acompanhamento personalizado.",
+        "distance": 102.8
     },
     {
         "id": 6,
-        "img": "",
+        "img": "https://placehold.co/225x400?text=Techfit+Araraquara",
         "title": "Techfit Araraquara",
         "address": "Praça Barão de Araraquara, 50 - Centro, Araraquara, SP, 14801-180",
-        "bio": "Academia bem equipada com treinos para todos os níveis."
+        "bio": "Academia bem equipada com treinos para todos os níveis.",
+        "distance": 86.1
     },
     {
         "id": 7,
-        "img": "",
+        "img": "https://placehold.co/225x400?text=Techfit+Ribeir%C3%A3o+Preto",
         "title": "Techfit Ribeirão Preto",
         "address": "Av. Saudade, 1234 - Jardim Sumaré, Ribeirão Preto, SP, 14021-001",
-        "bio": "Treinos personalizados e ambiente moderno para atividades físicas."
+        "bio": "Treinos personalizados e ambiente moderno para atividades físicas.",
+        "distance": 224.6
     },
     {
         "id": 8,
-        "img": "",
+        "img": "https://placehold.co/225x400?text=Techfit+Jundia%C3%AD",
         "title": "Techfit Jundiaí",
         "address": "Rua Barão de Jundiaí, 210 - Centro, Jundiaí, SP, 13201-100",
-        "bio": "Espaço completo para musculação, funcional e bem-estar."
+        "bio": "Espaço completo para musculação, funcional e bem-estar.",
+        "distance": 116.3
     },
     {
         "id": 9,
-        "img": "",
+        "img": "https://placehold.co/225x400?text=Techfit+Sorocaba",
         "title": "Techfit Sorocaba",
         "address": "Av. Eng. Carlos Reinaldo Mendes, 150 - Vila Hortência, Sorocaba, SP, 18085-180",
-        "bio": "Academia moderna com foco em saúde e performance."
+        "bio": "Academia moderna com foco em saúde e performance.",
+        "distance": 160.4
     },
     {
         "id": 10,
-        "img": "",
+        "img": "https://placehold.co/225x400?text=Techfit+S%C3%A3o+Jos%C3%A9+do+Rio+Preto",
         "title": "Techfit São José do Rio Preto",
         "address": "Av. Alberto Andaló, 555 - Centro, São José do Rio Preto, SP, 15015-320",
-        "bio": "Treinos variados com acompanhamento profissional de qualidade."
+        "bio": "Treinos variados com acompanhamento profissional de qualidade.",
+        "distance": 330.2
     }
 ]
