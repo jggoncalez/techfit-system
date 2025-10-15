@@ -22,12 +22,13 @@
   $card-border-radius: 1rem,
   $navbar-dark-color: rgba(255, 255, 255, 0.9),
   $navbar-dark-hover-color: rgba(255, 255, 255, 1),
-  $navbar-padding-y: 1rem
+  $navbar-padding-y: 1rem,
 );
 
 // seu CSS adicional depois de importar o bootstrap
 body {
   overflow-x: hidden;
+
 }
 
 .cards {
@@ -40,7 +41,6 @@ body {
   margin-bottom: 20px;
   gap: 30px;
 }
-
 .imagem-fundo {
   position: relative;
   background-image: url(https://images.unsplash.com/photo-1649068618811-9f3547ef98fc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870);

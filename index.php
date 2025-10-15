@@ -100,6 +100,8 @@ include_once 'Assets/views/include/header.php';
             </div>
         </div>
         </div>
+
+        <h2 class="text-center mb-3">Academias Mais Próximas</h2>
         <div class="cards">
             <!-- <div class="card" style="width: 18rem;">
             <img src="..." class="card-img-top" alt="...">
@@ -129,6 +131,23 @@ include_once 'Assets/views/include/header.php';
             </div>
         </div> -->
         </div>
+        <div id="modal-academia"class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 </main>
 <script>
     fetch("academias.json")
@@ -140,23 +159,22 @@ include_once 'Assets/views/include/header.php';
                 let div = document.createElement("div");
                 div.className = "card";
                 div.innerHTML = `
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 18rem; height:750px;" >
                     <img src="${card.img}" class="card-img-top" alt="${card.title}">
                     <div class="card-body">
                         <h5 class="card-title">${card.title}</h5>
                         <p class="card-text">${card.bio}</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <button class="btn d-flex justify-content-start" data-bs-toggle="modal" data-bs-target="#modal-academia">Ver mais 🠒</button>
                     </div>
-        </div>`;
-                 if (document.getElementsByClassName("card").length <= 7) {
+            </div>`;
+                if (document.getElementsByClassName("card").length <= 7) {
                     cards.appendChild(div);
                 } else {
                     return
                 }
-                
+
             });
         })
-       
 </script>
 <?php
 require_once 'Assets/views/include/footer.php';
