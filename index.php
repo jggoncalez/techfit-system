@@ -131,7 +131,7 @@ include_once 'Assets/views/include/header.php';
             </div>
         </div> -->
         </div>
-        <div id="modal-academia"class="modal" tabindex="-1">
+        <div id="modal-academia" class="modal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
