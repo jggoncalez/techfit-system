@@ -92,7 +92,7 @@ include_once 'Assets/views/include/header.php';
                             <li>✓ Acesso a todas as academias</li>
                             <li>✓ Treinos Personalizados</li>
                             <li>✓ Sistema de Rankings</li>
-                            <li>✓ Sistema de Rendimento por treio</li>
+                            <li>✓ Sistema de Rendimento por treino</li>
                             <li>✓ 1 treino com personal por semana</li>
                         </ul> <button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up</button>
                     </div>
