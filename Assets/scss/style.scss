@@ -1,65 +1,51 @@
-$primary: #e35c38;
-$border-radius: 0.5rem; // arredonda botões
+// arquivo: Assets/scss/style.scss (ou semelhante)
+// coloque isto **no topo** do seu SCSS, antes de qualquer regra CSS
 
-// Cores do tema
-$body-bg: #ffffff;
-$body-color: #1f2937;
+@use "../../node_modules/bootstrap/scss/bootstrap" with (
+  // sobrescreve o mapa de cores do tema
+  $theme-colors: (
+    "primary": #e35c38,
+    "secondary": #ffffff
+  ),
+  // outras variáveis suportadas pelo bootstrap
+  $body-bg: #FFFDFA,
+  $font-family-base: ('Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif),
+  $font-size-base: 1rem,
+  $line-height-base: 1.6,
+  $spacer: 1rem,
+  $border-radius: 0.5rem,
+  $border-radius-sm: 0.25rem,
+  $border-radius-lg: 1rem,
+  $btn-padding-y: 0.75rem,
+  $btn-padding-x: 1.5rem,
+  $btn-border-radius: 0.5rem,
+  $card-border-radius: 1rem,
+  $navbar-dark-color: rgba(255, 255, 255, 0.9),
+  $navbar-dark-hover-color: rgba(255, 255, 255, 1),
+  $navbar-padding-y: 1rem,
+);
 
-// Tipografia
-$font-family-base: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-$font-size-base: 1rem;
-$line-height-base: 1.6;
-
-// Headings
-$h1-font-size: 2.5rem;
-$h2-font-size: 2rem;
-$h3-font-size: 1.75rem;
-
-// Espaçamentos
-$spacer: 1rem;
-
-// Bordas
-$border-radius: 0.5rem;
-$border-radius-sm: 0.25rem;
-$border-radius-lg: 1rem;
-
-// Botões
-$btn-padding-y: 0.75rem;
-$btn-padding-x: 1.5rem;
-$btn-border-radius: 0.5rem;
-
-// Cards
-$card-border-radius: 1rem;
-$card-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-
-// Navbar/Header
-$navbar-dark-color: rgba(255, 255, 255, 0.9);
-$navbar-dark-hover-color: rgba(255, 255, 255, 1);
-$navbar-padding-y: 1rem;
-
+// seu CSS adicional depois de importar o bootstrap
 body {
-    background-color: #fdf8f2 !important;
+  overflow-x: hidden;
+
 }
 
 .cards {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    flex-direction: row;
-    margin-top: 10px;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: row;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  gap: 30px;
 }
-
-header .text-bg-light {
-    background-color: #fdf8f2 !important;
+.imagem-fundo {
+  position: relative;
+  background-image: url(https://images.unsplash.com/photo-1649068618811-9f3547ef98fc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-attachment: scroll;
 }
-
-.sobre {
-    margin-top: 50px !important;
-    margin-bottom: 50px !important;
-}
-
-
-
-@import "../../node_modules/bootstrap/scss/bootstrap";

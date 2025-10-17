@@ -1,4 +1,4 @@
-**Namespace:** App\Controller
+**Namespace:** App_Controller
 
 - `usuarioController.php` → Login, cadastro e gerenciamento de usuários.
 - `treinoController.php` → Operações sobre treinos.

@@ -1,4 +1,4 @@
-**Namespace:** App\Classes
+**Namespace:** App_Class
 
 - `Database.php` → Classe para gerenciar conexão com banco de dados (usando PHP PDO).
 - `Usuario.php` → Entidade de usuário (atributos, métodos de cadastro, login, etc).

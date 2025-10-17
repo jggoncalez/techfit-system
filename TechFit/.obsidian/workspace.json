@@ -60,9 +60,9 @@
               "state": {
                 "file": "Classes/Pastas.canvas",
                 "viewState": {
-                  "x": -205.08574046925864,
-                  "y": -242.95749442865977,
-                  "zoom": -1
+                  "x": 30.64955494743731,
+                  "y": -68.49027231931316,
+                  "zoom": -0.6666666666666667
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -127,7 +127,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "ceca2c340a475310",
@@ -218,7 +219,7 @@
       "bases:Create new base": false
     }
   },
-  "active": "f346eefc599dced2",
+  "active": "d789674c0c2b4457",
   "lastOpenFiles": [
     "Untitled",
     "Classes/Controllers.md",
