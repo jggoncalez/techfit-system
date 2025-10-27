@@ -1,8 +1,6 @@
 <?php
 
-namespace App_Class;
+namespace config;
 
-class Database
-{
-
+class Database{
 }

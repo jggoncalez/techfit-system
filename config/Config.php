@@ -1,8 +1,7 @@
 <?php
-
 namespace config;
 
-class Config
-{
+class Config{
+
 
 }

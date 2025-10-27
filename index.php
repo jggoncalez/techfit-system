@@ -37,13 +37,13 @@ include_once 'include/header.php';
         </div>
     </div>
     <!-- Cards de planos -->
-    <h2 class="text-center m-5">Planos da Academia</h1>
+    <h2 class="text-center m-5">Planos da Academia</h2>
         <div class="row row-cols-1 row-cols-md-4  align-items-center justify-content-center mb-5 ">
             <div class="col">
                 <div class="card mb-1 rounded-3 shadow-p">
                     <div class="card-header py-3">
                         <h4 class="my-0 fw-bold">Starter</h4>
-                        <h6 class="my-0 fw-normal">Basicão</h4>
+                        <h6 class="my-0 fw-normal">Basicão</h6>
                     </div>
                     <div class="card-body">
                         <h1 class="card-title pricing-card-title text-center">R$60<small
@@ -65,7 +65,7 @@ include_once 'include/header.php';
                     </div>
                     <div class="card-body">
                         <h4 class="my-0 fw-bold">Basic</h4>
-                        <h6 class="my-0 fw-normal">O custo benefício</h4>
+                        <h6 class="my-0 fw-normal">O custo benefício</h6>
                             <h1 class="card-title pricing-card-title text-center">R$100<small
                                     class="text-body-secondary fw-light">/mês</small></h1>
                             <ul class="list-unstyled mt-3 mb-4">
@@ -82,7 +82,7 @@ include_once 'include/header.php';
                 <div class="card mb-1 rounded-3 shadow-p">
                     <div class="card-header py-3">
                         <h4 class="my-0 fw-bold">Advanced</h4>
-                        <h6 class="my-0 fw-normal">Só para os entusiastas</h4>
+                        <h6 class="my-0 fw-normal">Só para os entusiastas</h6>
                     </div>
                     <div class="card-body">
                         <h1 class="card-title pricing-card-title text-center">R$150<small
@@ -99,9 +99,8 @@ include_once 'include/header.php';
                 </div>
             </div>
         </div>
-        </div>
 
-        <h2 class="text-center mb-3">Academias Mais Próximas</h2>
+    <h2 class="text-center mb-3">Academias Mais Próximas</h2>
         <div class="cards">
             <!-- <div class="card" style="width: 18rem;">
             <img src="..." class="card-img-top" alt="...">
