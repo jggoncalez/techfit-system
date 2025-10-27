@@ -1,6 +1,6 @@
 <?php
 
-namespace App_Class;
+namespace models;
 
 class Usuario
 {

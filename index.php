@@ -1,5 +1,5 @@
 <?php
-include_once 'Assets/views/include/header.php';
+include_once 'include/header.php';
 ?>
 <main>
     <!-- Começo da página -->
@@ -177,5 +177,5 @@ include_once 'Assets/views/include/header.php';
         })
 </script>
 <?php
-require_once 'Assets/views/include/footer.php';
+require_once 'include/footer.php';
 ?>
