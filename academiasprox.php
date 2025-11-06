@@ -41,3 +41,7 @@ fetch("academias.json")
   .catch(err => console.error("ERRO! ERRO! NÃO CARREGOU!!!!:", err));
 
 </script>
+
+<?php
+require_once 'Assets/views/include/footer.php';
+?>

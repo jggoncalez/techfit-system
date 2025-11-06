@@ -1,3 +1,17 @@
+<?php
+$conn = \config\Database::getInstance()->getConnection();
+
+$stmt = $conn ->prepare("SELECT * FROM aulas");
+$stmt -> execute([1]);
+
+while ($row = $stmt ->fetch_assoc()){
+    echo "{$row['AU_NOME']}";
+}
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,50 +20,6 @@
     <title>Document</title>
 </head>
 <body>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            max-width: 800px;
-            margin: 20px auto;
-            background-color: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-        
-        /* Estilo para o cabeçalho principal (thead) */
-        thead th {
-            background-color: #4a5568;
-            color: white;
-            font-weight: bold;
-            text-align: center;
-        }
-        
-        /* Estilo para a primeira coluna (cabeçalho lateral) */
-        tbody th {
-            background-color: #718096;
-            color: white;
-            font-weight: bold;
-            text-align: left;
-        }
-        
-        /* Hover effect */
-        tbody tr:hover {
-            background-color: #f7fafc;
-        }
-    </style>
-    
     <table>
         <thead>
         <tr>
