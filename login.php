@@ -13,11 +13,6 @@ include_once 'Assets/views/include/header.php';
                 id="floatingPassword" placeholder="Senha" data-vivaldi-translated=""> <label for="floatingPassword"
                 data-vivaldi-translated="">Senha</label> </div>
         <button class="btn btn-primary w-100 py-2 mt-5" type="submit" data-vivaldi-translated="">Acessar</button>
-        <h1 class="h6 m-3 fw-normal text-center" data-vivaldi-translated="">É seu primeiro acesso como cliente ou não lembra a senha? Clique aqui para cadastrar uma nova.</h1>
+        <h1 class="h6 m-3 fw-normal text-center" data-vivaldi-translated="">É seu primeiro acesso como cliente ou não lembra a senha? <a href="">Clique Aqui </a> para cadastrar uma nova.</h1>
     </form>
 </main>
-
-
-<?php
-include_once 'Assets/views/include/footer.php';
-?>

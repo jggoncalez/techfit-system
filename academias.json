@@ -78,5 +78,45 @@
         "address": "Av. Alberto Andaló, 555 - Centro, São José do Rio Preto, SP, 15015-320",
         "bio": "Treinos variados com acompanhamento profissional de qualidade.",
         "distance": 330.2
+    },
+    {
+        "id": 11,
+        "img": "https://placehold.co/225x400?text=Techfit+Cosm%C3%B3polis",
+        "title": "Techfit Cosmópolis",
+        "address": "Av. Marginal, 900 - Jardim Bela Vista, Cosmópolis, SP, 13150-000",
+        "bio": "Ambiente acolhedor com equipamentos modernos e treinos personalizados.",
+        "distance": 10
+    },
+    {
+        "id": 12,
+        "img": "https://placehold.co/225x400?text=Techfit+Paul%C3%ADnia",
+        "title": "Techfit Paulínia",
+        "address": "Rua José Paulino, 1220 - Centro, Paulínia, SP, 13140-000",
+        "bio": "Academia completa com musculação, funcional e aulas em grupo.",
+        "distance": 29.8
+    },
+    {
+        "id": 13,
+        "img": "https://placehold.co/225x400?text=Techfit+Valinhos",
+        "title": "Techfit Valinhos",
+        "address": "Av. dos Esportes, 450 - Jardim São Jorge, Valinhos, SP, 13270-250",
+        "bio": "Estrutura moderna com programas de treino para todos os objetivos.",
+        "distance": 71.2
+    },
+    {
+        "id": 14,
+        "img": "https://placehold.co/225x400?text=Techfit+Indaiatuba",
+        "title": "Techfit Indaiatuba",
+        "address": "Rua das Primaveras, 320 - Jardim Primavera, Indaiatuba, SP, 13330-060",
+        "bio": "Ambiente moderno e profissionais qualificados para seu bem-estar.",
+        "distance": 87.9
+    },
+    {
+        "id": 15,
+        "img": "https://placehold.co/225x400?text=Techfit+Itu",
+        "title": "Techfit Itu",
+        "address": "Av. Prudente de Moraes, 700 - Centro, Itu, SP, 13300-150",
+        "bio": "Espaço amplo com equipamentos novos e treinos personalizados.",
+        "distance": 132.5
     }
 ]
