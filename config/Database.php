@@ -13,10 +13,11 @@ class Database{
         $dbname = Config::DB_NAME;
         $username = Config::DB_USER;
         $password = Config::DB_PASS;
+        $charset = Config::DB_CHAR;
 
         try {
             $this -> connection = new PDO(
-                "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
+                "mysql:host=$host;dbname=$dbname;charset=$charset",
                 $username,
                 $password
             );
