@@ -1,5 +1,5 @@
 <?php
-include_once 'include/header.php';
+include_once 'Assets/views/include/header.php';
 ?>
 <main>
     <!-- Começo da página -->
@@ -134,15 +134,14 @@ include_once 'include/header.php';
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Modal title</h5>
+                        <h5 class="modal-title" id="titulo-modal">Modal title</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="corpo-modal">
                         <p>Modal body text goes here.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -176,5 +175,5 @@ include_once 'include/header.php';
         })
 </script>
 <?php
-require_once 'include/footer.php';
+require_once 'Assets/views/include/footer.php';
 ?>
