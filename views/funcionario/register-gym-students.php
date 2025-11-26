@@ -12,39 +12,39 @@
 
 <body>
     
-    <div class="d-flex" style="height: 100vh;">
+    <div class="d-flex" style="height:100vh; overflow-y: auto;">
         <!-- Sidebar -->
-        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="height: 100vh; width: 280px;">
+        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="height: 100vh; width: 280px; order: 1; overflow-y: auto; ">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <img src="/Assets/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
+                <img src="../../public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                    <a href="main.php" class="nav-link link-dark">
+                    <a href="/funcionario" class="nav-link link-dark">
                         Home
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="register-exercises.php" class="nav-link link-dark" >
+                    <a href="/funcionario/register/exercicios" class="nav-link link-dark" >
                         Cadastrar Exercícios
                     </a>
                 </li>
                 <li>
-                    <a href="register-gym-students.php" class="nav-link active text-white" style="background-color: #e35c38;" aria-current="page">
+                    <a href="/funcionario/register/estudantes" class="nav-link active text-white" style="background-color: #e35c38;" aria-current="page">
                         Cadastrar Alunos
                     </a>
                 </li>
                 <li>
-                    <a href="register-classes.php" class="nav-link link-dark">
+                    <a href="/funcionario/register/classes" class="nav-link link-dark">
                         Cadastrar Aulas
                     </a>
                 </li>
                 <li>
-                    <a href="set-training.php" class="nav-link link-dark">
+                    <a href="/funcionario/register/treino" class="nav-link link-dark">
                         Montar Treinos
                     </a>
-                     <a href="get-training.php" class="nav-link link-dark">
+                     <a href="/funcionario/treinos" class="nav-link link-dark">
                         Ver Treinos Disponíveis
                     </a>
                 </li>
@@ -58,7 +58,7 @@
             </div>
         </div>
 
-      <main class="flex-grow-1 p-4">
+      <main class="flex-grow-1 p-4" style="order:2; overflow-y: auto; overflow-y: auto;">
 
     <h2 class="mb-4">Cadastrar Usuário</h2>
 
@@ -144,10 +144,37 @@
 
         <!-- US_DISPONIBILIDADE -->
         <div class="col-md-6">
-            <label class="form-label">Disponibilidade (JSON) *</label>
-            <textarea class="form-control" name="US_DISPONIBILIDADE" rows="3" required>
-{"segunda": true, "terça": false}
-            </textarea>
+            <label class="form-label">Disponibilidade *</label>
+            <div class="d-flex flex-wrap gap-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="segunda" id="segunda">
+                    <label class="form-check-label" for="segunda">Segunda</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="terça" id="terça">
+                    <label class="form-check-label" for="terça">Terça</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="quarta" id="quarta">
+                    <label class="form-check-label" for="quarta">Quarta</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="quinta" id="quinta">
+                    <label class="form-check-label" for="quinta">Quinta</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="sexta" id="sexta">
+                    <label class="form-check-label" for="sexta">Sexta</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="sábado" id="sábado">
+                    <label class="form-check-label" for="sábado">Sábado</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="domingo" id="domingo">
+                    <label class="form-check-label" for="domingo">Domingo</label>
+                </div>
+            </div>
         </div>
 
         <!-- PL_ID (FK PLANOS) -->
@@ -179,11 +206,10 @@
         </div>
 
     </form>
+    </div> 
 </main>
-
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
 </body>
 </html>

@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="pt-br">
+
 <head>
     <title>TechFit</title>
     <meta charset="utf-8" />
@@ -11,40 +12,40 @@
 </head>
 
 <body>
-    
-    <div class="d-flex" style="height: 100vh;">
+
+    <div class="d-flex" style="height: 100vh; overflow-y: auto;">
         <!-- Sidebar -->
         <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="height: 100vh; width: 280px;">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <img src="/Assets/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
+                <img src="../../public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
-                   <li class="nav-item">
-                    <a href="main.php" class="nav-link link-dark">
+                <li class="nav-item">
+                    <a href="/funcionario" class="nav-link link-dark">
                         Home
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="register-exercises.php" class="nav-link link-dark">
+                    <a href="/funcionario/register/exercicios" class="nav-link link-dark">
                         Cadastrar Exercícios
                     </a>
                 </li>
                 <li>
-                    <a href="register-gym-students.php" class="nav-link link-dark">
+                    <a href="/funcionario/register/estudantes" class="nav-link link-dark">
                         Cadastrar Alunos
                     </a>
                 </li>
                 <li>
-                    <a href="register-classes.php" class="nav-link active text-white" style="background-color: #e35c38;" aria-current="page">
+                    <a href="/funcionario/register/classes" class="nav-link active text-white" style="background-color: #e35c38;" aria-current="page">
                         Cadastrar Aulas
                     </a>
                 </li>
                 <li>
-                    <a href="set-training.php" class="nav-link link-dark">
+                    <a href="/funcionario/register/treino" class="nav-link link-dark">
                         Montar Treinos
                     </a>
-                     <a href="get-training.php" class="nav-link link-dark">
+                    <a href="/funcionario/treinos" class="nav-link link-dark">
                         Ver Treinos Disponíveis
                     </a>
                 </li>
@@ -58,14 +59,75 @@
             </div>
         </div>
 
-        <main class="flex-grow-1">
-            <div class="container mt-5">
-                <h1 class="display-4">Seja bem-vindo <span id="user-name" class="text-primary">User</span>!</h1>
-            </div>
+        <main class="flex-grow-1 p-4" style="overflow-y: auto;">
+            <h2 class="mb-4">Cadastrar Aulas</h2>
+            <form class="row g-3">
+                <!-- AU_NOME -->
+                <div class="col-md-6">
+                    <label class="form-label">Nome da Aula</label>
+                    <input type="text" class="form-control" name="AU_NOME" required>
+                </div>
+                <!-- AU_TIPO -->
+                <div class="col-md-3">
+                    <label class="form-label">Tipo *</label>
+                    <select class="form-select" name="AU_TIPO" required>
+                        <option value="">Selecione...</option>
+                    </select>
+                </div>
+                 <!-- AU_DATA -->
+                <div class="col-md-3">
+                    <label class="form-label">Data *</label>
+                    <input type="date" class="form-control" name="AU_DATA" required>
+                </div>
+                <!-- AU_HORA_INICIO -->
+                 <div class="col-md-3">
+                    <label class="form-label">Hora Inicio *</label>
+                    <input type="number" class="form-control" name="AU_HORA_INICIO" required>
+                </div>
+                  <!-- AU_HORA_FIM -->
+                 <div class="col-md-3">
+                    <label class="form-label">Hora Fim *</label>
+                    <input type="number" class="form-control" name="AU_HORA_FIM" required>
+                </div>
+                 <!-- AU_VAGAS_TOTAIS -->
+                 <div class="col-md-3">
+                    <label class="form-label">Vagas Totais *</label>
+                    <input type="number" class="form-control" name="AU_VAGAS_TOTAIS" required>
+                </div>
+                <!-- AU_SALA -->
+                 <div class="col-md-3">
+                    <label class="form-label">Sala *</label>
+                    <input type="number" class="form-control" name="AU_SALA" required>
+                </div>
+                       <!-- AU_STATUS -->
+                <div class="col-md-3">
+                    <label class="form-label">Staus *</label>
+                    <select class="form-select" name="AU_SATUS" required>
+                        <option value="">Selecione...</option>
+                        <option value='AGENDADA'>Agendada</option>
+                        <option value='CONCLUIDA'>Concluida</option>
+                        <option value='EM_ANDAMENTO'>Em Andamento</option>
+                        <option value='CANCELADA'>Cancelada</option>
+                    </select>
+                </div>
+
+                
+                <!-- AU_OBSEVAÇÕES -->
+                <div class="col-md-12">
+                    <label class="form-label">Observações</label>
+                    <textarea class="form-control" name="AU_OBSERVAÇÕES" rows="4"></textarea>
+                </div>
+            </form>
+             <div class="col-12 mt-3">
+            <button type="submit" class="btn text-white" style="background-color: #e35c38;">
+                Salvar Aula
+            </button>
+        </div>
         </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
+
 </html>

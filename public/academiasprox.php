@@ -1,5 +1,17 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <title>TechFit</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="shortcut icon" href="../Assets/images/TechFit-icon.ico" type="image/x-icon">
+    <script src="../docs/5.3/assets/js/color-modes.js"></script>
+    <link rel="stylesheet" href="../Assets/style/style.css">
+</head>
+
 <?php
-include_once 'Assets/views/include/header.php';
+include_once 'include/header.php';
 ?>
 
 <main>
@@ -43,5 +55,5 @@ fetch("academias.json")
 </script>
 
 <?php
-require_once 'Assets/views/include/footer.php';
+require_once '../Assets/views/include/footer.php';
 ?>

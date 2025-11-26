@@ -12,39 +12,39 @@
 
 <body>
     
-    <div class="d-flex" style="height: 100vh;">
+    <div class="d-flex" style="height: 100vh; overflow-y: auto; order:1;">
         <!-- Sidebar -->
         <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="height: 100vh; width: 280px;">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <img src="/Assets/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
+                <img src="../../public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="main.php" class="nav-link link-dark">
+                    <a href="/funcionario" class="nav-link link-dark">
                         Home
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="set-training.php" class="nav-link link-dark">
+                    <a href="/funcionario/register/exercicios" class="nav-link link-dark">
                         Cadastrar Exercícios
                     </a>
                 </li>
                 <li>
-                    <a href="register-gym-students.php" class="nav-link link-dark">
+                    <a href="/funcionario/register/estudantes" class="nav-link link-dark">
                         Cadastrar Alunos
                     </a>
                 </li>
                 <li>
-                    <a href="register-classes.php" class="nav-link link-dark">
+                    <a href="/funcionario/register/classes" class="nav-link link-dark">
                         Cadastrar Aulas
                     </a>
                 </li>
                 <li>
-                    <a href="set-training.php" class="nav-link link-dark">
+                    <a href="/funcionario/register/treino" class="nav-link link-dark">
                         Montar Treinos
                     </a>
-                     <a href="get-training.php" class="nav-link active text-white" style="background-color: #e35c38;" aria-current="page">
+                     <a href="/funcionario/treinos" class="nav-link active text-white" style="background-color: #e35c38;" aria-current="page">
                         Ver Treinos Disponíveis
                     </a>
                 </li>
@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <main class="flex-grow-1">
+        <main class="flex-grow-1" style="overflow-y: auto; order:2;">
             <div class="container mt-5">
                 <h1 class="display-4">Seja bem-vindo <span id="user-name" class="text-primary">User</span>!</h1>
             </div>
