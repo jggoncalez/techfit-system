@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="shortcut icon" href="../Assets/images/TechFit-icon.ico" type="image/x-icon">
     <script src="../docs/5.3/assets/js/color-modes.js"></script>
-    <link rel="stylesheet" href="../Assets/style/style.css">
+    <link rel="stylesheet" href="/Assets/style/style.css">
 </head>
 <?php
 include_once 'include/header.php';
@@ -44,7 +44,7 @@ include_once 'include/header.php';
                 evolução contínua, segurança e motivação em cada etapa.</p>
         </div>
         <div class="col-md-5 d-flex align-items-center justify-content-center " style="height: 500px; width:500px;">
-            <img src="images\logo-fixed.webp" alt="logo">
+            <img src="/public/images/logo-fixed.webp" alt="logo">
         </div>
     </div>
     <!-- Cards de planos -->
@@ -159,7 +159,7 @@ include_once 'include/header.php';
         </div>
 </main>
 <script>
-    fetch("academias.json")
+    fetch("/public/academias.json")
         .then(resposta => resposta.json())
         .then((data) => {
             console.log(data);
