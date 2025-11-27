@@ -5,6 +5,10 @@ require_once __DIR__ . '/../config/Database.php';
 use core\Session;
 use config\Database;
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $db = Database::getInstance()->getConnection();
 $auth = new Session($db);
 
