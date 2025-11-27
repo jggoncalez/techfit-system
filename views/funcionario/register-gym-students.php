@@ -4,12 +4,35 @@
     <title>TechFit</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="shortcut icon" href="/Assets/images/TechFit-icon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="public/images/TechFit-icon.ico" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
-
+<?php
+require_once __DIR__ . "..\\models\\Usuario.php";
+$controller = new Usuario(); 
+if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $acao  = $_POST['acao'] ?? '';
+    if($acao == 'criar'){
+        $controller->US_NOME = $_POST['US_NOME'];
+        $controller->US_IDADE = $_POST['US_IDADE'];
+        $controller->US_GENERO = $_POST['US_GENERO'];
+        $controller->US_DATA_NASCIMENTO = $_POST['US_DATA_NASCIMENTO'];
+        $controller->US_ALTURA = $_POST['US_ALTURA'];
+        $controller->US_PESO = $_POST['US_PESO'];
+        $controller->US_OBJETIVO = $_POST['US_OBJETIVO'] ?? '';
+        $controller->US_PORC_MASSA_MAGRA = $_POST['US_PORC_MASSA_MAGRA'];
+        $controller->US_TREINO_ANTERIOR = $_POST['US_TREINO_ANTERIOR'];
+        $controller->US_TEMPO_TREINOANT = $_POST['US_TEMPO_TREINOANT'] ?? null;
+        $controller->US_ENDERECO = $_POST['US_ENDERECO'];
+        $controller->US_DISPONIBILIDADE = implode(',', $_POST['US_DISPONIBILIDADE'] ?? []);
+        $controller->PL_ID = $_POST['PL_ID'];
+        $controller->US_DATA_VENCIMENTO = $_POST['US_DATA_VENCIMENTO'] ?? null;
+        $controller->US_STATUS_PAGAMENTO = $_POST['US_STATUS_PAGAMENTO'] ?? 'EM_DIA';
+    }
+}
+?>
 <body>
     
     <div class="d-flex" style="height:100vh; overflow-y: auto;">
@@ -62,8 +85,8 @@
 
     <h2 class="mb-4">Cadastrar Usuário</h2>
 
-    <form action="salvar-usuario.php" method="POST" class="row g-3">
-
+    <form method="POST" class="row g-3">
+        <input type="hidden" name="acao" value="criar">
         <!-- US_NOME -->
         <div class="col-md-6">
             <label class="form-label">Nome *</label>
