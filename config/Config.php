@@ -9,3 +9,4 @@ class Config{
     const DB_PASS = 'senaisp';
     const DB_CHAR = 'utf8mb4';
 }
+
