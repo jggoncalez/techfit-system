@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
 <?php
-require_once __DIR_ "..\\models\\Usuario.php";
 $controller = new Usuario(); 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $acao  = $_POST['acao'] ?? '';
