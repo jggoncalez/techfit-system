@@ -10,7 +10,21 @@
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
 <?php
-$controller = new Usuario(); 
+require_once __DIR__ . '\\..\\..\\config\\Database.php';
+require_once __DIR__ . '\\..\\..\\models\\Usuario.php';
+
+use config\Database;
+use models\Usuario;
+
+try{
+    $db = Database::getInstance()->getConnection();
+    echo "Banco conectado! pipipipi";
+} catch (Exception $e){
+    echo "Ai " . $e -> getMessage();
+}
+
+
+$controller = new Usuario($db); 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $acao  = $_POST['acao'] ?? '';
     if($acao == 'criar'){
@@ -25,12 +39,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $controller->US_TREINO_ANTERIOR = $_POST['US_TREINO_ANTERIOR'];
         $controller->US_TEMPO_TREINOANT = $_POST['US_TEMPO_TREINOANT'] ?? null;
         $controller->US_ENDERECO = $_POST['US_ENDERECO'];
-        $controller->US_DISPONIBILIDADE = implode(',', $_POST['US_DISPONIBILIDADE'] ?? []);
+     // CORRIGIDO AQUI - Converte array para JSON
+        $controller->US_DISPONIBILIDADE = json_encode($_POST['US_DISPONIBILIDADE'] ?? [], JSON_UNESCAPED_UNICODE);
         $controller->PL_ID = $_POST['PL_ID'];
-        $controller->US_DATA_VENCIMENTO = $_POST['US_DATA_VENCIMENTO'] ?? null;
         $controller->US_STATUS_PAGAMENTO = $_POST['US_STATUS_PAGAMENTO'] ?? 'EM_DIA';
+
+        $controller -> create();
     }
 }
+
 ?>
 <body>
     
@@ -161,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         <!-- US_ENDERECO -->
         <div class="col-md-6">
             <label class="form-label">Endereço *</label>
-            <input type="text" class="form-control" name="US_ENDERECO" maxlength="9" required>
+            <input type="text" class="form-control" name="US_ENDERECO" maxlength="255" required>
         </div>
 
         <!-- US_DISPONIBILIDADE -->
@@ -203,12 +220,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         <div class="col-md-3">
             <label class="form-label">Plano (ID) *</label>
             <input type="number" class="form-control" name="PL_ID" required>
-        </div>
-
-        <!-- US_DATA_VENCIMENTO -->
-        <div class="col-md-3">
-            <label class="form-label">Data de Vencimento</label>
-            <input type="date" class="form-control" name="US_DATA_VENCIMENTO">
         </div>
 
         <!-- US_STATUS_PAGAMENTO -->

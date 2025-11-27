@@ -7,6 +7,6 @@ class Config{
     const DB_NAME = 'techfitdatabase';
     const DB_USER = 'root';
     const DB_PASS = 'senaisp';
-    const DB_CHAR = 'utf8mb4';
+    const DB_CHARSET = 'utf8mb4';
 }
 

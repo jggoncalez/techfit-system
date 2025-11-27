@@ -1,6 +1,7 @@
 <?php
 $request = $_SERVER['REQUEST_URI'];
 $request = parse_url($request, PHP_URL_PATH);
+$username = $_GET['username'];
 
 switch($request) {
     case '/':
