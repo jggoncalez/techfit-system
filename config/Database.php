@@ -2,7 +2,6 @@
 
 namespace config;
 use PDO;
-use config\Config;
 class Database{
     private static $instance = null;
     private $connection;

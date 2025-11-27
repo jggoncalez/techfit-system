@@ -17,7 +17,7 @@ include_once 'include/header.php';
     <div class="imagem-fundo">
         <div class="position-relative overflow-hidden p-3 p-md-5 md-3 mt-0 text-center">
             <div class="col-md-6 p-lg-5 mx-auto my-5">
-                <h3 class="fw-normal mb3 " style="color: #000000;">A tecnologia que treina com você</h3>
+                <h3 class="fw-normal mb3 text-primary"></h3>
                 <h1 class="display-2 text-primary fw-bold " style="text-shadow:0px 4px 4px #000;">Bem Vindo A Tech Fit
                 </h1>
                 <div class="d-flex gap-3 justify-content-center lead fw-normal">
