@@ -55,9 +55,25 @@
         </div>
 
         <main class="flex-grow-1">
-            <div class="container mt-5">
-                <h1 class="display-4">Seja bem-vindo <span id="user-name" class="text-primary">User</span>!</h1>
+            <div class = "profile-container">
+            <div class="profile d-flex">
+                    <h2>Informações Pessoais</h2>
+                    <p>Nome:</p>
+                    <p>Gênero:</p>
+                    <p>Idade:</p>
+                    <p>Endereco:</p>
+                    <p>Data de Nascimento:</p>
+                    <p>Plano:</p>
             </div>
+            <div class="profile d-flex">
+                    <h2>Informações Sobre seu Corpo</h2>
+                    <p>%Gordura:</p>
+                    <p>Altura:</p>
+                    <p>Objetivo:</p>
+                    <p>Peso:</p>
+                    <p>Já treinou antes ?:</p>
+            </div>
+</div>
         </main>
     </div>
 

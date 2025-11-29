@@ -44,8 +44,15 @@
                     <a href="/funcionario/register/treino" class="nav-link link-dark">
                         Montar Treinos
                     </a>
-                     <a href="/funcionario/treinos" class="nav-link link-dark">
+                </li>
+                <li>
+                    <a href="/funcionario/treinos" class="nav-link link-dark">
                         Ver Treinos Disponíveis
+                    </a>
+                </li>
+                <li>
+                    <a href="/funcionario/RFID" class="nav-link link-dark">
+                        Acesso academia
                     </a>
                 </li>
             </ul>

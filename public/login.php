@@ -18,7 +18,7 @@ include_once 'include/header.php';
     <form style="height: 300px; width:500px;"> 
         <h1 class="h3 mb-3 fw-normal text-center" data-vivaldi-translated="">LOGIN</h1>
         <h1 class="h6 mb-3 fw-normal text-center" data-vivaldi-translated="">Se possuir uma conta, insira seus dados</h1>
-        <div class="form-floating" data-vivaldi-translated=""> <input type="email" class="form-control" style="border-bottom: #E35C38; border-width: 2px; border-style: solid;"
+        <div class="form-floating" data-vivaldi-translated=""> <input type="text" class="form-control" style="border-bottom: #E35C38; border-width: 2px; border-style: solid;"
                 id="floatingInput" placeholder="name@example.com" data-vivaldi-translated=""> <label for="floatingInput"
                 data-vivaldi-translated="">CPF ou nome de usuário</label> </div>
         <div class="form-floating" data-vivaldi-translated=""> <input type="password" class="form-control" style="border-bottom: #E35C38; border-width: 2px; border-style: solid;"

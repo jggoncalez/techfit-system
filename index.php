@@ -30,6 +30,9 @@ switch($request) {
     case '/funcionario/register/treino':
         require __DIR__ . '/views/funcionario/set-training.php';
         break;
+    case '/funcionario/RFID':
+        require __DIR__ . '/views/funcionario/RFID.php';
+        break;
     case '/usuario':
         require __DIR__  . '/views/usuario/main.php';
         break;

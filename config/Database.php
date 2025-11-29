@@ -1,5 +1,4 @@
 <?php
-
 namespace config;
 class Database{
     private static $instance = null;
