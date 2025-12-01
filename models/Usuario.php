@@ -140,4 +140,14 @@
 
             return $stmt;
         }  
+
+        public function buscarPlanos() {
+             $result = $this->conn->query("SELECT PL_ID, PL_NOME from Planos ORDER BY PL_NOME");
+
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                 echo "<option value='{$row['PL_ID']}'>
+                        {$row['PL_NOME']}
+                     </option>";
+            }
+        }
     }

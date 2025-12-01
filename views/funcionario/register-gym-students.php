@@ -18,7 +18,6 @@ use models\Usuario;
 
 try{
     $db = Database::getInstance()->getConnection();
-    echo "Banco conectado! pipipipi";
 } catch (Exception $e){
     echo "Ai " . $e -> getMessage();
 }
@@ -77,6 +76,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 <li>
                     <a href="/funcionario/register/classes" class="nav-link link-dark">
                         Cadastrar Aulas
+                    </a>
+                </li>
+                  <li>
+                    <a href="/funcionario/get/classes"class="nav-link link-dark">
+                        Ver Aulas
+                    </a>
+                </li>
+                <li>
+                    <a href="/funcionario/get/estudantes"class="nav-link link-dark">
+                        Ver Alunos
                     </a>
                 </li>
                 <li>
@@ -218,8 +227,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         <!-- PL_ID (FK PLANOS) -->
         <div class="col-md-3">
-            <label class="form-label">Plano (ID) *</label>
-            <input type="number" class="form-control" name="PL_ID" required>
+            <label class="form-label">Plano *</label>
+            <select class="form-control" name="PL_ID" required>
+                <option value="">Selecione um Plano</option>
+                <?php
+                    $controller->buscarPlanos();
+                ?>
+            </select>
         </div>
 
         <!-- US_STATUS_PAGAMENTO -->

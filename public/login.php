@@ -66,5 +66,5 @@ include_once 'include/header.php';
 </main>
 
 <?php
-require_once 'include/footer.php'
+require_once 'include/footer.php';
 ?>

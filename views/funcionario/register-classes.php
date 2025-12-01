@@ -10,6 +10,37 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
+<?php
+require_once __DIR__ . '\\..\\..\\config\\Database.php';
+require_once __DIR__ . '\\..\\..\\models\\agendamento\\Aula.php';
+
+use config\Database;
+use models\agendamento\Aula;
+
+try {
+    $db = Database::getInstance()->getConnection();
+} catch (Exception $e) {
+    echo "Ai " . $e->getMessage();
+}
+$controller = new Aula($db);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $acao = $_POST['acao'] ?? '';
+    if ($acao === 'criar') {
+        $controller->AU_NOME = $_POST['AU_NOME'];
+        $controller->AU_DATA = $_POST['AU_DATA'];
+        $controller->AU_HORA_FIM = $_POST['AU_HORA_FIM'];
+        $controller->AU_HORA_INICIO = $_POST['AU_HORA_INICIO'];
+        $controller->AU_OBSERVACOES = $_POST['AU_OBSERVACOES'];
+        $controller->AU_SALA = $_POST['AU_SALA'];
+        $controller->AU_STATUS = $_POST['AU_STATUS'];
+        $controller->AU_VAGAS_TOTAIS = $_POST['AU_VAGAS_TOTAIS'];
+        $controller->FU_ID = $_POST['FU_ID'];
+        $controller->create();
+    }
+}
+
+?>
 
 <body>
 
@@ -42,6 +73,16 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/funcionario/get/classes" class="nav-link link-dark">
+                        Ver Aulas
+                    </a>
+                </li>
+                <li>
+                    <a href="/funcionario/get/estudantes" class="nav-link link-dark">
+                        Ver Alunos
+                    </a>
+                </li>
+                <li>
                     <a href="/funcionario/register/treino" class="nav-link link-dark">
                         Montar Treinos
                     </a>
@@ -61,7 +102,8 @@
 
         <main class="flex-grow-1 p-4" style="overflow-y: auto;">
             <h2 class="mb-4">Cadastrar Aulas</h2>
-            <form class="row g-3">
+            <form method="POST" class="row g-3">
+                <input type="hidden" name='acao' value='criar'>
                 <!-- AU_NOME -->
                 <div class="col-md-6">
                     <label class="form-label">Nome da Aula</label>
@@ -72,37 +114,51 @@
                     <label class="form-label">Tipo *</label>
                     <select class="form-select" name="AU_TIPO" required>
                         <option value="">Selecione...</option>
+                        <option value="ZUMBA">ZUMBA</option>
+                        <option value="CROSS-FIT">CROSS-FIT</option>
+                        <option value="PILATES">PILATES</option>
+                        <option value="YOGA">YOGA</option>
                     </select>
                 </div>
-                 <!-- AU_DATA -->
+                <!-- AU_DATA -->
                 <div class="col-md-3">
                     <label class="form-label">Data *</label>
                     <input type="date" class="form-control" name="AU_DATA" required>
                 </div>
                 <!-- AU_HORA_INICIO -->
-                 <div class="col-md-3">
+                <div class="col-md-3">
                     <label class="form-label">Hora Inicio *</label>
-                    <input type="number" class="form-control" name="AU_HORA_INICIO" required>
+                    <input type="time" class="form-control" name="AU_HORA_INICIO" required>
                 </div>
-                  <!-- AU_HORA_FIM -->
-                 <div class="col-md-3">
+                <!-- AU_HORA_FIM -->
+                <div class="col-md-3">
                     <label class="form-label">Hora Fim *</label>
-                    <input type="number" class="form-control" name="AU_HORA_FIM" required>
+                    <input type="time" class="form-control" name="AU_HORA_FIM" required>
                 </div>
-                 <!-- AU_VAGAS_TOTAIS -->
-                 <div class="col-md-3">
-                    <label class="form-label">Vagas Totais *</label>
-                    <input type="number" class="form-control" name="AU_VAGAS_TOTAIS" required>
+                <!-- AU_VAGAS_TOTAIS -->
+                <div class="col-md-3">
+                    <label class="form-label">Funcionario *</label>
+                    <select class="form-control" name="FU_ID">
+                        <option value="">Selecione um Funcionario</option>
+                        <?php
+                        $controller->buscarFuncionarios();
+                        ?>
+                    </select>
                 </div>
                 <!-- AU_SALA -->
-                 <div class="col-md-3">
+                <div class="col-md-3">
                     <label class="form-label">Sala *</label>
                     <input type="number" class="form-control" name="AU_SALA" required>
                 </div>
-                       <!-- AU_STATUS -->
+                <!-- AU_VAGAS_TOTAIS -->
+                <div class="col-md-3">
+                    <label class="form-label">Vagas Totais *</label>
+                    <input type="number" class="form-control" name="AU_VAGAS_TOTAIS" required>
+                </div>
+                <!-- AU_STATUS -->
                 <div class="col-md-3">
                     <label class="form-label">Staus *</label>
-                    <select class="form-select" name="AU_SATUS" required>
+                    <select class="form-select" name="AU_STATUS" required>
                         <option value="">Selecione...</option>
                         <option value='AGENDADA'>Agendada</option>
                         <option value='CONCLUIDA'>Concluida</option>
@@ -111,18 +167,19 @@
                     </select>
                 </div>
 
-                
+
                 <!-- AU_OBSEVAÇÕES -->
                 <div class="col-md-12">
                     <label class="form-label">Observações</label>
-                    <textarea class="form-control" name="AU_OBSERVAÇÕES" rows="4"></textarea>
+                    <textarea class="form-control" name="AU_OBSERVACOES" rows="4"></textarea>
+                </div>
+                <div class="col-12 mt-3">
+                    <button type="submit" class="btn text-white" style="background-color: #e35c38;">
+                        Salvar Aula
+                    </button>
                 </div>
             </form>
-             <div class="col-12 mt-3">
-            <button type="submit" class="btn text-white" style="background-color: #e35c38;">
-                Salvar Aula
-            </button>
-        </div>
+
         </main>
     </div>
 

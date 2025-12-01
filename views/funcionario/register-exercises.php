@@ -9,7 +9,36 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
+<?php 
+require_once __DIR__ . '\\..\\..\\config\\Database.php';
+require_once __DIR__ . '\\..\\..\\models\\sagef\\Exercicio.php';
 
+use config\Database;
+use models\sagef\Exercicio;
+
+try{
+    $db = Database::getInstance()->getConnection();
+} catch (Exception $e){
+    echo "Ai " . $e -> getMessage();
+}
+$controller = new Exercicio($db);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $acao = $_POST['acao'] ?? ''; 
+    if ($acao === 'criar'){
+        $controller->EX_DESCRICAO = $_POST['EX_DESCRICAO'];
+        $controller->EX_DIFICULDADE = $_POST['EX_DIFICULDADE'];
+        $controller->EX_EQUIPAMENTO = $_POST['EX_EQUIPAMENTO'];
+        $controller->EX_MAX_REPETICOES = $_POST['EX_MAX_REPETICOES'];
+        $controller->EX_MIN_REPETICOES = $_POST['EX_MIN_REPETICOES'];
+        $controller->EX_NOME = $_POST['EX_NOME'];
+        $controller->EX_PONTUACAO = $_POST['EX_PONTUACAO'];
+        $controller->EX_TEMPO_DESCANSO = $_POST['EX_TEMPO_DESCANSO'];
+        $controller->EX_TIPO = $_POST['EX_TIPO'];
+        $controller->create();
+    }
+}
+?>
 <body>
     
     <div class="d-flex" style="height: 100vh;">
@@ -41,6 +70,16 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/funcionario/get/classes" class="nav-link link-dark">
+                        Ver Aulas
+                    </a>
+                </li>
+                <li>
+                    <a href="/funcionario/get/estudantes" class="nav-link link-dark">
+                        Ver Alunos
+                    </a>
+                </li>
+                <li>
                     <a href="/funcionario/register/treino" class="nav-link link-dark">
                         Montar Treinos
                     </a>
@@ -58,11 +97,9 @@
             </div>
         </div>
 <main class="flex-grow-1 p-4" style="overflow-y: auto;">
-
     <h2 class="mb-4">Cadastrar Exercício</h2>
-    <!-- action="salvar-exercicio.php" method="POST" -->
-    <form  class="row g-3">
-
+    <form method="POST" class="row g-3">
+        <input type="hidden" name="acao" value ='criar'>
         <!-- EX_NOME -->
         <div class="col-md-6">
             <label class="form-label">Nome do Exercício *</label>
@@ -89,18 +126,6 @@
                 <option value="CARDIO">Cardio</option>
                 <option value="FUNCIONAL">Funcional</option>
             </select>
-        </div>
-
-        <!-- EX_MIN_VALOR -->
-        <div class="col-md-3">
-            <label class="form-label">Valor Mínimo *</label>
-            <input type="number" class="form-control" name="EX_MIN_VALOR" required>
-        </div>
-
-        <!-- EX_MAX_VALOR -->
-        <div class="col-md-3">
-            <label class="form-label">Valor Máximo *</label>
-            <input type="number" class="form-control" name="EX_MAX_VALOR" value="999" required>
         </div>
 
         <!-- EX_MIN_REPETICOES -->

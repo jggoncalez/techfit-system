@@ -5,10 +5,9 @@
     class Aula{
         // Conexão
         private $conn;
-        private $table = "AULA";
+        private $table = "AULAS";
 
         public $AU_ID;
-        public $TA_ID;
         public $FU_ID;
         public $AU_NOME;
         public $AU_DATA;
@@ -26,10 +25,9 @@
 
 
         public function create(){
-            $query = "INSERT INTO " . $this->table . " (TA_ID, FU_ID, AU_NOME, AU_DATA, AU_HORA_INICIO, AU_HORA_FIM, AU_VAGAS_DISPONIVEIS, AU_VAGAS_TOTAIS, AU_SALA, AU_STATUS, AU_OBSERVACOES) VALUES (:ta_id, :fu_id, :au_nome, :au_data, :au_hora_inicio, :au_hora_fim, :au_vagas_disponiveis, :au_vagas_totais, :au_sala, :au_status, :au_observacoes)";
+            $query = "INSERT INTO " . $this->table . " (FU_ID, AU_NOME, AU_DATA, AU_HORA_INICIO, AU_HORA_FIM, AU_VAGAS_DISPONIVEIS, AU_VAGAS_TOTAIS, AU_SALA, AU_STATUS, AU_OBSERVACOES) VALUES (:fu_id, :au_nome, :au_data, :au_hora_inicio, :au_hora_fim, :au_vagas_disponiveis, :au_vagas_totais, :au_sala, :au_status, :au_observacoes)";
             $stmt = $this->conn->prepare($query);
 
-            $stmt -> bindParam(':ta_id', $this->TA_ID);
             $stmt -> bindParam(':fu_id', $this->FU_ID);
             $stmt -> bindParam(':au_nome', $this->AU_NOME);
             $stmt -> bindParam(':au_data', $this->AU_DATA);
@@ -55,7 +53,6 @@
             $row = $stmt -> fetch(PDO::FETCH_ASSOC);
 
             if($row) {
-                $this->TA_ID = $row['TA_ID'];
                 $this->FU_ID = $row['FU_ID'];
                 $this->AU_NOME = $row['AU_NOME'];
                 $this->AU_DATA = $row['AU_DATA'];
@@ -83,7 +80,6 @@
 
         public function update(){
             $query = "UPDATE {$this->table} SET
-                TA_ID = :ta_id, 
                 FU_ID = :fu_id,
                 AU_NOME = :au_nome,
                 AU_DATA = :au_data,
@@ -97,7 +93,6 @@
                 WHERE AU_ID = :au_id";
             $stmt = $this->conn->prepare($query);
             
-            $stmt -> bindParam(':ta_id', $this->TA_ID);
             $stmt -> bindParam(':fu_id', $this->FU_ID);
             $stmt -> bindParam(':au_nome', $this->AU_NOME);
             $stmt -> bindParam(':au_data', $this->AU_DATA);
@@ -126,4 +121,14 @@
 
             return $stmt;
         }  
+
+        public function buscarFuncionarios() {
+            $result = $this->conn->query("SELECT FU_ID, FU_NOME from FUNCIONARIOS ORDER BY FU_NOME");
+
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                 echo "<option value='{$row['FU_ID']}'>
+                        {$row['FU_NOME']}
+                     </option>";
+            }
+        }
     }
