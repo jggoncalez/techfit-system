@@ -24,6 +24,8 @@ try{
 
 
 $controller = new Usuario($db); 
+$stmt = $controller->list();
+$dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $acao  = $_POST['acao'] ?? '';
     if($acao == 'criar'){
@@ -46,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $controller -> create();
     }
 }
+
 
 ?>
 <body>
