@@ -21,7 +21,6 @@
         public $US_ENDERECO;
         public $US_DISPONIBILIDADE;
         public $PL_ID;
-        public $US_DATA_VENCIMENTO;
         public $US_STATUS_PAGAMENTO;
 
         public function __construct($db){
@@ -30,7 +29,7 @@
 
 
         public function create(){
-            $query = "INSERT INTO " . $this->table . " (US_NOME, US_GENERO, US_DATA_NASCIMENTO, US_IDADE, US_ALTURA, US_PESO, US_OBJETIVO, US_PORC_MASSA_MAGRA, US_TREINO_ANTERIOR, US_TEMPO_TREINOANT, US_ENDERECO, US_DISPONIBILIDADE, PL_ID, US_DATA_VENCIMENTO, US_STATUS_PAGAMENTO) VALUES (:us_nome, :us_genero, :us_data_nascimento, :us_idade, :us_altura, :us_peso, :us_objetivo, :us_porc_massa_magra, :us_treino_anterior, :us_tempo_treinoant, :us_endereco, :us_disponibilidade, :pl_id, :us_data_vencimento, :us_status_pagamento)";
+            $query = "INSERT INTO " . $this->table . " (US_NOME, US_GENERO, US_DATA_NASCIMENTO, US_IDADE, US_ALTURA, US_PESO, US_OBJETIVO, US_PORC_MASSA_MAGRA, US_TREINO_ANTERIOR, US_TEMPO_TREINOANT, US_ENDERECO, US_DISPONIBILIDADE, PL_ID,US_STATUS_PAGAMENTO) VALUES (:us_nome, :us_genero, :us_data_nascimento, :us_idade, :us_altura, :us_peso, :us_objetivo, :us_porc_massa_magra, :us_treino_anterior, :us_tempo_treinoant, :us_endereco, :us_disponibilidade, :pl_id, :us_status_pagamento)";
             $stmt = $this->conn->prepare($query);
 
             $stmt -> bindParam(':us_nome', $this->US_NOME);
@@ -46,9 +45,7 @@
             $stmt -> bindParam(':us_endereco', $this->US_ENDERECO);
             $stmt -> bindParam(':us_disponibilidade', $this->US_DISPONIBILIDADE);
             $stmt -> bindParam(':pl_id', $this->PL_ID);
-            $stmt -> bindParam(':us_data_vencimento', $this->US_DATA_VENCIMENTO);
             $stmt -> bindParam(':us_status_pagamento', $this->US_STATUS_PAGAMENTO);
-
             $stmt -> execute();
             return $stmt;
         }
@@ -76,7 +73,6 @@
                 $this->US_ENDERECO = $row['US_ENDERECO'];
                 $this->US_DISPONIBILIDADE = $row['US_DISPONIBILIDADE'];
                 $this->PL_ID = $row['PL_ID'];
-                $this->US_DATA_VENCIMENTO = $row['US_DATA_VENCIMENTO'];
                 $this->US_STATUS_PAGAMENTO = $row['US_STATUS_PAGAMENTO'];
                 return true;
             }
@@ -108,7 +104,6 @@
                 US_ENDERECO = :us_endereco,
                 US_DISPONIBILIDADE = :us_disponibilidade,
                 PL_ID = :pl_id,
-                US_DATA_VENCIMENTO = :us_data_vencimento,
                 US_STATUS_PAGAMENTO = :us_status_pagamento
                 WHERE US_ID = :us_id";
             $stmt = $this->conn->prepare($query);
@@ -126,7 +121,6 @@
             $stmt -> bindParam(':us_endereco', $this->US_ENDERECO);
             $stmt -> bindParam(':us_disponibilidade', $this->US_DISPONIBILIDADE);
             $stmt -> bindParam(':pl_id', $this->PL_ID);
-            $stmt -> bindParam(':us_data_vencimento', $this->US_DATA_VENCIMENTO);
             $stmt -> bindParam(':us_status_pagamento', $this->US_STATUS_PAGAMENTO);
             $stmt -> bindParam(':us_id', $this->US_ID);
             
@@ -146,4 +140,14 @@
 
             return $stmt;
         }  
+
+        public function buscarPlanos() {
+             $result = $this->conn->query("SELECT PL_ID, PL_NOME from Planos ORDER BY PL_NOME");
+
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                 echo "<option value='{$row['PL_ID']}'>
+                        {$row['PL_NOME']}
+                     </option>";
+            }
+        }
     }

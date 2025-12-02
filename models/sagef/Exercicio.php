@@ -13,8 +13,6 @@
         public $EX_TIPO;
         public $EX_DIFICULDADE;
         public $EX_EQUIPAMENTO;
-        public $EX_MIN_VALOR;
-        public $EX_MAX_VALOR;
         public $EX_MIN_REPETICOES;
         public $EX_MAX_REPETICOES;
         public $EX_TEMPO_DESCANSO;
@@ -26,7 +24,7 @@
 
 
         public function create(){
-            $query = "INSERT INTO " . $this->table . " (EX_NOME, EX_DESCRICAO, EX_TIPO, EX_DIFICULDADE, EX_EQUIPAMENTO, EX_MIN_VALOR, EX_MAX_VALOR, EX_MIN_REPETICOES, EX_MAX_REPETICOES, EX_TEMPO_DESCANSO, EX_PONTUACAO) VALUES (:ex_nome, :ex_descricao, :ex_tipo, :ex_dificuldade, :ex_equipamento, :ex_min_valor, :ex_max_valor, :ex_min_repeticoes, :ex_max_repeticoes, :ex_tempo_descanso, :ex_pontuacao)";
+            $query = "INSERT INTO " . $this->table . " (EX_NOME, EX_DESCRICAO, EX_TIPO, EX_DIFICULDADE, EX_EQUIPAMENTO, EX_MIN_REPETICOES, EX_MAX_REPETICOES, EX_TEMPO_DESCANSO, EX_PONTUACAO) VALUES (:ex_nome, :ex_descricao, :ex_tipo, :ex_dificuldade, :ex_equipamento, :ex_min_repeticoes, :ex_max_repeticoes, :ex_tempo_descanso, :ex_pontuacao)";
             $stmt = $this->conn->prepare($query);
 
             $stmt -> bindParam(':ex_nome', $this->EX_NOME);
@@ -34,8 +32,6 @@
             $stmt -> bindParam(':ex_tipo', $this->EX_TIPO);
             $stmt -> bindParam(':ex_dificuldade', $this->EX_DIFICULDADE);
             $stmt -> bindParam(':ex_equipamento', $this->EX_EQUIPAMENTO);
-            $stmt -> bindParam(':ex_min_valor', $this->EX_MIN_VALOR);
-            $stmt -> bindParam(':ex_max_valor', $this->EX_MAX_VALOR);
             $stmt -> bindParam(':ex_min_repeticoes', $this->EX_MIN_REPETICOES);
             $stmt -> bindParam(':ex_max_repeticoes', $this->EX_MAX_REPETICOES);
             $stmt -> bindParam(':ex_tempo_descanso', $this->EX_TEMPO_DESCANSO);
@@ -60,8 +56,6 @@
                 $this->EX_TIPO = $row['EX_TIPO'];
                 $this->EX_DIFICULDADE = $row['EX_DIFICULDADE'];
                 $this->EX_EQUIPAMENTO = $row['EX_EQUIPAMENTO'];
-                $this->EX_MIN_VALOR = $row['EX_MIN_VALOR'];
-                $this->EX_MAX_VALOR = $row['EX_MAX_VALOR'];
                 $this->EX_MIN_REPETICOES = $row['EX_MIN_REPETICOES'];
                 $this->EX_MAX_REPETICOES = $row['EX_MAX_REPETICOES'];
                 $this->EX_TEMPO_DESCANSO = $row['EX_TEMPO_DESCANSO'];
@@ -88,8 +82,6 @@
                 EX_TIPO = :ex_tipo,
                 EX_DIFICULDADE = :ex_dificuldade,
                 EX_EQUIPAMENTO = :ex_equipamento,
-                EX_MIN_VALOR = :ex_min_valor,
-                EX_MAX_VALOR = :ex_max_valor,
                 EX_MIN_REPETICOES = :ex_min_repeticoes,
                 EX_MAX_REPETICOES = :ex_max_repeticoes,
                 EX_TEMPO_DESCANSO = :ex_tempo_descanso,
@@ -102,8 +94,6 @@
             $stmt -> bindParam(':ex_tipo', $this->EX_TIPO);
             $stmt -> bindParam(':ex_dificuldade', $this->EX_DIFICULDADE);
             $stmt -> bindParam(':ex_equipamento', $this->EX_EQUIPAMENTO);
-            $stmt -> bindParam(':ex_min_valor', $this->EX_MIN_VALOR);
-            $stmt -> bindParam(':ex_max_valor', $this->EX_MAX_VALOR);
             $stmt -> bindParam(':ex_min_repeticoes', $this->EX_MIN_REPETICOES);
             $stmt -> bindParam(':ex_max_repeticoes', $this->EX_MAX_REPETICOES);
             $stmt -> bindParam(':ex_tempo_descanso', $this->EX_TEMPO_DESCANSO);

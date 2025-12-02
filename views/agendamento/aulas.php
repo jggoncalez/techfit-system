@@ -1,10 +1,13 @@
 <?php
-$conn = \config\Database::getInstance()->getConnection();
+require_once 'config/Database.php';
+
+$db = \config\Database::getInstance();
+$conn = $db->getConnection();
 
 $stmt = $conn ->prepare("SELECT * FROM aulas");
 $stmt -> execute([1]);
 
-while ($row = $stmt ->fetch_assoc()){
+while ($row = $stmt ->fetch_assoc(PDO::FETCH_ASSOC)){
     echo "{$row['AU_NOME']}";
 }
 
