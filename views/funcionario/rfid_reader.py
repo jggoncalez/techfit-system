@@ -2,147 +2,109 @@ import serial
 import json
 import mysql.connector
 from datetime import datetime
-import time
 
-# Configurações do banco de dados
+# Configurações
 DB_CONFIG = {
     'host': 'localhost',
-    'user': 'seu_usuario',
-    'password': 'sua_senha',
-    'database': 'seu_banco'
+    'user': 'root',
+    'password': 'senaisp',
+    'database': 'TechFitDatabase',
+    'auth_plugin': 'mysql_native_password'
 }
-
-# Configuração da porta serial
-PORTA_SERIAL = 'COM3'  # Windows: COM3, Linux: /dev/ttyUSB0
+PORTA_SERIAL = 'COM3'
 BAUD_RATE = 9600
 
-def conectar_banco():
-    """Conecta ao banco de dados MySQL"""
+def executar_query(query, params=None, fetch=False):
+    """Executa query no banco de dados"""
     try:
-        return mysql.connector.connect(**DB_CONFIG)
+        conn = mysql.connector.connect(**DB_CONFIG)
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute(query, params or ())
+        
+        if fetch:
+            resultado = cursor.fetchone()
+        else:
+            conn.commit()
+            resultado = True
+            
+        cursor.close()
+        conn.close()
+        return resultado
     except mysql.connector.Error as e:
-        print(f"Erro ao conectar ao banco: {e}")
+        print(f"Erro BD: {e}")
         return None
 
 def verificar_rfid(rfid_code):
-    """Verifica se o RFID está cadastrado e ativo"""
-    conn = conectar_banco()
-    if not conn:
-        return None, "Erro de conexão"
-    
-    cursor = conn.cursor(dictionary=True)
-    
+    """Verifica RFID e retorna dados do usuário"""
     query = """
-        SELECT r.RFID_ID, r.US_ID, r.RFID_STATUS, r.RFID_DATA_EXPIRACAO,
-               u.US_NOME
+        SELECT r.RFID_ID, r.US_ID, r.RFID_STATUS, r.RFID_DATA_EXPIRACAO, u.US_NOME
         FROM RFID_TAGS r
         INNER JOIN USUARIOS u ON r.US_ID = u.US_ID
         WHERE r.RFID_TAG_CODE = %s
     """
-    
-    cursor.execute(query, (rfid_code,))
-    resultado = cursor.fetchone()
-    
-    cursor.close()
-    conn.close()
+    resultado = executar_query(query, (rfid_code,), fetch=True)
     
     if not resultado:
         return None, "RFID não cadastrado"
-    
     if resultado['RFID_STATUS'] != 'ATIVO':
         return None, f"RFID {resultado['RFID_STATUS']}"
-    
-    if resultado['RFID_DATA_EXPIRACAO']:
-        if resultado['RFID_DATA_EXPIRACAO'] < datetime.now().date():
-            return None, "RFID expirado"
+    if resultado['RFID_DATA_EXPIRACAO'] and resultado['RFID_DATA_EXPIRACAO'] < datetime.now().date():
+        return None, "RFID expirado"
     
     return resultado, "OK"
 
 def registrar_entrada(us_id, rfid_id, status, motivo=None):
-    """Registra a entrada no banco de dados"""
-    conn = conectar_banco()
-    if not conn:
-        return False
-    
-    cursor = conn.cursor()
-    
+    """Registra entrada no banco"""
     query = """
         INSERT INTO REGISTRO_ENTRADAS 
         (US_ID, RFID_ID, RE_TIPO_ENTRADA, RE_STATUS, RE_MOTIVO_NEGACAO, RE_LOCALIZACAO)
         VALUES (%s, %s, 'RFID', %s, %s, 'Entrada Principal')
     """
-    
-    try:
-        cursor.execute(query, (us_id, rfid_id, status, motivo))
-        conn.commit()
-        print(f"✓ Entrada registrada: {status}")
-        return True
-    except mysql.connector.Error as e:
-        print(f"✗ Erro ao registrar: {e}")
-        return False
-    finally:
-        cursor.close()
-        conn.close()
+    sucesso = executar_query(query, (us_id, rfid_id, status, motivo))
+    print(f"{'✓' if sucesso else '✗'} Registro: {status}")
 
 def processar_leitura(rfid_code):
-    """Processa a leitura do RFID"""
-    print(f"\n{'='*50}")
-    print(f"RFID Detectado: {rfid_code}")
+    """Processa leitura RFID"""
+    print(f"\n{'='*50}\nRFID: {rfid_code}")
     
     usuario, mensagem = verificar_rfid(rfid_code)
     
     if usuario:
-        print(f"✓ Acesso PERMITIDO")
-        print(f"  Usuário: {usuario['US_NOME']}")
-        registrar_entrada(
-            usuario['US_ID'], 
-            usuario['RFID_ID'], 
-            'PERMITIDO'
-        )
+        print(f"✓ PERMITIDO - {usuario['US_NOME']}")
+        registrar_entrada(usuario['US_ID'], usuario['RFID_ID'], 'PERMITIDO')
     else:
-        print(f"✗ Acesso NEGADO")
-        print(f"  Motivo: {mensagem}")
+        print(f"✗ NEGADO - {mensagem}")
         registrar_entrada(None, None, 'NEGADO', mensagem)
     
     print(f"{'='*50}\n")
 
 def main():
-    """Função principal"""
-    print("Iniciando sistema de controle de acesso...")
+    """Loop principal"""
+    print("Iniciando sistema RFID...")
     
     try:
         arduino = serial.Serial(PORTA_SERIAL, BAUD_RATE, timeout=1)
-        time.sleep(2)
-        print(f"✓ Conectado à porta {PORTA_SERIAL}")
-        print("Aguardando leituras RFID...\n")
+        print(f"✓ Conectado em {PORTA_SERIAL}\nAguardando leituras...\n")
         
         while True:
-            if arduino.in_waiting > 0:
+            if arduino.in_waiting:
                 linha = arduino.readline().decode('utf-8').strip()
                 
                 try:
-                    # Tenta fazer parse JSON
                     dados = json.loads(linha)
-                    rfid_code = dados.get('rfid')
-                    
-                    if rfid_code:
-                        processar_leitura(rfid_code)
-                        
+                    if dados.get('rfid'):
+                        processar_leitura(dados['rfid'])
                 except json.JSONDecodeError:
-                    # Se não for JSON, ignora (mensagens de debug do Arduino)
                     if linha and not linha.startswith("Sistema"):
                         print(f"Debug: {linha}")
-            
-            time.sleep(0.1)
     
     except serial.SerialException as e:
-        print(f"✗ Erro na porta serial: {e}")
+        print(f"✗ Erro serial: {e}")
     except KeyboardInterrupt:
-        print("\n\nEncerrando sistema...")
+        print("\nEncerrando...")
     finally:
         if 'arduino' in locals():
             arduino.close()
-            print("Porta serial fechada.")
 
 if __name__ == "__main__":
     main()
