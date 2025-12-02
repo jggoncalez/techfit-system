@@ -13,11 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Incluir arquivos necessários
-require_once __DIR__ . '/../config/Database.php';
-require_once __DIR__ . '/../models/dashboard/DashboardModel.php';
+require_once '../config/Database.php';
+require_once '../models/Dashboard.php';
 
 use config\Database;
-use models\dashboard\DashboardModel;
+use models\Dashboard;
 
 try {
     // Obter conexão singleton
@@ -25,7 +25,7 @@ try {
     $db = $database->getConnection();
     
     // Inicializar model
-    $dashboardModel = new DashboardModel($db);
+    $dashboardModel = new Dashboard($db);
     
     // Obter parâmetros
     $tipo = $_GET['tipo'] ?? '';

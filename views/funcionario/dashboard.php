@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../../Assets/style/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Estilos customizados */
+        /* カスタムスタイル (kasutamu sutairu - estilos customizados) */
         .stat-card {
             transition: transform 0.3s, box-shadow 0.3s;
             border-left: 4px solid #e35c38;
@@ -116,7 +116,7 @@
 </head>
 <body>
     <div class="d-flex">
-        <!-- Barra Lateral -->
+        <!-- サイドバー (saidobā - Sidebar) -->
         <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                 <img src="../../public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
@@ -180,9 +180,9 @@
             </div>
         </div>
 
-        <!-- Conteúdo Principal -->
+        <!-- メインコンテンツ (mein kontentsu - Conteúdo Principal) -->
         <main class="main-content flex-grow-1">
-            <!-- Cabeçalho -->
+            <!-- ヘッダー (heddā - Cabeçalho) -->
             <div class="container-fluid">
                 <div class="row mb-4">
                     <div class="col-12">
@@ -195,7 +195,7 @@
                     </div>
                 </div>
 
-                <!-- Cartões de Estatísticas -->
+                <!-- 統計カード (tōkei kādo - Cards de Estatísticas) -->
                 <div class="row mb-4" id="stats-cards">
                     <div class="col-12 text-center">
                         <div class="loading-spinner"></div>
@@ -203,9 +203,9 @@
                     </div>
                 </div>
 
-                <!-- Linha de Gráficos -->
+                <!-- グラフ行 (gurafu gyō - Linha de Gráficos) -->
                 <div class="row mb-4">
-                    <!-- Distribuição de Planos -->
+                    <!-- プラン分布 (puran bunpu - Distribuição de Planos) -->
                     <div class="col-lg-6 mb-4">
                         <div class="card shadow-sm">
                             <div class="card-header bg-primary text-white">
@@ -219,7 +219,7 @@
                         </div>
                     </div>
 
-                    <!-- Treinos por Mês -->
+                    <!-- 月別トレーニング (tsukibetsu torēningu - Treinos por Mês) -->
                     <div class="col-lg-6 mb-4">
                         <div class="card shadow-sm">
                             <div class="card-header bg-success text-white">
@@ -233,7 +233,7 @@
                         </div>
                     </div>
 
-                    <!-- Grupos Musculares -->
+                    <!-- 筋肉グループ (kiniku gurūpu - Grupos Musculares) -->
                     <div class="col-lg-12 mb-4">
                         <div class="card shadow-sm">
                             <div class="card-header bg-warning text-dark">
@@ -248,9 +248,9 @@
                     </div>
                 </div>
 
-                <!-- Linha de Tabelas -->
+                <!-- テーブル行 (tēburu gyō - Linha de Tabelas) -->
                 <div class="row mb-4">
-                    <!-- Últimos Acessos -->
+                    <!-- 最新アクセス (saishin akusesu - Últimos Acessos) -->
                     <div class="col-lg-6 mb-4">
                         <div class="card shadow-sm">
                             <div class="card-header bg-info text-white">
@@ -267,7 +267,7 @@
                         </div>
                     </div>
 
-                    <!-- Exercícios Mais Usados -->
+                    <!-- 人気エクササイズ (ninki ekusasaizu - Exercícios Populares) -->
                     <div class="col-lg-6 mb-4">
                         <div class="card shadow-sm">
                             <div class="card-header bg-danger text-white">
@@ -284,7 +284,7 @@
                         </div>
                     </div>
 
-                    <!-- Usuários Mais Ativos -->
+                    <!-- アクティブユーザー (akutibu yūzā - Usuários Ativos) -->
                     <div class="col-lg-6 mb-4">
                         <div class="card shadow-sm">
                             <div class="card-header" style="background-color: #e35c38; color: white;">
@@ -301,7 +301,7 @@
                         </div>
                     </div>
 
-                    <!-- Próximas Aulas -->
+                    <!-- 今後のクラス (kongo no kurasu - Próximas Aulas) -->
                     <div class="col-lg-6 mb-4">
                         <div class="card shadow-sm">
                             <div class="card-header bg-secondary text-white">
@@ -316,3 +316,22 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 更新ボタン (kōshin botan - Botão de Atualização) -->
+    <button class="refresh-btn" onclick="atualizarDashboard()" title="更新 (Atualizar)">
+        <i class="bi bi-arrow-clockwise"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <!-- カスタムスクリプト (kasutamu sukuriputo - Script Customizado) -->
+    <script src="/Assets/js/dashboard.js"></script>
+</body>
+</html>

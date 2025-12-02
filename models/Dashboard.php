@@ -2,16 +2,16 @@
 namespace models\dashboard;
 use PDO;
 
-class DashboardModel {
-    // データベース接続 (dētabēsu setsuzoku - conexão do banco)
+class Dashboard {
+    // Conexão do banco de dados
     private $conn;
     
-    // コンストラクタ (konsutorakuta - construtor)
+    // Construtor
     public function __construct(PDO $db) {
         $this->conn = $db;
     }
     
-    // 最新アクセス取得 (saishin akusesu shutoku - obter últimos acessos)
+    // Obter últimos acessos
     public function getUltimosAcessos(int $limite = 10) {
         $query = "SELECT 
                     u.US_NOME as nome,
@@ -30,7 +30,7 @@ class DashboardModel {
         return $stmt;
     }
     
-    // 人気エクササイズ取得 (ninki ekusasaizu shutoku - obter exercícios populares)
+    // Obter exercícios populares
     public function getExerciciosPopulares(int $limite = 10) {
         $query = "SELECT 
                     e.EX_NOME as exercicio,
@@ -49,7 +49,7 @@ class DashboardModel {
         return $stmt;
     }
     
-    // アクティブユーザー取得 (akutibu yūzā shutoku - obter usuários ativos)
+    // Obter usuários ativos
     public function getUsuariosAtivos(int $limite = 10) {
         $query = "SELECT 
                     u.US_NOME as nome,
@@ -70,7 +70,7 @@ class DashboardModel {
         return $stmt;
     }
     
-    // 今後のクラス取得 (kongo no kurasu shutoku - obter próximas aulas)
+    // Obter próximas aulas
     public function getAulasProximas(int $limite = 8) {
         $query = "SELECT 
                     a.AU_NOME as aula,
@@ -92,7 +92,7 @@ class DashboardModel {
         return $stmt;
     }
     
-    // 統計取得 (tōkei shutoku - obter estatísticas gerais)
+    // Obter estatísticas gerais
     public function getStatsGerais() {
         $query = "SELECT 
                     (SELECT COUNT(*) FROM USUARIOS WHERE US_STATUS_PAGAMENTO = 'EM_DIA') as usuarios_ativos,
@@ -110,7 +110,7 @@ class DashboardModel {
         return $stmt;
     }
     
-    // プラン分布取得 (puran bunpu shutoku - obter distribuição de planos)
+    // Obter distribuição de planos
     public function getPlanosDistribuicao() {
         $query = "SELECT 
                     p.PL_NOME as plano, 
@@ -126,7 +126,7 @@ class DashboardModel {
         return $stmt;
     }
     
-    // 月別トレーニング取得 (tsukibetsu torēningu shutoku - obter treinos por mês)
+    // Obter treinos por mês
     public function getTreinosPorMes(int $meses = 6) {
         $query = "SELECT 
                     DATE_FORMAT(TR_DATA_CRIACAO, '%Y-%m') as mes,
@@ -143,7 +143,7 @@ class DashboardModel {
         return $stmt;
     }
     
-    // 筋肉グループ取得 (kiniku gurūpu shutoku - obter grupos musculares)
+    // Obter grupos musculares
     public function getGruposMusculares() {
         $query = "SELECT 
                     PT_GRUPO_MUSCULAR as grupo,
@@ -158,7 +158,7 @@ class DashboardModel {
         return $stmt;
     }
     
-    // 期間フィルター付き統計 (kikan firutā tsuki tōkei - estatísticas com filtro de período)
+    // Obter estatísticas por período
     public function getStatsPorPeriodo(string $dataInicio, string $dataFim) {
         $query = "SELECT 
                     DATE(RE_DATA_HORA) as data,
@@ -178,7 +178,7 @@ class DashboardModel {
         return $stmt;
     }
     
-    // トップ収益プラン (toppu shūeki puran - planos com maior receita)
+    // Obter planos com maior receita
     public function getPlanosReceita() {
         $query = "SELECT 
                     pl.PL_NOME as plano,
