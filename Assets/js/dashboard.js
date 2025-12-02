@@ -1,11 +1,30 @@
 // API設定 (API settei - Configuração da API)
-const API_URL = '../../api/dashApi.php';
+const API_URL = '../../api/dashApi.php'; // ⚠️ Ajuste se necessário
+
+// デバッグモード (debaggu mōdo - Modo debug)
+const DEBUG = true;
 
 // グローバル変数 (gurōbaru hensu - Variáveis globais)
 let graficos = {};
 
+// ログ関数 (rogu kansū - Função de log)
+function log(mensagem, tipo = 'info') {
+    if (DEBUG) {
+        const timestamp = new Date().toLocaleTimeString('pt-BR');
+        const icones = {
+            'info': 'ℹ️',
+            'success': '✅',
+            'warning': '⚠️',
+            'error': '❌',
+            'debug': '🔍'
+        };
+        console.log(`${icones[tipo] || 'ℹ️'} [${timestamp}] ${mensagem}`);
+    }
+}
+
 // 初期化 (shokika - Inicialização)
 document.addEventListener('DOMContentLoaded', function() {
+    log('📊 Dashboard DOM carregado - inicializando...', 'info');
     inicializarDashboard();
     atualizarHorario();
     setInterval(atualizarHorario, 60000); // 1分ごと (1 minuto)
@@ -13,8 +32,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ダッシュボード初期化 (dasshubōdo shokika - Inicializar dashboard)
 async function inicializarDashboard() {
-    console.log("Inicializando dashboard")
+    log('🔄 Iniciando carregamento do dashboard...', 'info');
+    
     try {
+        // Testar conexão com API primeiro
+        log(`🌐 Testando conexão: ${API_URL}?tipo=stats_gerais`, 'debug');
+        
+        const testeResposta = await fetch(`${API_URL}?tipo=stats_gerais`);
+        log(`📡 Status HTTP: ${testeResposta.status}`, testeResposta.ok ? 'success' : 'error');
+        
+        if (!testeResposta.ok) {
+            throw new Error(`Erro HTTP ${testeResposta.status}: ${testeResposta.statusText}`);
+        }
+        
+        const testeData = await testeResposta.json();
+        log('📦 Resposta da API recebida', 'success');
+        log(JSON.stringify(testeData, null, 2), 'debug');
+        
+        if (!testeData.sucesso) {
+            throw new Error(testeData.mensagem || 'API retornou erro sem mensagem');
+        }
+        
+        // Carregar todos os componentes
+        log('📊 Carregando componentes do dashboard...', 'info');
         await Promise.all([
             carregarStats(),
             carregarGraficos(),
@@ -22,31 +62,152 @@ async function inicializarDashboard() {
         ]);
         
         atualizarUltimaAtualizacao();
-        mostrarNotificacao('成功! (Sucesso!)', 'Dashboard carregado com sucesso', 'success');
+        log('✅ Dashboard carregado com sucesso!', 'success');
+        mostrarNotificacao('成功!', 'Dashboard carregado com sucesso', 'success');
+        
     } catch (erro) {
-        console.error('エラー! (Erro!):', erro);
-        mostrarNotificacao('エラー! (Erro!)', 'Falha ao carregar dashboard', 'danger');
+        log(`❌ ERRO CRÍTICO: ${erro.message}`, 'error');
+        console.error('Detalhes do erro:', erro);
+        mostrarErroNaTela(erro.message);
+        mostrarNotificacao('エラー!', erro.message, 'error');
+    }
+}
+
+// エラー表示 (erā hyōji - Exibir erro na tela)
+function mostrarErroNaTela(mensagem) {
+    log('⚠️ Exibindo tela de erro', 'warning');
+    
+    const container = document.getElementById('stats-cards');
+    if (!container) {
+        log('❌ Container stats-cards não encontrado!', 'error');
+        return;
+    }
+    
+    container.innerHTML = `
+        <div class="col-12">
+            <div class="alert alert-danger shadow-sm" role="alert">
+                <h4 class="alert-heading">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    エラー発生! (Erro Detectado!)
+                </h4>
+                <p class="mb-3"><strong>Mensagem:</strong> ${mensagem}</p>
+                <hr>
+                <div class="mb-3">
+                    <h5><i class="bi bi-list-check me-2"></i>Verificações:</h5>
+                    <ol class="mb-0">
+                        <li>O servidor PHP está rodando?</li>
+                        <li>O caminho da API está correto?<br>
+                            <code class="text-dark">${API_URL}</code>
+                        </li>
+                        <li>O banco de dados está configurado?</li>
+                        <li>As tabelas existem no banco?</li>
+                        <li>O arquivo de configuração existe?</li>
+                    </ol>
+                </div>
+                <div class="d-grid gap-2 d-md-flex">
+                    <button class="btn btn-primary" onclick="testarAPI()">
+                        <i class="bi bi-lightning-fill me-2"></i>Testar API
+                    </button>
+                    <button class="btn btn-secondary" onclick="location.reload()">
+                        <i class="bi bi-arrow-clockwise me-2"></i>Recarregar
+                    </button>
+                    <a href="${API_URL}?tipo=stats_gerais" target="_blank" class="btn btn-info">
+                        <i class="bi bi-box-arrow-up-right me-2"></i>Abrir API
+                    </a>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// APIテスト (API tesuto - Testar API)
+async function testarAPI() {
+    log('🧪 Executando teste manual da API...', 'info');
+    
+    try {
+        mostrarNotificacao('テスト中...', 'Testando conexão com API', 'info');
+        
+        const response = await fetch(`${API_URL}?tipo=stats_gerais`);
+        const data = await response.json();
+        
+        log('📊 Resposta do teste:', 'debug');
+        console.table(data);
+        
+        if (data.sucesso) {
+            mostrarNotificacao('成功!', 'API está funcionando corretamente!', 'success');
+            alert('✅ API FUNCIONANDO!\n\n' + JSON.stringify(data, null, 2));
+            inicializarDashboard(); // Tentar carregar novamente
+        } else {
+            mostrarNotificacao('エラー!', data.mensagem || 'API retornou erro', 'error');
+            alert('❌ API retornou erro:\n\n' + (data.mensagem || 'Erro desconhecido'));
+        }
+    } catch (erro) {
+        log(`❌ Falha no teste: ${erro.message}`, 'error');
+        mostrarNotificacao('エラー!', 'Falha ao testar: ' + erro.message, 'error');
+        alert('❌ Não foi possível conectar:\n\n' + erro.message);
     }
 }
 
 // 統計読み込み (tōkei yomikomi - Carregar estatísticas)
 async function carregarStats() {
+    log('📊 Carregando estatísticas gerais...', 'info');
+    
     try {
         const resposta = await fetch(`${API_URL}?tipo=stats_gerais`);
+        
+        if (!resposta.ok) {
+            throw new Error(`HTTP ${resposta.status}: ${resposta.statusText}`);
+        }
+        
         const data = await resposta.json();
+        log('✅ Estatísticas recebidas', 'success');
         
         if (data.sucesso && data.dados && data.dados.length > 0) {
-            const stats = data.dados[0];
-            renderizarStats(stats);
+            renderizarStats(data.dados[0]);
+        } else if (data.erro) {
+            throw new Error(data.mensagem || 'Erro desconhecido');
+        } else {
+            log('⚠️ Resposta sem dados', 'warning');
+            renderizarStatsPadrao();
         }
+        
     } catch (erro) {
-        console.error('Stats エラー:', erro);
+        log(`❌ Erro ao carregar stats: ${erro.message}`, 'error');
+        const container = document.getElementById('stats-cards');
+        if (container) {
+            container.innerHTML = `
+                <div class="col-12">
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        Erro ao carregar estatísticas: ${erro.message}
+                    </div>
+                </div>
+            `;
+        }
     }
+}
+
+// 統計デフォルト表示 (tōkei deforuto hyōji - Exibir stats padrão)
+function renderizarStatsPadrao() {
+    const stats = {
+        usuarios_ativos: 0,
+        treinos_ativos: 0,
+        aulas_futuras: 0,
+        pagamentos_atrasados: 0,
+        receita_mes: 0
+    };
+    renderizarStats(stats);
 }
 
 // 統計表示 (tōkei hyōji - Renderizar estatísticas)
 function renderizarStats(stats) {
+    log('🎨 Renderizando estatísticas na tela...', 'debug');
+    
     const container = document.getElementById('stats-cards');
+    if (!container) {
+        log('❌ Container stats-cards não encontrado!', 'error');
+        return;
+    }
     
     const html = `
         <div class="col-lg col-md-6 mb-3">
@@ -106,72 +267,92 @@ function renderizarStats(stats) {
     `;
     
     container.innerHTML = html;
+    log('✅ Estatísticas renderizadas!', 'success');
 }
 
 // グラフ読み込み (gurafu yomikomi - Carregar gráficos)
 async function carregarGraficos() {
+    log('📈 Carregando gráficos...', 'info');
+    
     await Promise.all([
         carregarGraficoPlanos(),
         carregarGraficoTreinos(),
         carregarGraficoGrupos()
     ]);
+    
+    log('✅ Gráficos carregados!', 'success');
 }
 
 // プラングラフ (puran gurafu - Gráfico de planos)
 async function carregarGraficoPlanos() {
     try {
+        log('📊 Carregando gráfico de planos...', 'debug');
         const resposta = await fetch(`${API_URL}?tipo=planos_distribuicao`);
         const data = await resposta.json();
         
-        if (data.sucesso && data.dados) {
+        if (data.sucesso && data.dados && data.dados.length > 0) {
             const labels = data.dados.map(d => d.plano);
-            const valores = data.dados.map(d => d.total);
+            const valores = data.dados.map(d => parseInt(d.total));
             
             criarGraficoPizza('graficoPlanos', labels, valores);
+            log('✅ Gráfico de planos criado', 'success');
+        } else {
+            log('⚠️ Sem dados para gráfico de planos', 'warning');
         }
     } catch (erro) {
-        console.error('Planos エラー:', erro);
+        log(`❌ Erro no gráfico de planos: ${erro.message}`, 'error');
     }
 }
 
 // トレーニンググラフ (torēningu gurafu - Gráfico de treinos)
 async function carregarGraficoTreinos() {
     try {
+        log('📊 Carregando gráfico de treinos...', 'debug');
         const resposta = await fetch(`${API_URL}?tipo=treinos_mes&meses=6`);
         const data = await resposta.json();
         
-        if (data.sucesso && data.dados) {
+        if (data.sucesso && data.dados && data.dados.length > 0) {
             const labels = data.dados.map(d => d.mes);
-            const valores = data.dados.map(d => d.total);
+            const valores = data.dados.map(d => parseInt(d.total));
             
             criarGraficoLinha('graficoTreinos', labels, valores);
+            log('✅ Gráfico de treinos criado', 'success');
+        } else {
+            log('⚠️ Sem dados para gráfico de treinos', 'warning');
         }
     } catch (erro) {
-        console.error('Treinos エラー:', erro);
+        log(`❌ Erro no gráfico de treinos: ${erro.message}`, 'error');
     }
 }
 
 // 筋肉グループグラフ (kiniku gurūpu gurafu - Gráfico de grupos musculares)
 async function carregarGraficoGrupos() {
     try {
+        log('📊 Carregando gráfico de grupos musculares...', 'debug');
         const resposta = await fetch(`${API_URL}?tipo=grupos_musculares`);
         const data = await resposta.json();
         
-        if (data.sucesso && data.dados) {
+        if (data.sucesso && data.dados && data.dados.length > 0) {
             const labels = data.dados.map(d => d.grupo);
-            const valores = data.dados.map(d => d.pontos_totais);
+            const valores = data.dados.map(d => parseInt(d.pontos_totais));
             
             criarGraficoBarra('graficoGrupos', labels, valores);
+            log('✅ Gráfico de grupos musculares criado', 'success');
+        } else {
+            log('⚠️ Sem dados para gráfico de grupos', 'warning');
         }
     } catch (erro) {
-        console.error('Grupos エラー:', erro);
+        log(`❌ Erro no gráfico de grupos: ${erro.message}`, 'error');
     }
 }
 
 // グラフ作成関数 (gurafu sakusei kansū - Funções de criação de gráficos)
 function criarGraficoPizza(canvasId, labels, dados) {
     const ctx = document.getElementById(canvasId);
-    if (!ctx) return;
+    if (!ctx) {
+        log(`⚠️ Canvas ${canvasId} não encontrado`, 'warning');
+        return;
+    }
     
     if (graficos[canvasId]) {
         graficos[canvasId].destroy();
@@ -208,7 +389,10 @@ function criarGraficoPizza(canvasId, labels, dados) {
 
 function criarGraficoLinha(canvasId, labels, dados) {
     const ctx = document.getElementById(canvasId);
-    if (!ctx) return;
+    if (!ctx) {
+        log(`⚠️ Canvas ${canvasId} não encontrado`, 'warning');
+        return;
+    }
     
     if (graficos[canvasId]) {
         graficos[canvasId].destroy();
@@ -250,7 +434,10 @@ function criarGraficoLinha(canvasId, labels, dados) {
 
 function criarGraficoBarra(canvasId, labels, dados) {
     const ctx = document.getElementById(canvasId);
-    if (!ctx) return;
+    if (!ctx) {
+        log(`⚠️ Canvas ${canvasId} não encontrado`, 'warning');
+        return;
+    }
     
     if (graficos[canvasId]) {
         graficos[canvasId].destroy();
@@ -287,16 +474,21 @@ function criarGraficoBarra(canvasId, labels, dados) {
 
 // テーブル読み込み (tēburu yomikomi - Carregar tabelas)
 async function carregarTabelas() {
+    log('📋 Carregando tabelas...', 'info');
+    
     await Promise.all([
         carregarTabelaAcessos(),
         carregarTabelaExercicios(),
         carregarTabelaUsuarios(),
         carregarTabelaAulas()
     ]);
+    
+    log('✅ Tabelas carregadas!', 'success');
 }
 
 async function carregarTabelaAcessos() {
     try {
+        log('📋 Carregando tabela de acessos...', 'debug');
         const resposta = await fetch(`${API_URL}?tipo=ultimos_acessos&limite=10`);
         const data = await resposta.json();
         
@@ -309,14 +501,17 @@ async function carregarTabelaAcessos() {
             ]);
             
             document.getElementById('tabela-acessos').innerHTML = html;
+            log('✅ Tabela de acessos carregada', 'success');
         }
     } catch (erro) {
-        console.error('Acessos エラー:', erro);
+        log(`❌ Erro na tabela de acessos: ${erro.message}`, 'error');
+        document.getElementById('tabela-acessos').innerHTML = '<div class="p-3 text-center text-muted">Erro ao carregar</div>';
     }
 }
 
 async function carregarTabelaExercicios() {
     try {
+        log('📋 Carregando tabela de exercícios...', 'debug');
         const resposta = await fetch(`${API_URL}?tipo=exercicios_populares&limite=10`);
         const data = await resposta.json();
         
@@ -328,14 +523,17 @@ async function carregarTabelaExercicios() {
             ]);
             
             document.getElementById('tabela-exercicios').innerHTML = html;
+            log('✅ Tabela de exercícios carregada', 'success');
         }
     } catch (erro) {
-        console.error('Exercícios エラー:', erro);
+        log(`❌ Erro na tabela de exercícios: ${erro.message}`, 'error');
+        document.getElementById('tabela-exercicios').innerHTML = '<div class="p-3 text-center text-muted">Erro ao carregar</div>';
     }
 }
 
 async function carregarTabelaUsuarios() {
     try {
+        log('📋 Carregando tabela de usuários...', 'debug');
         const resposta = await fetch(`${API_URL}?tipo=usuarios_ativos&limite=10`);
         const data = await resposta.json();
         
@@ -347,14 +545,17 @@ async function carregarTabelaUsuarios() {
             ]);
             
             document.getElementById('tabela-usuarios').innerHTML = html;
+            log('✅ Tabela de usuários carregada', 'success');
         }
     } catch (erro) {
-        console.error('Usuários エラー:', erro);
+        log(`❌ Erro na tabela de usuários: ${erro.message}`, 'error');
+        document.getElementById('tabela-usuarios').innerHTML = '<div class="p-3 text-center text-muted">Erro ao carregar</div>';
     }
 }
 
 async function carregarTabelaAulas() {
     try {
+        log('📋 Carregando tabela de aulas...', 'debug');
         const resposta = await fetch(`${API_URL}?tipo=aulas_proximas&limite=8`);
         const data = await resposta.json();
         
@@ -368,16 +569,18 @@ async function carregarTabelaAulas() {
             ]);
             
             document.getElementById('tabela-aulas').innerHTML = html;
+            log('✅ Tabela de aulas carregada', 'success');
         }
     } catch (erro) {
-        console.error('Aulas エラー:', erro);
+        log(`❌ Erro na tabela de aulas: ${erro.message}`, 'error');
+        document.getElementById('tabela-aulas').innerHTML = '<div class="p-3 text-center text-muted">Erro ao carregar</div>';
     }
 }
 
 // テーブル作成 (tēburu sakusei - Criar tabela)
 function criarTabela(dados, colunas) {
     if (!dados || dados.length === 0) {
-        return '<div class="text-center p-4"><p class="text-muted">データなし (Sem dados disponíveis)</p></div>';
+        return '<div class="text-center p-4"><p class="text-muted">Sem dados disponíveis</p></div>';
     }
     
     let html = '<table class="table table-hover table-sm mb-0"><thead class="table-light"><tr>';
@@ -395,7 +598,7 @@ function criarTabela(dados, colunas) {
             if (col.formato) {
                 valor = col.formato(valor);
             }
-            html += `<td>${valor}</td>`;
+            html += `<td>${valor || '--'}</td>`;
         });
         html += '</tr>';
     });
@@ -407,37 +610,68 @@ function criarTabela(dados, colunas) {
 // フォーマット関数 (fōmatto kansū - Funções de formatação)
 function formatarDataHora(valor) {
     if (!valor) return '--';
-    const data = new Date(valor);
-    return data.toLocaleString('pt-BR');
+    try {
+        const data = new Date(valor);
+        return data.toLocaleString('pt-BR');
+    } catch (e) {
+        return valor;
+    }
 }
 
 function formatarData(valor) {
     if (!valor) return '--';
-    const data = new Date(valor);
-    return data.toLocaleDateString('pt-BR');
+    try {
+        const data = new Date(valor);
+        return data.toLocaleDateString('pt-BR');
+    } catch (e) {
+        return valor;
+    }
 }
 
 function formatarStatus(valor) {
+    if (!valor) return '--';
     const classe = valor === 'PERMITIDO' ? 'status-permitido' : 'status-negado';
     return `<span class="status-badge ${classe}">${valor}</span>`;
 }
 
 // ユーティリティ関数 (yūtiriti kansū - Funções utilitárias)
 function atualizarDashboard() {
-    mostrarNotificacao('更新中... (Atualizando...)', 'Recarregando dados do dashboard', 'info');
+    log('🔄 Atualizando dashboard...', 'info');
+    mostrarNotificacao('更新中...', 'Recarregando dados', 'info');
     inicializarDashboard();
 }
 
 function atualizarUltimaAtualizacao() {
     const agora = new Date();
-    document.getElementById('ultima-atualizacao').textContent = agora.toLocaleTimeString('pt-BR');
+    const elemento = document.getElementById('ultima-atualizacao');
+    if (elemento) {
+        elemento.textContent = agora.toLocaleTimeString('pt-BR');
+    }
 }
 
 function atualizarHorario() {
     atualizarUltimaAtualizacao();
 }
 
-function mostrarNotificacao(titulo, mensagem, tipo) {
-    // Bootstrap toast implementation (opcional)
-    console.log(`[${tipo.toUpperCase()}] ${titulo}: ${mensagem}`);
+function mostrarNotificacao(titulo = 'Notificação', mensagem = '', tipo = 'info') {
+    // Validação robusta
+    if (!tipo || typeof tipo !== 'string') tipo = 'info';
+    if (!titulo) titulo = 'Notificação';
+    if (!mensagem) mensagem = '';
+    
+    const tipoUpper = tipo.toUpperCase();
+    const icones = {
+        'SUCCESS': '✅',
+        'ERROR': '❌',
+        'WARNING': '⚠️',
+        'INFO': 'ℹ️'
+    };
+    
+    const icone = icones[tipoUpper] || 'ℹ️';
+    console.log(`${icone} [${tipoUpper}] ${titulo}: ${mensagem}`);
 }
+
+// Exportar funções para uso global
+window.inicializarDashboard = inicializarDashboard;
+window.atualizarDashboard = atualizarDashboard;
+window.testarAPI = testarAPI;
