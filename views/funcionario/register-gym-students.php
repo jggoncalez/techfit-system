@@ -83,9 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                     <a href="/funcionario/register/treino" class="nav-link link-dark">
                         Montar Treinos
                     </a>
-                     <a href="/funcionario/treinos" class="nav-link link-dark">
-                        Ver Treinos Disponíveis
-                    </a>
                 </li>
             </ul>
             <hr>

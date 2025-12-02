@@ -44,9 +44,6 @@
                     <a href="/funcionario/register/treino" class="nav-link active text-white" style="background-color: #e35c38;" aria-current="page">
                         Montar Treinos
                     </a>
-                     <a href="/funcionario/treinos" class="nav-link link-dark">
-                        Ver Treinos Disponíveis
-                    </a>
                 </li>
             </ul>
             <hr>

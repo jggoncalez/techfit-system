@@ -1,7 +1,6 @@
 <?php
 $request = $_SERVER['REQUEST_URI'];
 $request = parse_url($request, PHP_URL_PATH);
-$username = $_GET['username'];
 
 switch($request) {
     case '/':
@@ -15,9 +14,6 @@ switch($request) {
         break;
     case '/funcionario':
         require __DIR__ . '/views/funcionario/main.php';
-        break;
-    case '/funcionario/treinos':
-        require __DIR__ . '/views/funcionario/get-training.php';
         break;
     case '/funcionario/register/classes':
         require __DIR__ . '/views/funcionario/register-classes.php';
