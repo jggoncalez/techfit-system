@@ -164,7 +164,7 @@ include_once 'include/header.php';
                     echo "<div class=\"card-body\">";
                     echo "<h5 class=\"card-title\">{$title}</h5>";
                     echo "<p class=\"card-text\">{$bio}</p>";
-                    // botão abre o modal específico do card (sem JS necessário)
+                    // botão abre o modal específico do card 
                     echo "<button class=\"btn d-flex justify-content-start\" data-bs-toggle=\"modal\" data-bs-target=\"#{$modalId}\">Ver mais 🠒</button>";
                     echo "</div></div>";
 
