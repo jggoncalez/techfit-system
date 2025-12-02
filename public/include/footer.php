@@ -1,4 +1,4 @@
-    <footer class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-black text-decoration-none" style="height: 86.59px; width:1532px;">
+    <footer class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-black text-decoration-none justify-content-center me-0" style="height: 86px; width:100vh;">
                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start ms-5"> <a
                         href="/"
                         class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-black text-decoration-none"> <img
