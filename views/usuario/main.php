@@ -1,3 +1,34 @@
+<?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
+require_once __DIR__ . '\\..\\..\\core\\Session.php';
+require_once __DIR__ . '\\..\\..\\config\\Database.php';
+
+use config\Database;
+use core\Session;
+
+// Conecta ao banco
+$db = Database::getInstance()->getConnection();
+
+// Cria a sessão (já inicia automaticamente)
+$session = new Session($db);
+
+// Verifica se está logado
+if (!$session->isLoggedIn()) {
+    header('Location: login.php');
+    exit;
+}
+
+// Pega os dados
+$userID = $session->getUserID();
+$userType = $session->getUserType();
+$userName = $session->getUserName();
+?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -10,7 +41,7 @@
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
 
-<body onload="getUser(<?php echo $_GET['username']; ?> )">
+<body onload="getUser(<?php echo $userID;?> )">
     
     <div class="d-flex" style="height: 100vh; overflow-y: auto;">
         <!-- Sidebar -->
@@ -49,15 +80,15 @@
             <hr>
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://placehold.co/20x20" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <p id="user-name"><strong></strong></p>
+                    <img src="../../public/images/pfp_placeholder.webp" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <p id="user-name"><strong><?php echo $userName ?></strong></p>
                 </a>
             </div>
         </div>
 
         <main class="flex-grow-1">
             <div class="container mt-5">
-                <h1 class="display-4">Seja bem-vindo <span id="user-name" class="text-primary"></span>!</h1>
+                <h1 class="display-4">Seja bem-vindo <span id="user-name" class="text-primary"><?php echo $userName ?></span>!</h1>
             </div>
         </main>
     </div>
