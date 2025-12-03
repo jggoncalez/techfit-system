@@ -11312,10 +11312,12 @@ body {
 
 .imagem-fundo {
   position: relative;
-  background-image: url(https://images.unsplash.com/photo-1649068618811-9f3547ef98fc?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870);
+  /* caminho do arquivo: `public\images\gyms\saocarlos.webp` */
+  /* use `/public/...` se o servidor expõe o projeto a partir do diretório pai */
+  background-image: url("/public/images/gyms/saocarlos.webp");
   background-position: center center;
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: cover;
   background-attachment: scroll;
 }
 

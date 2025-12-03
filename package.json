@@ -4,6 +4,6 @@
     "chart.js": "^4.5.1"
   },
   "devDependencies": {
-    "sass": "^1.94.1"
+    "sass": "^1.94.2"
   }
 }

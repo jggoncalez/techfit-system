@@ -21,12 +21,10 @@ include_once 'include/header.php';
                 <h1 class="display-2 text-primary fw-bold " style="text-shadow:0px 4px 4px #000;">Bem Vindo A Tech Fit
                 </h1>
                 <div class="d-flex gap-3 justify-content-center lead fw-normal">
-                    <button class="btn bg-primary text-secondary">
-                        Seja Um Cliente
-                    </button>
-                    <button class="btn btn-outline-primary">
+                    <a href="#planos" class="btn bg-primary text-secondary">Ver Planos</a>
+                    <a href="#about" class="btn btn-outline-primary bg-white">
                         Nos Conheça
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -35,7 +33,7 @@ include_once 'include/header.php';
     </div>
 
     <!-- Sobre nós -->
-    <div class="row featurette mb-3">
+    <div id="about" class="row featurette mb-3">
         <div class="col-md-7 align-items-center justify-content-center p-5">
             <h2 class="featurette-heading fw-normal lh-1 ">Sobre a TechFit </h2>
             <p class="lead ">A Techfit une tecnologia e saúde para transformar a forma de treinar. Com o SAGEF – Sistema
@@ -48,7 +46,7 @@ include_once 'include/header.php';
         </div>
     </div>
     <!-- Cards de planos -->
-    <h2 class="text-center m-5">Planos da Academia</h2>
+    <h2 id="planos" class="text-center m-5">Planos da Academia</h2>
         <div class="row row-cols-1 row-cols-md-4  align-items-center justify-content-center mb-5 ">
             <div class="col">
                 <div class="card mb-1 rounded-3 shadow-p">
