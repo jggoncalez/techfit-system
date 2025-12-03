@@ -122,13 +122,15 @@
             return $stmt;
         }  
 
-        public function buscarFuncionarios() {
-            $result = $this->conn->query("SELECT FU_ID, FU_NOME from FUNCIONARIOS ORDER BY FU_NOME");
+        public function buscarFuncionarios($funcionarioSelecionado = null) {
+            $result = $this->conn->query("SELECT FU_ID, FU_NOME FROM FUNCIONARIOS ORDER BY FU_NOME");
+            $options = '';
 
-            while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                 echo "<option value='{$row['FU_ID']}'>
-                        {$row['FU_NOME']}
-                     </option>";
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                $selected = ($funcionarioSelecionado && $row['FU_ID'] == $funcionarioSelecionado) ? 'selected' : '';
+                $options .= "<option value='{$row['FU_ID']}' {$selected}>{$row['FU_NOME']}</option>";
             }
+            
+            return $options;
         }
     }

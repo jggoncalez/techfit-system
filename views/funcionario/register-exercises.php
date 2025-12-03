@@ -100,16 +100,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </a>
                 </li>
                 <li>
-                    <a href="/funcionario/get/classes" class="nav-link link-dark">
-                        Ver Aulas
-                    </a>
-                </li>
-                <li>
-                    <a href="/funcionario/get/estudantes" class="nav-link link-dark">
-                        Ver Alunos
-                    </a>
-                </li>
-                <li>
                     <a href="/funcionario/register/treino" class="nav-link link-dark">
                         Montar Treinos
                     </a>
