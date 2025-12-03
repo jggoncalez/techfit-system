@@ -79,6 +79,35 @@
 
             return false;
         }
+        public function searchNAME() {
+            $query = "SELECT * FROM " . $this->table . " WHERE US_NOME = :us_nome LIMIT 1";
+
+            $stmt = $this -> conn -> prepare($query);
+            $stmt -> bindParam(':us_nome', $this->US_ID);
+            $stmt -> execute();
+
+            $row = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+            if($row) {
+                $this->US_NOME = $row['US_NOME'];
+                $this->US_GENERO = $row['US_GENERO'];
+                $this->US_DATA_NASCIMENTO = $row['US_DATA_NASCIMENTO'];
+                $this->US_IDADE = $row['US_IDADE'];
+                $this->US_ALTURA = $row['US_ALTURA'];
+                $this->US_PESO = $row['US_PESO'];
+                $this->US_OBJETIVO = $row['US_OBJETIVO'];
+                $this->US_PORC_MASSA_MAGRA = $row['US_PORC_MASSA_MAGRA'];
+                $this->US_TREINO_ANTERIOR = $row['US_TREINO_ANTERIOR'];
+                $this->US_TEMPO_TREINOANT = $row['US_TEMPO_TREINOANT'];
+                $this->US_ENDERECO = $row['US_ENDERECO'];
+                $this->US_DISPONIBILIDADE = $row['US_DISPONIBILIDADE'];
+                $this->PL_ID = $row['PL_ID'];
+                $this->US_STATUS_PAGAMENTO = $row['US_STATUS_PAGAMENTO'];
+                return true;
+            }
+
+            return false;
+        }
 
         public function list(){
             $query = "SELECT * FROM " .  $this->table;
