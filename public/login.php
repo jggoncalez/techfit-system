@@ -1,3 +1,39 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+require_once __DIR__ . '/../core/Session.php';
+require_once __DIR__ . '/../config/Database.php';
+
+use core\Session;
+use config\Database;
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$db = Database::getInstance()->getConnection();
+$auth = new Session($db);
+
+
+
+if(isset($_POST['login'])){
+    $auth->user_name = $_POST['username'];
+    $auth->user_pass = $_POST['password'];
+
+    if($auth->userLogin()){
+        session_regenerate_id(true);
+        header("Location: /usuario?username={$_POST['username']}");
+        exit;
+    } else {
+        $erro = "Usuário ou senha incorretos!";
+    }
+}
+?>
+
+
+
 <!doctype html>
 <html lang="pt-br">
 
@@ -15,20 +51,20 @@ include_once 'include/header.php';
 ?>
 
 <main class="form-signin w-100 m-auto d-flex align-items-center justify-content-center p-5 ">
-    <form style="height: 300px; width:500px;"> 
-        <h1 class="h3 mb-3 fw-normal text-center" data-vivaldi-translated="">LOGIN</h1>
+    <form  method=POST style="height: 300px; width:500px;"> 
+        <h1 class="h3 mb-3 fw-normal text-center" data-vivaldi-translated="" action="">LOGIN</h1>
         <h1 class="h6 mb-3 fw-normal text-center" data-vivaldi-translated="">Se possuir uma conta, insira seus dados</h1>
-        <div class="form-floating" data-vivaldi-translated=""> <input type="text" class="form-control" style="border-bottom: #E35C38; border-width: 2px; border-style: solid;"
+        <div class="form-floating" data-vivaldi-translated=""> <input type="text" name="username" class="form-control" style="border-bottom: #E35C38; border-width: 2px; border-style: solid;"
                 id="floatingInput" placeholder="name@example.com" data-vivaldi-translated=""> <label for="floatingInput"
                 data-vivaldi-translated="">CPF ou nome de usuário</label> </div>
-        <div class="form-floating" data-vivaldi-translated=""> <input type="password" class="form-control" style="border-bottom: #E35C38; border-width: 2px; border-style: solid;"
+        <div class="form-floating" data-vivaldi-translated=""> <input type="password" name="password" class="form-control" style="border-bottom: #E35C38; border-width: 2px; border-style: solid;"
                 id="floatingPassword" placeholder="Senha" data-vivaldi-translated=""> <label for="floatingPassword"
                 data-vivaldi-translated="">Senha</label> </div>
-        <button class="btn btn-primary w-100 py-2 mt-5" type="submit" data-vivaldi-translated="">Acessar</button>
+        <button class="btn btn-primary w-100 py-2 mt-5" name="login" type="submit" data-vivaldi-translated="">Acessar</button>
         <h1 class="h6 m-3 fw-normal text-center" data-vivaldi-translated="">É seu primeiro acesso como cliente ou não lembra a senha? <a href="views/funcionario/main.php">Clique Aqui </a> para cadastrar uma nova.</h1>
     </form>
 </main>
 
 <?php
-require_once 'include/footer.php'
+require_once 'include/footer.php';
 ?>

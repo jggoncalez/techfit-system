@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+
+
+<!doctype html>
 <html lang="pt-br">
 <head>
     <title>TechFit</title>
@@ -9,39 +11,53 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
+
 <body>
     
     <div class="d-flex" style="height: 100vh; overflow-y: auto;">
         <!-- Sidebar -->
-        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light">
+        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="height: 100vh; width: 280px;">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                 <img src="../../public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item">
-                    <a href="/usuario"class="nav-link link-dark">
+                  <li class="nav-item">
+                    <a href="/funcionario" class="nav-link active text-white" style="background-color: #e35c38;"  aria-current="page">
                         Home
                     </a>
                 </li>
-                <li>
-                    <a href="/usuario/profile" class="nav-link link-dark">
-                        Meu Perfil
+                <li class="nav-item">
+                    <a href="/funcionario/register/exercicios" class="nav-link link-dark " >
+                        Cadastrar Exercícios
                     </a>
                 </li>
                 <li>
-                    <a href="/usuario/user/training" class="nav-link active" style="background-color: #e35c38;" aria-current="page">
-                        Meus Treinos
+                    <a href="/funcionario/register/estudantes" class="nav-link link-dark">
+                        Cadastrar Alunos
                     </a>
                 </li>
                 <li>
-                    <a href="/usuario/user/schedule" class="nav-link link-dark">
-                        Meus agendamentos
+                    <a href="/funcionario/register/classes" class="nav-link link-dark">
+                        Cadastrar Aulas
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark">
-                        Sair
+                    <a href="/funcionario/get/classes" class="nav-link link-dark">
+                        Ver Aulas
+                    </a>
+                </li>
+                <li>
+                    <a href="/funcionario/get/estudantes" class="nav-link link-dark">
+                        Ver Alunos
+                    </a>
+                </li>
+                <li>
+                    <a href="/funcionario/register/treino" class="nav-link link-dark">
+                        Montar Treinos
+                    </a>
+                     <a href="/funcionario/treinos" class="nav-link link-dark">
+                        Ver Treinos Disponíveis
                     </a>
                 </li>
             </ul>
@@ -49,26 +65,15 @@
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://placehold.co/20x20" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <p id="user-name"></p>
+                    <p id="user-name"><strong>User</strong></p>
                 </a>
             </div>
         </div>
 
-        <main class="flex-grow-1">
-           <div class="card mb-3" style="max-width: 540px;">
-  <div class="row g-0">
-    <div class="col-md-4">
-      <img src="..." class="img-fluid rounded-start" alt="...">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-  </div>
-</div>
+        <main class="flex-grow-1" style="overflow-y: auto;">
+            <div class="container mt-5">
+                <h1 class="display-4">Seja bem-vindo <span id="user-name" class="text-primary">User</span>!</h1>
+            </div>
         </main>
     </div>
 

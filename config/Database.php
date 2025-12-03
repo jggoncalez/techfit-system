@@ -1,11 +1,13 @@
 <?php
 namespace config;
+require_once 'Config.php';
 use PDO;
+
+
+use config\Config;
 class Database{
     private static $instance = null;
     private $connection;
-
-
 
     private function __construct()
     {
@@ -13,7 +15,7 @@ class Database{
         $dbname = Config::DB_NAME;
         $username = Config::DB_USER;
         $password = Config::DB_PASS;
-        $charset = Config::DB_CHAR;
+        $charset = Config::DB_CHARSET;
 
         try {
             $this -> connection = new PDO(

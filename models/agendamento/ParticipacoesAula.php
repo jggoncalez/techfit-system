@@ -2,7 +2,7 @@
     namespace models\agendamento;
 
     use PDO;
-    class Participacoes_aula{
+    class ParticipacoesAula{
         // Conexão
         private $conn;
         private $table = "PARTICIPACOES_AULA";

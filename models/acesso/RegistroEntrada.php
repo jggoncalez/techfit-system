@@ -1,7 +1,5 @@
 <?php
-
 namespace models\acesso;
-
 use config\Database;
 use PDO;
 

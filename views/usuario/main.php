@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
 
-<body>
+<body onload="getUser(<?php echo $_GET['username']; ?> )">
     
     <div class="d-flex" style="height: 100vh; overflow-y: auto;">
         <!-- Sidebar -->
@@ -50,19 +50,21 @@
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://placehold.co/20x20" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <p id="user-name"><strong>User</strong></p>
+                    <p id="user-name"><strong></strong></p>
                 </a>
             </div>
         </div>
 
         <main class="flex-grow-1">
             <div class="container mt-5">
-                <h1 class="display-4">Seja bem-vindo <span id="user-name" class="text-primary">User</span>!</h1>
+                <h1 class="display-4">Seja bem-vindo <span id="user-name" class="text-primary"></span>!</h1>
             </div>
         </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-</body>
+
+        <script src="../get-user.js"></script>
+    </body>
 </html>

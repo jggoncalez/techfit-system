@@ -41,6 +41,16 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/funcionario/get/classes" class="nav-link link-dark">
+                        Ver Aulas
+                    </a>
+                </li>
+                <li>
+                    <a href="/funcionario/get/estudantes" class="nav-link link-dark">
+                        Ver Alunos
+                    </a>
+                </li>
+                <li>
                     <a href="/funcionario/register/treino" class="nav-link active text-white" style="background-color: #e35c38;" aria-current="page">
                         Montar Treinos
                     </a>

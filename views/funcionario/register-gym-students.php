@@ -4,12 +4,50 @@
     <title>TechFit</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="shortcut icon" href="/Assets/images/TechFit-icon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="public/images/TechFit-icon.ico" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
+<?php
+require_once __DIR__ . '\\..\\..\\config\\Database.php';
+require_once __DIR__ . '\\..\\..\\models\\Usuario.php';
 
+use config\Database;
+use models\Usuario;
+
+try{
+    $db = Database::getInstance()->getConnection();
+} catch (Exception $e){
+    echo "Ai " . $e -> getMessage();
+}
+
+
+$controller = new Usuario($db); 
+if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $acao  = $_POST['acao'] ?? '';
+    if($acao == 'criar'){
+        $controller->US_NOME = $_POST['US_NOME'];
+        $controller->US_IDADE = $_POST['US_IDADE'];
+        $controller->US_GENERO = $_POST['US_GENERO'];
+        $controller->US_DATA_NASCIMENTO = $_POST['US_DATA_NASCIMENTO'];
+        $controller->US_ALTURA = $_POST['US_ALTURA'];
+        $controller->US_PESO = $_POST['US_PESO'];
+        $controller->US_OBJETIVO = $_POST['US_OBJETIVO'] ?? '';
+        $controller->US_PORC_MASSA_MAGRA = $_POST['US_PORC_MASSA_MAGRA'];
+        $controller->US_TREINO_ANTERIOR = $_POST['US_TREINO_ANTERIOR'];
+        $controller->US_TEMPO_TREINOANT = $_POST['US_TEMPO_TREINOANT'] ?? null;
+        $controller->US_ENDERECO = $_POST['US_ENDERECO'];
+     // CORRIGIDO AQUI - Converte array para JSON
+        $controller->US_DISPONIBILIDADE = json_encode($_POST['US_DISPONIBILIDADE'] ?? [], JSON_UNESCAPED_UNICODE);
+        $controller->PL_ID = $_POST['PL_ID'];
+        $controller->US_STATUS_PAGAMENTO = $_POST['US_STATUS_PAGAMENTO'] ?? 'EM_DIA';
+
+        $controller -> create();
+    }
+}
+
+?>
 <body>
     
     <div class="d-flex" style="height:100vh; overflow-y: auto;">
@@ -38,6 +76,16 @@
                 <li>
                     <a href="/funcionario/register/classes" class="nav-link link-dark">
                         Cadastrar Aulas
+                    </a>
+                </li>
+                  <li>
+                    <a href="/funcionario/get/classes"class="nav-link link-dark">
+                        Ver Aulas
+                    </a>
+                </li>
+                <li>
+                    <a href="/funcionario/get/estudantes"class="nav-link link-dark">
+                        Ver Alunos
                     </a>
                 </li>
                 <li>
@@ -69,8 +117,8 @@
 
     <h2 class="mb-4">Cadastrar Usuário</h2>
 
-    <form action="salvar-usuario.php" method="POST" class="row g-3">
-
+    <form method="POST" class="row g-3">
+        <input type="hidden" name="acao" value="criar">
         <!-- US_NOME -->
         <div class="col-md-6">
             <label class="form-label">Nome *</label>
@@ -146,7 +194,7 @@
         <!-- US_ENDERECO -->
         <div class="col-md-6">
             <label class="form-label">Endereço *</label>
-            <input type="text" class="form-control" name="US_ENDERECO" maxlength="9" required>
+            <input type="text" class="form-control" name="US_ENDERECO" maxlength="255" required>
         </div>
 
         <!-- US_DISPONIBILIDADE -->
@@ -186,14 +234,13 @@
 
         <!-- PL_ID (FK PLANOS) -->
         <div class="col-md-3">
-            <label class="form-label">Plano (ID) *</label>
-            <input type="number" class="form-control" name="PL_ID" required>
-        </div>
-
-        <!-- US_DATA_VENCIMENTO -->
-        <div class="col-md-3">
-            <label class="form-label">Data de Vencimento</label>
-            <input type="date" class="form-control" name="US_DATA_VENCIMENTO">
+            <label class="form-label">Plano *</label>
+            <select class="form-control" name="PL_ID" required>
+                <option value="">Selecione um Plano</option>
+                <?php
+                    $controller->buscarPlanos();
+                ?>
+            </select>
         </div>
 
         <!-- US_STATUS_PAGAMENTO -->
