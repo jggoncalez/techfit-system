@@ -1,13 +1,13 @@
-// API設定 (API settei - Configuração da API)
+// Configuração da API
 const API_URL = '../../api/dashApi.php'; // ⚠️ Ajuste se necessário
 
-// デバッグモード (debaggu mōdo - Modo debug)
+// Modo debug
 const DEBUG = true;
 
-// グローバル変数 (gurōbaru hensu - Variáveis globais)
+// Variáveis globais
 let graficos = {};
 
-// ログ関数 (rogu kansū - Função de log)
+// Função de log
 function log(mensagem, tipo = 'info') {
     if (DEBUG) {
         const timestamp = new Date().toLocaleTimeString('pt-BR');
@@ -22,15 +22,15 @@ function log(mensagem, tipo = 'info') {
     }
 }
 
-// 初期化 (shokika - Inicialização)
+// Inicialização
 document.addEventListener('DOMContentLoaded', function() {
     log('📊 Dashboard DOM carregado - inicializando...', 'info');
     inicializarDashboard();
     atualizarHorario();
-    setInterval(atualizarHorario, 60000); // 1分ごと (1 minuto)
+    setInterval(atualizarHorario, 60000); // 1 minuto
 });
 
-// ダッシュボード初期化 (dasshubōdo shokika - Inicializar dashboard)
+// Inicializar dashboard
 async function inicializarDashboard() {
     log('🔄 Iniciando carregamento do dashboard...', 'info');
     
@@ -63,17 +63,17 @@ async function inicializarDashboard() {
         
         atualizarUltimaAtualizacao();
         log('✅ Dashboard carregado com sucesso!', 'success');
-        mostrarNotificacao('成功!', 'Dashboard carregado com sucesso', 'success');
+        mostrarNotificacao('Sucesso!', 'Dashboard carregado com sucesso', 'success');
         
     } catch (erro) {
         log(`❌ ERRO CRÍTICO: ${erro.message}`, 'error');
         console.error('Detalhes do erro:', erro);
         mostrarErroNaTela(erro.message);
-        mostrarNotificacao('エラー!', erro.message, 'error');
+        mostrarNotificacao('Erro!', erro.message, 'error');
     }
 }
 
-// エラー表示 (erā hyōji - Exibir erro na tela)
+// Exibir erro na tela
 function mostrarErroNaTela(mensagem) {
     log('⚠️ Exibindo tela de erro', 'warning');
     
@@ -88,7 +88,7 @@ function mostrarErroNaTela(mensagem) {
             <div class="alert alert-danger shadow-sm" role="alert">
                 <h4 class="alert-heading">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    エラー発生! (Erro Detectado!)
+                    Erro Detectado!
                 </h4>
                 <p class="mb-3"><strong>Mensagem:</strong> ${mensagem}</p>
                 <hr>
@@ -120,12 +120,12 @@ function mostrarErroNaTela(mensagem) {
     `;
 }
 
-// APIテスト (API tesuto - Testar API)
+// Testar API
 async function testarAPI() {
     log('🧪 Executando teste manual da API...', 'info');
     
     try {
-        mostrarNotificacao('テスト中...', 'Testando conexão com API', 'info');
+        mostrarNotificacao('Teste em andamento...', 'Testando conexão com API', 'info');
         
         const response = await fetch(`${API_URL}?tipo=stats_gerais`);
         const data = await response.json();
@@ -134,21 +134,21 @@ async function testarAPI() {
         console.table(data);
         
         if (data.sucesso) {
-            mostrarNotificacao('成功!', 'API está funcionando corretamente!', 'success');
+            mostrarNotificacao('Sucesso!', 'API está funcionando corretamente!', 'success');
             alert('✅ API FUNCIONANDO!\n\n' + JSON.stringify(data, null, 2));
             inicializarDashboard(); // Tentar carregar novamente
         } else {
-            mostrarNotificacao('エラー!', data.mensagem || 'API retornou erro', 'error');
+            mostrarNotificacao('Erro!', data.mensagem || 'API retornou erro', 'error');
             alert('❌ API retornou erro:\n\n' + (data.mensagem || 'Erro desconhecido'));
         }
     } catch (erro) {
         log(`❌ Falha no teste: ${erro.message}`, 'error');
-        mostrarNotificacao('エラー!', 'Falha ao testar: ' + erro.message, 'error');
+        mostrarNotificacao('Erro!', 'Falha ao testar: ' + erro.message, 'error');
         alert('❌ Não foi possível conectar:\n\n' + erro.message);
     }
 }
 
-// 統計読み込み (tōkei yomikomi - Carregar estatísticas)
+// Carregar estatísticas
 async function carregarStats() {
     log('📊 Carregando estatísticas gerais...', 'info');
     
@@ -187,7 +187,7 @@ async function carregarStats() {
     }
 }
 
-// 統計デフォルト表示 (tōkei deforuto hyōji - Exibir stats padrão)
+// Exibir stats padrão
 function renderizarStatsPadrao() {
     const stats = {
         usuarios_ativos: 0,
@@ -199,7 +199,7 @@ function renderizarStatsPadrao() {
     renderizarStats(stats);
 }
 
-// 統計表示 (tōkei hyōji - Renderizar estatísticas)
+// Renderizar estatísticas
 function renderizarStats(stats) {
     log('🎨 Renderizando estatísticas na tela...', 'debug');
     
@@ -216,7 +216,6 @@ function renderizarStats(stats) {
                     <i class="bi bi-people-fill text-primary" style="font-size: 2rem;"></i>
                     <div class="stat-number">${stats.usuarios_ativos || 0}</div>
                     <h6 class="text-muted mb-0">Usuários Ativos</h6>
-                    <small class="text-muted">アクティブユーザー</small>
                 </div>
             </div>
         </div>
@@ -226,7 +225,6 @@ function renderizarStats(stats) {
                     <i class="bi bi-lightning-fill text-warning" style="font-size: 2rem;"></i>
                     <div class="stat-number">${stats.treinos_ativos || 0}</div>
                     <h6 class="text-muted mb-0">Treinos Ativos</h6>
-                    <small class="text-muted">アクティブトレーニング</small>
                 </div>
             </div>
         </div>
@@ -236,7 +234,6 @@ function renderizarStats(stats) {
                     <i class="bi bi-calendar-event text-success" style="font-size: 2rem;"></i>
                     <div class="stat-number">${stats.aulas_futuras || 0}</div>
                     <h6 class="text-muted mb-0">Aulas Futuras</h6>
-                    <small class="text-muted">今後のクラス</small>
                 </div>
             </div>
         </div>
@@ -248,7 +245,6 @@ function renderizarStats(stats) {
                         ${stats.pagamentos_atrasados || 0}
                     </div>
                     <h6 class="text-muted mb-0">Pagamentos Atrasados</h6>
-                    <small class="text-muted">遅延支払い</small>
                 </div>
             </div>
         </div>
@@ -260,7 +256,6 @@ function renderizarStats(stats) {
                         R$ ${parseFloat(stats.receita_mes || 0).toFixed(2)}
                     </div>
                     <h6 class="text-muted mb-0">Receita do Mês</h6>
-                    <small class="text-muted">月収</small>
                 </div>
             </div>
         </div>
@@ -270,7 +265,7 @@ function renderizarStats(stats) {
     log('✅ Estatísticas renderizadas!', 'success');
 }
 
-// グラフ読み込み (gurafu yomikomi - Carregar gráficos)
+// Carregar gráficos
 async function carregarGraficos() {
     log('📈 Carregando gráficos...', 'info');
     
@@ -283,7 +278,7 @@ async function carregarGraficos() {
     log('✅ Gráficos carregados!', 'success');
 }
 
-// プラングラフ (puran gurafu - Gráfico de planos)
+// Gráfico de planos
 async function carregarGraficoPlanos() {
     try {
         log('📊 Carregando gráfico de planos...', 'debug');
@@ -304,7 +299,7 @@ async function carregarGraficoPlanos() {
     }
 }
 
-// トレーニンググラフ (torēningu gurafu - Gráfico de treinos)
+// Gráfico de treinos
 async function carregarGraficoTreinos() {
     try {
         log('📊 Carregando gráfico de treinos...', 'debug');
@@ -325,7 +320,7 @@ async function carregarGraficoTreinos() {
     }
 }
 
-// 筋肉グループグラフ (kiniku gurūpu gurafu - Gráfico de grupos musculares)
+// Gráfico de grupos musculares
 async function carregarGraficoGrupos() {
     try {
         log('📊 Carregando gráfico de grupos musculares...', 'debug');
@@ -346,7 +341,7 @@ async function carregarGraficoGrupos() {
     }
 }
 
-// グラフ作成関数 (gurafu sakusei kansū - Funções de criação de gráficos)
+// Funções de criação de gráficos
 function criarGraficoPizza(canvasId, labels, dados) {
     const ctx = document.getElementById(canvasId);
     if (!ctx) {
@@ -472,7 +467,7 @@ function criarGraficoBarra(canvasId, labels, dados) {
     });
 }
 
-// テーブル読み込み (tēburu yomikomi - Carregar tabelas)
+// Carregar tabelas
 async function carregarTabelas() {
     log('📋 Carregando tabelas...', 'info');
     
@@ -577,7 +572,7 @@ async function carregarTabelaAulas() {
     }
 }
 
-// テーブル作成 (tēburu sakusei - Criar tabela)
+// Criar tabela
 function criarTabela(dados, colunas) {
     if (!dados || dados.length === 0) {
         return '<div class="text-center p-4"><p class="text-muted">Sem dados disponíveis</p></div>';
@@ -607,7 +602,7 @@ function criarTabela(dados, colunas) {
     return html;
 }
 
-// フォーマット関数 (fōmatto kansū - Funções de formatação)
+// Funções de formatação
 function formatarDataHora(valor) {
     if (!valor) return '--';
     try {
@@ -634,10 +629,10 @@ function formatarStatus(valor) {
     return `<span class="status-badge ${classe}">${valor}</span>`;
 }
 
-// ユーティリティ関数 (yūtiriti kansū - Funções utilitárias)
+// Funções utilitárias
 function atualizarDashboard() {
     log('🔄 Atualizando dashboard...', 'info');
-    mostrarNotificacao('更新中...', 'Recarregando dados', 'info');
+    mostrarNotificacao('Atualização em andamento...', 'Recarregando dados', 'info');
     inicializarDashboard();
 }
 
