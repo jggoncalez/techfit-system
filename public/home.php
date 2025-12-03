@@ -141,50 +141,53 @@ include_once 'include/header.php';
             </div>
         </div> -->
         </div>
-        <div id="modal-academia" class="modal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="titulo-modal">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="corpo-modal">
-                        <p>Modal body text goes here.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-</main>
-<script>
-    fetch("/public/academias.json")
-        .then(resposta => resposta.json())
-        .then((data) => {
-            console.log(data);
-            const cards = document.getElementsByClassName("cards")[0];
-            data.forEach(card => {
-                let div = document.createElement("div");
-                div.className = "card";
-                div.innerHTML = `
-            <div class="card" style="width: 18rem; height:750px;" >
-                    <img src="${card.img}" class="card-img-top" alt="${card.title}">
-                    <div class="card-body">
-                        <h5 class="card-title">${card.title}</h5>
-                        <p class="card-text">${card.bio}</p>
-                        <button class="btn d-flex justify-content-start" data-bs-toggle="modal" data-bs-target="#modal-academia">Ver mais 🠒</button>
-                    </div>
-            </div>`;
-                if (document.getElementsByClassName("card").length <= 7) {
-                    cards.appendChild(div);
-                } else {
-                    return
-                }
+        <?php
+        // Renderiza os cards do arquivo academias.json no servidor (versão PHP simples)
+        $jsonPath = __DIR__ . '/../public/academias.json';
+        if (file_exists($jsonPath)) {
+            $json = file_get_contents($jsonPath);
+            $items = json_decode($json, true);
+                echo "<div class=\"cards\">";
+                $count = 0;
+                foreach ($items as $card) {
+                    if ($count >= 3) break;
+                    $img = isset($card['img']) ? htmlspecialchars($card['img'], ENT_QUOTES) : '';
+                    $title = isset($card['title']) ? htmlspecialchars($card['title'], ENT_QUOTES) : '';
+                    $bio = isset($card['bio']) ? htmlspecialchars($card['bio'], ENT_QUOTES) : '';
+                    $address = isset($card['address']) ? htmlspecialchars($card['address'], ENT_QUOTES) : '';
+                    $distance = isset($card['distance']) ? htmlspecialchars($card['distance'], ENT_QUOTES) : '';
+                    $modalId = "modal-academia-{$count}";
 
-            });
-        })
-</script>
+                    // Card
+                    echo "<div class=\"card\" style=\"width: 18rem; height:750px;\">";
+                    echo "<img src=\"{$img}\" class=\"card-img-top\" alt=\"{$title}\">";
+                    echo "<div class=\"card-body\">";
+                    echo "<h5 class=\"card-title\">{$title}</h5>";
+                    echo "<p class=\"card-text\">{$bio}</p>";
+                    // botão abre o modal específico do card 
+                    echo "<button class=\"btn d-flex justify-content-start\" data-bs-toggle=\"modal\" data-bs-target=\"#{$modalId}\">Ver mais 🠒</button>";
+                    echo "</div></div>";
+
+                    // Modal gerado pelo servidor para este card
+                    echo "<div class=\"modal fade\" id=\"{$modalId}\">";
+                    echo "<div class=\"modal-dialog\"><div class=\"modal-content\">";
+                    echo "<div class=\"modal-header\"><h5 class=\"modal-title\">{$title}</h5>";
+                    echo "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button></div>";
+                    echo "<div class=\"modal-body\"><p>{$bio}</p><p class=\"text-muted\">{$address}</p><p class=\"text-muted\">{$distance}</p></div>";
+                    echo "<div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Fechar</button></div>";
+                    echo "</div></div></div>";
+
+                    $count++;
+                }
+                echo "</div>";
+
+        } else {
+            echo "<div class=\"cards\"><p class=\"text-muted\">Arquivo academias.json não encontrado.</p></div>";
+        }
+        ?>
+
+        <!-- Modais gerados individualmente por PHP (um por card) -->
+</main>
 <?php
 require_once 'include/footer.php';
 ?>

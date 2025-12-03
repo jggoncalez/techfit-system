@@ -144,23 +144,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/funcionario/get/classes" class="nav-link link-dark">
-                        <i class="bi bi-calendar-check me-2"></i>Ver Aulas
-                    </a>
-                </li>
-                <li>
-                    <a href="/funcionario/get/estudantes" class="nav-link link-dark">
-                        <i class="bi bi-people me-2"></i>Ver Alunos
-                    </a>
-                </li>
-                <li>
                     <a href="/funcionario/register/treino" class="nav-link link-dark">
                         <i class="bi bi-clipboard-plus me-2"></i>Montar Treinos
-                    </a>
-                </li>
-                <li>
-                    <a href="/funcionario/treinos" class="nav-link link-dark">
-                        <i class="bi bi-list-check me-2"></i>Ver Treinos Disponíveis
                     </a>
                 </li>
             </ul>

@@ -51,7 +51,7 @@ include_once 'include/header.php';
 ?>
 
 <main class="form-signin w-100 m-auto d-flex align-items-center justify-content-center p-5 ">
-    <form  method=POST style="height: 300px; width:500px;"> 
+    <form  method=POST style="height:auto; width:500px;"> 
         <h1 class="h3 mb-3 fw-normal text-center" data-vivaldi-translated="" action="">LOGIN</h1>
         <h1 class="h6 mb-3 fw-normal text-center" data-vivaldi-translated="">Se possuir uma conta, insira seus dados</h1>
         <div class="form-floating" data-vivaldi-translated=""> <input type="text" name="username" class="form-control" style="border-bottom: #E35C38; border-width: 2px; border-style: solid;"

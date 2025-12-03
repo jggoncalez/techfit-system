@@ -15,9 +15,6 @@ switch($request) {
     case '/funcionario':
         require __DIR__ . '/views/funcionario/main.php';
         break;
-    case '/funcionario/treinos':
-        require __DIR__ . '/views/funcionario/get-training.php';
-        break;
     case '/funcionario/register/classes':
         require __DIR__ . '/views/funcionario/register-classes.php';
         break;
@@ -35,6 +32,9 @@ switch($request) {
         break;
     case '/funcionario/get/estudantes':
         require __DIR__ . '/views/funcionario/get-gym-students.php';
+        break;
+    case '/funcionario/salvar':
+        require __DIR__ . '/views/funcionario/salvar-treino.php';
         break;
     case '/usuario':
         require __DIR__  . '/views/usuario/main.php';

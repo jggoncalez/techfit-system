@@ -44,13 +44,15 @@
         public function searchID() {
             $query = "SELECT * FROM " . $this->table . " WHERE EX_ID = :ex_id LIMIT 1";
 
-            $stmt = $this -> conn -> prepare($query);
-            $stmt -> bindParam(':ex_id', $this->EX_ID);
-            $stmt -> execute();
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':ex_id', $this->EX_ID);
+            $stmt->execute();
 
-            $row = $stmt -> fetch(PDO::FETCH_ASSOC);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if($row) {
+            if ($row) {
+
+                // opcional: carregar atributos no objeto
                 $this->EX_NOME = $row['EX_NOME'];
                 $this->EX_DESCRICAO = $row['EX_DESCRICAO'];
                 $this->EX_TIPO = $row['EX_TIPO'];
@@ -60,11 +62,14 @@
                 $this->EX_MAX_REPETICOES = $row['EX_MAX_REPETICOES'];
                 $this->EX_TEMPO_DESCANSO = $row['EX_TEMPO_DESCANSO'];
                 $this->EX_PONTUACAO = $row['EX_PONTUACAO'];
-                return true;
+
+                // **RETORNAR O ARRAY É A PARTE IMPORTANTE**
+                return $row;
             }
 
             return false;
         }
+
 
         public function list(){
             $query = "SELECT * FROM " .  $this->table;
