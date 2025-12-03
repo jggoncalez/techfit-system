@@ -42,8 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     
     <div class="d-flex" style="height: 100vh;">
-        <!-- Sidebar -->
-        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="height: 100vh; width: 280px;">
+        <div class="d-flex">
+       <!-- Barra lateral -->
+        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                 <img src="../../public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
             </a>
@@ -51,56 +52,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
                     <a href="/funcionario" class="nav-link link-dark">
-                        Home
+                        <i class="bi bi-speedometer2 me-2"></i>Menu
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="/funcionario/register/exercicios" class="nav-link active text-white" style="background-color: #e35c38;" aria-current="page">
-                        Cadastrar Exercícios
+                        <i class="bi bi-plus-circle me-2"></i>Exercícios
                     </a>
                 </li>
                 <li>
                     <a href="/funcionario/register/estudantes" class="nav-link link-dark">
-                        Cadastrar Alunos
+                        <i class="bi bi-person-plus me-2"></i>Alunos
                     </a>
                 </li>
                 <li>
                     <a href="/funcionario/register/classes" class="nav-link link-dark">
-                        Cadastrar Aulas
-                    </a>
-                </li>
-                <li>
-                    <a href="/funcionario/get/classes" class="nav-link link-dark">
-                        Ver Aulas
-                    </a>
-                </li>
-                <li>
-                    <a href="/funcionario/get/estudantes" class="nav-link link-dark">
-                        Ver Alunos
+                        <i class="bi bi-calendar-plus me-2"></i>Aulas
                     </a>
                 </li>
                 <li>
                     <a href="/funcionario/register/treino" class="nav-link link-dark">
-                        Montar Treinos
-                    </a>
-                </li>
-                <li>
-                    <a href="/funcionario/treinos" class="nav-link link-dark">
-                        Ver Treinos Disponíveis
+                        <i class="bi bi-clipboard-plus me-2"></i>Treinos
                     </a>
                 </li>
                 <li>
                     <a href="/funcionario/RFID" class="nav-link link-dark">
-                        Acesso academia
+                        <i class="bi bi-box-arrow-in-up-left"></i>
+                          Acessos
                     </a>
                 </li>
             </ul>
             <hr>
             <div class="dropdown">
-                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://placehold.co/20x20" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <p id="user-name"><strong>User</strong></p>
+                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" 
+                   id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://placehold.co/32x32" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong id="user-name-sidebar">User</strong>
                 </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                </ul>
             </div>
         </div>
 <main class="flex-grow-1 p-4" style="overflow-y: auto;">

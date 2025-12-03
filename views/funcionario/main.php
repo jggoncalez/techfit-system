@@ -125,47 +125,33 @@
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
                     <a href="/funcionario" class="nav-link active text-white" style="background-color: #e35c38;" aria-current="page">
-                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                        <i class="bi bi-speedometer2 me-2"></i>Menu
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="/funcionario/register/exercicios" class="nav-link link-dark">
-                        <i class="bi bi-plus-circle me-2"></i>Cadastrar Exercícios
+                        <i class="bi bi-plus-circle me-2"></i>Exercícios
                     </a>
                 </li>
                 <li>
                     <a href="/funcionario/register/estudantes" class="nav-link link-dark">
-                        <i class="bi bi-person-plus me-2"></i>Cadastrar Alunos
+                        <i class="bi bi-person-plus me-2"></i>Alunos
                     </a>
                 </li>
                 <li>
                     <a href="/funcionario/register/classes" class="nav-link link-dark">
-                        <i class="bi bi-calendar-plus me-2"></i>Cadastrar Aulas
-                    </a>
-                </li>
-                <li>
-                    <a href="/funcionario/get/classes" class="nav-link link-dark">
-                        <i class="bi bi-calendar-check me-2"></i>Ver Aulas
-                    </a>
-                </li>
-                <li>
-                    <a href="/funcionario/get/estudantes" class="nav-link link-dark">
-                        <i class="bi bi-people me-2"></i>Ver Alunos
+                        <i class="bi bi-calendar-plus me-2"></i>Aulas
                     </a>
                 </li>
                 <li>
                     <a href="/funcionario/register/treino" class="nav-link link-dark">
-                        <i class="bi bi-clipboard-plus me-2"></i>Montar Treinos
-                    </a>
-                </li>
-                <li>
-                    <a href="/funcionario/treinos" class="nav-link link-dark">
-                        Ver Treinos Disponíveis
+                        <i class="bi bi-clipboard-plus me-2"></i>Treinos
                     </a>
                 </li>
                 <li>
                     <a href="/funcionario/RFID" class="nav-link link-dark">
-                        Acesso academia
+                        <i class="bi bi-box-arrow-in-up-left"></i>
+                          Acessos
                     </a>
                 </li>
             </ul>
@@ -177,7 +163,6 @@
                     <strong id="user-name-sidebar">User</strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
                     <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
