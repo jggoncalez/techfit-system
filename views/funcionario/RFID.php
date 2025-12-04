@@ -16,6 +16,7 @@ $acessos = $pdo->query("
 $totalHoje = $pdo->query("SELECT COUNT(*) FROM REGISTRO_ENTRADAS WHERE DATE(RE_DATA_HORA) = CURDATE()")->fetchColumn();
 $negadosHoje = $pdo->query("SELECT COUNT(*) FROM REGISTRO_ENTRADAS WHERE DATE(RE_DATA_HORA) = CURDATE() AND RE_STATUS = 'NEGADO'")->fetchColumn();
 ?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>

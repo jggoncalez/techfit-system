@@ -20,7 +20,7 @@ class Session
 
     public function userLogin()
     {
-        $query = 'SELECT US_ID, US_NOME FROM USUARIOS 
+        $query = 'SELECT US_ID, US_NOME FROM usuarios 
               WHERE US_NOME = :us_nome 
               AND US_SENHA = :us_senha 
               LIMIT 1';
