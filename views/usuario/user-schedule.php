@@ -9,6 +9,25 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
+</html>
+<?php 
+require_once __DIR__ . "\\..\\..\\models\\Usuario.php";
+require_once __DIR__ . "\\..\\..\\config\\Database.php";
+use models\Usuario;
+use config\Database;
+
+try {
+     $db = Database::getInstance()->getConnection();
+} catch (Exception $e) {
+    echo $e;
+}
+
+session_start();
+$controller = new Usuario($db);
+$user = $_SESSION['user_ID'];
+$controller->US_ID = $user;
+$controller->searchID();
+?>
 <body>
     
     <div class="d-flex" style="height: 100vh; overflow-y: auto;">
@@ -48,8 +67,8 @@
             <hr>
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://placehold.co/20x20" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <p id="user-name"><strong>User</strong></p>
+                        <img src="../../public/images/pfp_placeholder.webp" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <p id="user-name"><strong><?php echo $controller->US_NOME; ?></strong></p>
                 </a>
             </div>
         </div>

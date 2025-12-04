@@ -25,7 +25,7 @@ try {
 session_start();
 $controller = new Usuario($db);
 $user = $_SESSION['user_ID'];
-
+$controller->US_ID = $user;
 $controller->searchID();
 ?>
 <body>
@@ -67,8 +67,8 @@ $controller->searchID();
             <hr>
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://placehold.co/20x20" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <p id="user-name"><strong><?php echo $user?></strong></p>
+                        <img src="../../public/images/pfp_placeholder.webp" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <p id="user-name"><strong><?php echo $controller->US_NOME?></strong></p>
                 </a>
             </div>
         </div>
@@ -77,22 +77,59 @@ $controller->searchID();
             <div class = "profile-container">
             <div class="profile d-flex">
                     <h2>Informações Pessoais</h2>
-                    <p>Nome:</p>
-                    <p>Gênero:</p>
-                    <p>Idade:</p>
-                    <p>Endereco:</p>
-                    <p>Data de Nascimento:</p>
-                    <p>Plano:</p>
+                    <p>Nome: <?php echo $controller->US_NOME ?></p>
+                    <p>Gênero: <?php $genero = $controller->US_GENERO ; 
+                    if ($genero === 'M'){
+                        echo "Masculino";
+                    } else if ($genero === 'F') {
+                        echo "Feminino";
+                    } else if ($genero === 'O'){
+                        echo "Outro";
+                    } else {
+                        echo "Erro";
+                    }
+                    ?></p>
+                    <p>Idade: <?php  echo $controller->US_IDADE?></p>
+                    <p>Endereco: <?php echo $controller->US_ENDERECO ?></p>
+                    <p>Data de Nascimento: <?php echo $controller->US_DATA_NASCIMENTO?></p>
+                    <p>Plano: <?php $plano =  $controller->PL_ID ;
+                    switch ($plano) {
+                        case 1:
+                            echo "Starter";
+                            break;
+                        case 2:
+                            echo "Basic";
+                            break;
+                        case 3: 
+                            echo "Advanced";
+                            break;
+                        default:
+                            echo "Erro";
+                            break;
+                    }
+                    ?></p>
             </div>
             <div class="profile d-flex">
                     <h2>Informações Sobre seu Corpo</h2>
-                    <p>%Gordura:</p>
-                    <p>Altura:</p>
-                    <p>Objetivo:</p>
-                    <p>Peso:</p>
-                    <p>Já treinou antes ?:</p>
+                    <p>%Massa Magra: <?php echo $controller->US_PORC_MASSA_MAGRA ?></p>
+                    <p>Altura: <?php echo $controller->US_ALTURA?></p>
+                    <p>Objetivo: <?php echo $controller->US_OBJETIVO?></p>
+                    <p>Peso: <?php echo $controller->US_PESO?></p>
+                    <p>Já treinou antes ?: <?php $treino = $controller->US_TREINO_ANTERIOR;
+                    switch ($treino){
+                        case 1:
+                            echo "Sim, {$controller->US_TEMPO_TREINOANT} meses " ;
+                            break;
+                        case 2: 
+                            echo "Não";
+                            break;
+                        default: 
+                            echo "Erro";
+                            break;
+                    }
+                    ?></p>
             </div>
-</div>
+            </div>
         </main>
     </div>
 
