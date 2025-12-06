@@ -270,9 +270,6 @@ class Usuario
                     <td>{$ex['EX_NOME']}</td>
                     <td>{$ex['TE_SERIES']}</td>
                     <td>{$ex['TE_REPETICOES']}</td>
-                    <td>
-                    </form>
-                    </td>
                     </tr>
                     ";
             }
@@ -294,4 +291,181 @@ class Usuario
         }
 
     }
+
+    public function buscarAgendamentos() {
+        $result = $this->conn->query("
+                        SELECT * 
+                        FROM AULAS 
+                         WHERE AU_ID NOT IN (
+            SELECT AU_ID 
+            FROM PARTICIPACOES_AULA
+            WHERE US_ID = {$this->US_ID}
+        )
+");
+
+
+        foreach ($result->fetchAll(PDO::FETCH_ASSOC) as $row){
+            $modalId = "modal-aula" . $row['AU_ID'];
+            echo "
+            <div class='card' style='width: 18rem;'>
+            <div class='card-body'>
+                <h5 class='card-title'>{$row['AU_NOME']}</h5>
+                <h6 class='card-subtitle mb-2 text-body-secondary'>{$row['AU_VAGAS_DISPONIVEIS']}/{$row['AU_VAGAS_TOTAIS']} Vagas Disponiveis</h6>
+                <p class='card-text'>Data: ". date('d/m/Y', strtotime($row['AU_DATA'])) . "</p>
+                <p class='card-text'>Inicio: {$row['AU_HORA_INICIO']}</p>
+                <p class='card-text'>Fim: {$row['AU_HORA_FIM']}</p>
+                <button class='btn text-white' data-toggle='modal' data-target='#{$modalId}' style='background-color:#e35c38;'>Ver Mais</button>
+            </div>
+            </div>
+
+            <div class='modal fade' id='{$modalId}' tabindex='-1' aria-hidden='true'>
+                    <div class='modal-dialog modal-lg'>
+                    <div class='modal-content'>
+                    <div class='modal-header'>
+                    <h5 class='modal-title'>{$row['AU_NOME']} - Detalhes</h5>
+                    <button type='button' class='close' data-dismiss='modal'><span>&times;</span></button>
+                    </div>
+
+
+                    <div class='modal-body'>
+                    <h5 class='mb-3'>Informações da Aula</h5>
+                    <p><strong>Observações:</strong> " . (!empty($row['AU_OBSERVACOES']) ? $row['AU_OBSERVACOES'] : 'Nenhuma') . "</p>
+
+
+                    <hr>
+
+
+                    <table class='table table-striped table-bordered'>
+                    <thead>
+                    <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Inicio</th>
+                    <th>Fim</th>
+                    <th>Vagas Disponiveis</th>
+                    <th>Vagas Totais</th>
+                    <th>Sala</th>
+                    <th>Clique para Participar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                    <td>{$row['AU_ID']}</td>
+                    <td>{$row['AU_NOME']}</td>
+                    <td>{$row['AU_HORA_INICIO']}</td>
+                    <td>{$row['AU_HORA_FIM']}</td>
+                    <td>{$row['AU_VAGAS_DISPONIVEIS']}</td>
+                    <td>{$row['AU_VAGAS_TOTAIS']}</td>
+                    <td>{$row['AU_SALA']}</td>
+                <td>
+    <form method='POST'> 
+        <input type='hidden' name='acao' value='participar'>
+        <input type='hidden' name='AU_ID' value='{$row['AU_ID']}'>
+        <button type='submit' class='btn btn-sm text-white' style='background-color:#e35c38;' " . ($row['AU_VAGAS_DISPONIVEIS'] <= 0 ? 'disabled' : '') . ">
+            " . ($row['AU_VAGAS_DISPONIVEIS'] > 0 ? 'Participar' : 'Sem Vagas') . "
+        </button>
+    </form>
+</td>
+                    </tr>
+                    </tbody>
+                    </table>
+                    </div>
+
+
+                    <div class='modal-footer'>
+                    <button class='btn btn-secondary' data-dismiss='modal'>Fechar</button>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+            ";
+        } 
+        }
+    public function buscarParticipacoes()
+{
+    $sql = "
+        SELECT PA.*, A.AU_NOME, A.AU_DATA, A.AU_HORA_INICIO, A.AU_HORA_FIM, A.AU_SALA
+        FROM PARTICIPACOES_AULA PA
+        INNER JOIN AULAS A ON A.AU_ID = PA.AU_ID
+        WHERE PA.US_ID = {$this->US_ID}
+    ";
+
+    $result = $this->conn->query($sql);
+
+    foreach ($result->fetchAll(PDO::FETCH_ASSOC) as $row) {
+
+        $modalId = "modal-participacao" . $row['PA_ID'];
+
+        echo "
+        <div class='card mb-3' style='max-width: 540px;'>
+            <div class='card-body'>
+                <h5 class='card-title'>{$row['AU_NOME']}</h5>
+                <p class='card-text'>Status: <strong>{$row['PA_STATUS']}</strong></p>
+                <p class='card-text'>Data: <strong>" . date('d/m/Y', strtotime($row['AU_DATA'])) . "</strong></p>
+                <button class='btn text-white' data-bs-toggle='modal' data-bs-target='#{$modalId}' style='background-color:#e35c38;'>Ver Mais</button>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class='modal fade' id='{$modalId}' tabindex='-1' aria-hidden='true'>
+            <div class='modal-dialog modal-lg'>
+                <div class='modal-content'>
+
+                    <div class='modal-header'>
+                        <h5 class='modal-title'>Participação na Aula: {$row['AU_NOME']}</h5>
+                        <button type='button' class='btn-close' data-bs-dismiss='modal'></button>
+                    </div>
+
+                    <div class='modal-body'>
+                        <h5>Informações da Aula</h5>
+                        <p><strong>Data:</strong> " . date('d/m/Y', strtotime($row['AU_DATA'])) . "</p>
+                        <p><strong>Início:</strong> {$row['AU_HORA_INICIO']}</p>
+                        <p><strong>Fim:</strong> {$row['AU_HORA_FIM']}</p>
+                        <p><strong>Sala:</strong> {$row['AU_SALA']}</p>
+
+                        <hr>
+
+                        <h5>Sua Participação</h5>
+                        <p><strong>Status:</strong> {$row['PA_STATUS']}</p>
+                        <p><strong>Avaliação:</strong> " . ($row['PA_AVALIACAO'] ?: 'Nenhuma') . "</p>
+                        <p><strong>Comentário:</strong> " . ($row['PA_COMENTARIO'] ?: 'Nenhum') . "</p>
+
+                        <hr>
+
+                        <!-- Formulário de Avaliação -->
+                        <form method='POST' class='mb-3'>
+                            <input type='hidden' name='acao' value='avaliar_participacao'>
+                            <input type='hidden' name='PA_ID' value='{$row['PA_ID']}'>
+
+                            <label class='form-label'>Avaliação (0 a 10)</label>
+                            <input type='number' class='form-control' name='PA_AVALIACAO' min='0' max='10' value='{$row['PA_AVALIACAO']}'>
+
+                            <label class='form-label mt-2'>Comentário</label>
+                            <textarea class='form-control' name='PA_COMENTARIO' rows='3'>{$row['PA_COMENTARIO']}</textarea>
+
+                            <button type='submit' class='btn text-white mt-3' style='background-color:#e35c38;'>Salvar Avaliação</button>
+                        </form>
+
+                        <hr>
+
+                        <!-- Cancelar participação -->
+                        <form method='POST'>
+                            <input type='hidden' name='acao' value='cancelar_participacao'>
+                            <input type='hidden' name='PA_ID' value='{$row['PA_ID']}'>
+                            <button type='submit' class='btn btn-danger'>Cancelar Participação</button>
+                        </form>
+
+                    </div>
+
+                    <div class='modal-footer'>
+                        <button class='btn btn-secondary' data-bs-dismiss='modal'>Fechar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        ";
+    }
 }
+
+ }

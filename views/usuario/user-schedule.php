@@ -13,6 +13,8 @@
 <?php 
 require_once __DIR__ . "\\..\\..\\models\\Usuario.php";
 require_once __DIR__ . "\\..\\..\\config\\Database.php";
+require_once __DIR__ . "\\..\\..\\models\\agendamento\\ParticipacoesAula.php";
+use models\agendamento\ParticipacoesAula;
 use models\Usuario;
 use config\Database;
 
@@ -27,6 +29,55 @@ $controller = new Usuario($db);
 $user = $_SESSION['user_ID'];
 $controller->US_ID = $user;
 $controller->searchID();
+$controllerPart = new ParticipacoesAula($db);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $acao = $_POST['acao'] ?? '';
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $acao = $_POST['acao'] ?? '';
+
+    if ($acao == 'participar') {
+        $controllerPart->AU_ID = $_POST['AU_ID'];   
+        $controllerPart->US_ID = $user; 
+        $controllerPart->PA_DATA_INSCRICAO = date('Y-m-d H:i:s');
+        $controllerPart->PA_STATUS = 'INSCRITO';
+        
+        $controllerPart->create();
+        
+        // Atualiza as vagas disponíveis
+        $controllerPart->atualizarVagasDisponiveis($_POST['AU_ID']);
+        header('Location: /usuario/user/schedule');
+        exit();
+    }
+
+    if ($acao == 'avaliar_participacao') {
+        $controllerPart->PA_ID = $_POST['PA_ID'];
+        $controllerPart->searchID();
+        $controllerPart->PA_AVALIACAO = $_POST['PA_AVALIACAO'];
+        $controllerPart->PA_COMENTARIO = $_POST['PA_COMENTARIO'];
+        
+        $controllerPart->update();
+        header('Location: /usuario/user/schedule');
+        exit();
+    }
+
+    if ($acao == 'cancelar_participacao') {
+        $controllerPart->PA_ID = $_POST['PA_ID'];
+        
+        // Busca o AU_ID antes de deletar
+        $controllerPart->searchID();
+        $aulaId = $controllerPart->AU_ID;
+        
+        $controllerPart->delete();
+        
+        // Atualiza as vagas disponíveis após cancelamento
+        $controllerPart->atualizarVagasDisponiveis($aulaId);
+        header('Location: /usuario/user/schedule');
+        exit();
+    }
+}
+}
 ?>
 <body>
     
@@ -73,25 +124,23 @@ $controller->searchID();
             </div>
         </div>
 
-        <main class="flex-grow-1">
-           <div class="card mb-3" style="max-width: 540px;">
-  <div class="row g-0">
-    <div class="col-md-4">
-      <img src="..." class="img-fluid rounded-start" alt="...">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-  </div>
-</div>
+        <main class="flex-grow-1 p-3">
+            <h2 class="mb-4">Aulas Disponiveis</h2>
+            <div class="d-flex" style="gap:30px;">
+                <?php $controller->buscarAgendamentos();?>
+            </div>
+            <h2 class="mt-4 mb-4">Aulas Participando</h2>
+            <div>
+                <?php $controller->buscarParticipacoes();?>
+            </div>
         </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
 </body>
 </html>

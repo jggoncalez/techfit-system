@@ -11,7 +11,9 @@
 </head>
 <?php 
 require_once __DIR__ . "\\..\\..\\models\\Usuario.php";
+
 require_once __DIR__ . "\\..\\..\\config\\Database.php";
+
 use models\Usuario;
 use config\Database;
 
