@@ -247,15 +247,6 @@ $listaTreinos = $controllerTr->list(); // pega todos os treinos
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label class="form-label">Status</label>
-                                                    <select name="TR_STATUS" class="form-select" required>
-                                                        <option value="ATIVO" <?= $treino['TR_STATUS'] == 'ATIVO' ? 'selected' : '' ?>>Ativo</option>
-                                                        <option value="INATIVO" <?= $treino['TR_STATUS'] == 'INATIVO' ? 'selected' : '' ?>>Inativo</option>
-                                                        <option value="CONCLUIDO" <?= $treino['TR_STATUS'] == 'CONCLUIDO' ? 'selected' : '' ?>>Concluído</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="mb-3">
                                                     <label class="form-label">Observações</label>
                                                     <textarea name="TR_OBSERVACOES" class="form-control" rows="3"><?= $treino['TR_OBSERVACOES'] ?></textarea>
                                                 </div>
