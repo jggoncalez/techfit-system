@@ -1,6 +1,6 @@
 <?php
 // Configuração e conexão
-$pdo = new PDO("mysql:host=localhost;dbname=TechFitDatabase;charset=utf8", "root", "senaisp");
+$pdo = new PDO("mysql:host=localhost;dbname=TechFitDatabase;charset=utf8", "root", "7900");
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Busca dados

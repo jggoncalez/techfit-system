@@ -27,10 +27,11 @@ $controller = new Usuario($db);
 $user = $_SESSION['user_ID'];
 $controller->US_ID = $user;
 $controller->searchID();
+
 ?>
 <body>
     
-    <div class="d-flex" style="height: 100vh; overflow-y: auto;">
+    <div class="d-flex" style="height: 100vh; overflow-y: auto; width:100%;">
         <!-- Sidebar -->
         <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
@@ -73,8 +74,8 @@ $controller->searchID();
             </div>
         </div>
 
-        <main class="flex-grow-1">
-            <div class = "profile-container">
+        <main class="d-flex align-items-center justify-content-center" style="width:100%;" >
+            <div class ="profile-container">
             <div class="profile d-flex">
                     <h2>Informações Pessoais</h2>
                     <p>Nome: <?php echo $controller->US_NOME ?></p>
