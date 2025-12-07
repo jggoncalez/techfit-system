@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="pt-br">
+
 <head>
     <title>TechFit</title>
     <meta charset="utf-8" />
@@ -11,23 +12,26 @@
 
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
-<?php 
+<?php
 require_once __DIR__ . '\\..\\..\\config\\Database.php';
 require_once __DIR__ . '\\..\\..\\models\\sagef\\Exercicio.php';
 
 use config\Database;
 use models\sagef\Exercicio;
 
-try{
+try {
     $db = Database::getInstance()->getConnection();
-} catch (Exception $e){
-    echo "Ai " . $e -> getMessage();
+} catch (Exception $e) {
+    echo "Ai " . $e->getMessage();
 }
-$controller = new Exercicio($db);
 
+
+
+$controller = new Exercicio($db);
+$stmt = $controller->list();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $acao = $_POST['acao'] ?? ''; 
-    if ($acao === 'criar'){
+    $acao = $_POST['acao'] ?? '';
+    if ($acao === 'criar') {
         $controller->EX_DESCRICAO = $_POST['EX_DESCRICAO'];
         $controller->EX_DIFICULDADE = $_POST['EX_DIFICULDADE'];
         $controller->EX_EQUIPAMENTO = $_POST['EX_EQUIPAMENTO'];
@@ -38,17 +42,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $controller->EX_TEMPO_DESCANSO = $_POST['EX_TEMPO_DESCANSO'];
         $controller->EX_TIPO = $_POST['EX_TIPO'];
         $controller->create();
+        header("Location: /funcionario/register/exercicios");
+        exit;
+    } 
+    if ($acao === 'atualizar') {
+        $controller->EX_ID = $_POST['EX_ID'];
+        $controller->EX_DESCRICAO = $_POST['EX_DESCRICAO'];
+        $controller->EX_DIFICULDADE = $_POST['EX_DIFICULDADE'];
+        $controller->EX_EQUIPAMENTO = $_POST['EX_EQUIPAMENTO'];
+        $controller->EX_MAX_REPETICOES = $_POST['EX_MAX_REPETICOES'];
+        $controller->EX_MIN_REPETICOES = $_POST['EX_MIN_REPETICOES'];
+        $controller->EX_NOME = $_POST['EX_NOME'];
+        $controller->EX_PONTUACAO = $_POST['EX_PONTUACAO'];
+        $controller->EX_TEMPO_DESCANSO = $_POST['EX_TEMPO_DESCANSO'];
+        $controller->EX_TIPO = $_POST['EX_TIPO'];
+        $controller->update();
+        header("Location: /funcionario/register/exercicios");
+        exit;
     }
-}
+    if ($acao === 'deletar'){
+        $controller->EX_ID = $_POST['EX_ID'];
+        $controller->delete();
+        header("Location: /funcionario/register/exercicios");
+        exit;
+    }
+ }
 ?>
+
 <body>
-    
+
     <div class="d-flex" style="height: 100vh;">
         <div class="d-flex">
        <!-- Barra lateral -->
         <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <img src="../../public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
+                <img src="../../public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo"
+                    style="max-width: 150px;">
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
@@ -98,86 +127,214 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </ul>
             </div>
         </div>
-<main class="flex-grow-1 p-4" style="overflow-y: auto;">
-    <h2 class="mb-4">Cadastrar Exercício</h2>
-    <form method="POST" class="row g-3">
-        <input type="hidden" name="acao" value ='criar'>
-        <!-- EX_NOME -->
-        <div class="col-md-6">
-            <label class="form-label">Nome do Exercício *</label>
-            <input type="text" class="form-control" name="EX_NOME" required>
-        </div>
+        <main class="flex-grow-1 p-4" style="overflow-y: auto;">
+            <h2 class="mb-4">Cadastrar Exercício</h2>
+            <form method="POST" class="row g-3">
+                <input type="hidden" name="acao" value='criar'>
+                <!-- EX_NOME -->
+                <div class="col-md-6">
+                    <label class="form-label">Nome do Exercício *</label>
+                    <input type="text" class="form-control" name="EX_NOME" required>
+                </div>
 
-        <!-- EX_DIFICULDADE -->
-        <div class="col-md-3">
-            <label class="form-label">Dificuldade *</label>
-            <input type="number" class="form-control" name="EX_DIFICULDADE" min="1" max="10" required>
-        </div>
+                <!-- EX_DIFICULDADE -->
+                <div class="col-md-3">
+                    <label class="form-label">Dificuldade *</label>
+                    <input type="number" class="form-control" name="EX_DIFICULDADE" min="1" max="10" required>
+                </div>
 
-        <!-- EX_TIPO -->
-        <div class="col-md-3">
-            <label class="form-label">Tipo *</label>
-            <select class="form-select" name="EX_TIPO" required>
-                <option value="">Selecione...</option>
-                <option value="PEITO">Peito</option>
-                <option value="COSTAS">Costas</option>
-                <option value="PERNAS">Pernas</option>
-                <option value="OMBROS">Ombros</option>
-                <option value="BRACOS">Braços</option>
-                <option value="ABDOMEN">Abdômen</option>
-                <option value="CARDIO">Cardio</option>
-                <option value="FUNCIONAL">Funcional</option>
-            </select>
-        </div>
+                <!-- EX_TIPO -->
+                <div class="col-md-3">
+                    <label class="form-label">Tipo *</label>
+                    <select class="form-select" name="EX_TIPO" required>
+                        <option value="">Selecione...</option>
+                        <option value="PEITO">Peito</option>
+                        <option value="COSTAS">Costas</option>
+                        <option value="PERNAS">Pernas</option>
+                        <option value="OMBROS">Ombros</option>
+                        <option value="BRACOS">Braços</option>
+                        <option value="ABDOMEN">Abdômen</option>
+                        <option value="CARDIO">Cardio</option>
+                        <option value="FUNCIONAL">Funcional</option>
+                    </select>
+                </div>
 
-        <!-- EX_MIN_REPETICOES -->
-        <div class="col-md-3">
-            <label class="form-label">Repetições Mínimas *</label>
-            <input type="number" class="form-control" name="EX_MIN_REPETICOES" value="8" required>
-        </div>
+                <!-- EX_MIN_REPETICOES -->
+                <div class="col-md-3">
+                    <label class="form-label">Repetições Mínimas *</label>
+                    <input type="number" class="form-control" name="EX_MIN_REPETICOES" value="8" required>
+                </div>
 
-        <!-- EX_MAX_REPETICOES -->
-        <div class="col-md-3">
-            <label class="form-label">Repetições Máximas *</label>
-            <input type="number" class="form-control" name="EX_MAX_REPETICOES" value="20" required>
-        </div>
+                <!-- EX_MAX_REPETICOES -->
+                <div class="col-md-3">
+                    <label class="form-label">Repetições Máximas *</label>
+                    <input type="number" class="form-control" name="EX_MAX_REPETICOES" value="20" required>
+                </div>
 
-        <!-- EX_PONTUACAO -->
-        <div class="col-md-3">
-            <label class="form-label">Pontuação</label>
-            <input type="number" class="form-control" name="EX_PONTUACAO" value="10">
-        </div>
+                <!-- EX_PONTUACAO -->
+                <div class="col-md-3">
+                    <label class="form-label">Pontuação</label>
+                    <input type="number" class="form-control" name="EX_PONTUACAO" value="10">
+                </div>
 
-        <!-- EX_TEMPO_DESCANSO -->
-        <div class="col-md-3">
-            <label class="form-label">Tempo de Descanso (segundos)</label>
-            <input type="number" class="form-control" name="EX_TEMPO_DESCANSO" value="60">
-        </div>
+                <!-- EX_TEMPO_DESCANSO -->
+                <div class="col-md-3">
+                    <label class="form-label">Tempo de Descanso (segundos)</label>
+                    <input type="number" class="form-control" name="EX_TEMPO_DESCANSO" value="60">
+                </div>
 
-        <!-- EX_EQUIPAMENTO -->
-        <div class="col-md-6">
-            <label class="form-label">Equipamento Necessário</label>
-            <input type="text" class="form-control" name="EX_EQUIPAMENTO" placeholder="Ex: Halteres, Máquina X, Barra...">
-        </div>
+                <!-- EX_EQUIPAMENTO -->
+                <div class="col-md-6">
+                    <label class="form-label">Equipamento Necessário</label>
+                    <input type="text" class="form-control" name="EX_EQUIPAMENTO"
+                        placeholder="Ex: Halteres, Máquina X, Barra...">
+                </div>
 
-        <!-- EX_DESCRICAO -->
-        <div class="col-md-12">
-            <label class="form-label">Descrição do Exercício</label>
-            <textarea class="form-control" name="EX_DESCRICAO" rows="4"></textarea>
-        </div>
+                <!-- EX_DESCRICAO -->
+                <div class="col-md-12">
+                    <label class="form-label">Descrição do Exercício</label>
+                    <textarea class="form-control" name="EX_DESCRICAO" rows="4"></textarea>
+                </div>
 
-        <div class="col-12 mt-3">
-            <button type="submit" class="btn text-white" style="background-color: #e35c38;">
-                Salvar Exercício
-            </button>
-        </div>
+                <div class="col-12 mt-3">
+                    <button type="submit" class="btn text-white" style="background-color: #e35c38;">
+                        Salvar Exercício
+                    </button>
+                </div>
 
-    </form>
+            </form>
+            <!-- Tabela de Exercícios -->
+            <div class='table-responsive mt-5'>
+                <h3 class="mb-3">Exercícios Cadastrados</h3>
+                <table class='table table-striped table-hover'>
+                    <thead class='table-dark'>
+                        <tr>
+                            <th>#</th>
+                            <th>Nome</th>
+                            <th>Tipo</th>
+                            <th>Dificuldade</th>
+                            <th>Equipamento</th>
+                            <th>Repetições</th>
+                            <th>Descanso (s)</th>
+                            <th>Pontuação</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($dados as $row) {
+                            $modalId = "modal-exercicio-" . $row['EX_ID'];
+                            echo "
+                            <tr>
+                                <td>{$row['EX_ID']}</td>
+                                <td>{$row['EX_NOME']}</td>
+                                <td>{$row['EX_TIPO']}</td>
+                                <td>{$row['EX_DIFICULDADE']}</td>
+                                <td>{$row['EX_EQUIPAMENTO']}</td>
+                                <td>{$row['EX_MIN_REPETICOES']} - {$row['EX_MAX_REPETICOES']}</td>
+                                <td>{$row['EX_TEMPO_DESCANSO']}</td>
+                                <td><span class='badge bg-info'>{$row['EX_PONTUACAO']}</span></td>
+                                <td>
+                                    <button class='btn btn-sm btn-warning' data-bs-toggle='modal' data-bs-target='#{$modalId}'>Editar</button>
+                                    <form method='POST' style='display:inline;'> 
+                                        <input type='hidden' name='acao' value='deletar'>
+                                        <input type='hidden' name='EX_ID' value='{$row['EX_ID']}'>
+                                        <button class='btn btn-sm btn-danger' type='submit'>Deletar</button>
+                                    </form>
+                                </td>
+                            </tr>
 
-</main>
+                            <!-- Modal para editar exercício -->
+                            <div class='modal fade' id='{$modalId}' tabindex='-1' aria-hidden='true'>
+                                <div class='modal-dialog'>
+                                    <div class='modal-content'>
+                                        <div class='modal-header'>
+                                            <h5 class='modal-title'>Editar Exercício: {$row['EX_NOME']}</h5>
+                                            <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                                        </div>
+                                        <div class='modal-body'>
+                                            <form method='POST'>
+                                                <input type='hidden' name='acao' value='atualizar'>
+                                                <input type='hidden' name='EX_ID' value='{$row['EX_ID']}'>
+                                                
+                                                <div class='mb-3'>
+                                                    <label class='form-label'>Nome do Exercício</label>
+                                                    <input type='text' class='form-control' name='EX_NOME' value='{$row['EX_NOME']}' required>
+                                                </div>
+                                                
+                                                <div class='mb-3'>
+                                                    <label class='form-label'>Tipo</label>
+                                                    <select class='form-select' name='EX_TIPO' required>
+                                                        <option value='PEITO' " . ($row['EX_TIPO'] == 'PEITO' ? 'selected' : '') . ">Peito</option>
+                                                        <option value='COSTAS' " . ($row['EX_TIPO'] == 'COSTAS' ? 'selected' : '') . ">Costas</option>
+                                                        <option value='PERNAS' " . ($row['EX_TIPO'] == 'PERNAS' ? 'selected' : '') . ">Pernas</option>
+                                                        <option value='OMBROS' " . ($row['EX_TIPO'] == 'OMBROS' ? 'selected' : '') . ">Ombros</option>
+                                                        <option value='BRACOS' " . ($row['EX_TIPO'] == 'BRACOS' ? 'selected' : '') . ">Braços</option>
+                                                        <option value='ABDOMEN' " . ($row['EX_TIPO'] == 'ABDOMEN' ? 'selected' : '') . ">Abdômen</option>
+                                                        <option value='CARDIO' " . ($row['EX_TIPO'] == 'CARDIO' ? 'selected' : '') . ">Cardio</option>
+                                                        <option value='FUNCIONAL' " . ($row['EX_TIPO'] == 'FUNCIONAL' ? 'selected' : '') . ">Funcional</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class='mb-3'>
+                                                    <label class='form-label'>Dificuldade</label>
+                                                    <input type='number' class='form-control' name='EX_DIFICULDADE' value='{$row['EX_DIFICULDADE']}' min='1' max='10' required>
+                                                </div>
+                                                
+                                                <div class='mb-3'>
+                                                    <label class='form-label'>Repetições Mínimas</label>
+                                                    <input type='number' class='form-control' name='EX_MIN_REPETICOES' value='{$row['EX_MIN_REPETICOES']}' required>
+                                                </div>
+                                                
+                                                <div class='mb-3'>
+                                                    <label class='form-label'>Repetições Máximas</label>
+                                                    <input type='number' class='form-control' name='EX_MAX_REPETICOES' value='{$row['EX_MAX_REPETICOES']}' required>
+                                                </div>
+                                                
+                                                <div class='mb-3'>
+                                                    <label class='form-label'>Tempo de Descanso (segundos)</label>
+                                                    <input type='number' class='form-control' name='EX_TEMPO_DESCANSO' value='{$row['EX_TEMPO_DESCANSO']}' required>
+                                                </div>
+                                                
+                                                <div class='mb-3'>
+                                                    <label class='form-label'>Equipamento</label>
+                                                    <input type='text' class='form-control' name='EX_EQUIPAMENTO' value='{$row['EX_EQUIPAMENTO']}'>
+                                                </div>
+                                                
+                                                <div class='mb-3'>
+                                                    <label class='form-label'>Pontuação</label>
+                                                    <input type='number' class='form-control' name='EX_PONTUACAO' value='{$row['EX_PONTUACAO']}'>
+                                                </div>
+                                                
+                                                <div class='mb-3'>
+                                                    <label class='form-label'>Descrição</label>
+                                                    <textarea class='form-control' name='EX_DESCRICAO' rows='3'>{$row['EX_DESCRICAO']}</textarea>
+                                                </div>
+                                                
+                                                <div class='modal-footer'>
+                                                    <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancelar</button>
+                                                    <button type='submit' class='btn text-white' style='background-color: #e35c38;'>Atualizar Exercício</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            ";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <body></body>
+        </main>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

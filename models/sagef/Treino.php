@@ -6,9 +6,9 @@
         // Conexão
         private $conn;
         private $table = "TREINOS";
-
         public $TR_ID;
-        public $TD_DATA_CRIACAO;
+        public $TR_NOME;
+        public $TR_DATA_CRIACAO;
         public $US_ID;
         public $TR_DURACAO_ESTIMADA;
         public $TR_STATUS;
@@ -20,10 +20,11 @@
 
 
         public function create(){
-            $query = "INSERT INTO " . $this->table . " (TD_DATA_CRIACAO, US_ID, TR_DURACAO_ESTIMADA, TR_STATUS, TR_OBSERVACOES) VALUES (:td_data_criacao, :us_id, :tr_duracao_estimada, :tr_status, :tr_observacoes)";
+            $query = "INSERT INTO " . $this->table . " (TR_NOME, TR_DATA_CRIACAO, US_ID, TR_DURACAO_ESTIMADA, TR_STATUS, TR_OBSERVACOES) VALUES (:tr_nome, :tR_data_criacao, :us_id, :tr_duracao_estimada, :tr_status, :tr_observacoes)";
             $stmt = $this->conn->prepare($query);
 
-            $stmt -> bindParam(':td_data_criacao', $this->TD_DATA_CRIACAO);
+            $stmt -> bindParam(':tr_nome', $this->TR_NOME);
+            $stmt -> bindParam(':tR_data_criacao', $this->TR_DATA_CRIACAO);
             $stmt -> bindParam(':us_id', $this->US_ID);
             $stmt -> bindParam(':tr_duracao_estimada', $this->TR_DURACAO_ESTIMADA);
             $stmt -> bindParam(':tr_status', $this->TR_STATUS);
@@ -43,7 +44,8 @@
             $row = $stmt -> fetch(PDO::FETCH_ASSOC);
 
             if($row) {
-                $this->TD_DATA_CRIACAO = $row['TD_DATA_CRIACAO'];
+                $this->TR_NOME = $row['TR_NOME'];
+                $this->TR_DATA_CRIACAO = $row['TR_DATA_CRIACAO'];
                 $this->US_ID = $row['US_ID'];
                 $this->TR_DURACAO_ESTIMADA = $row['TR_DURACAO_ESTIMADA'];
                 $this->TR_STATUS = $row['TR_STATUS'];
@@ -65,7 +67,8 @@
 
         public function update(){
             $query = "UPDATE {$this->table} SET
-                TD_DATA_CRIACAO = :td_data_criacao, 
+                TR_NOME = :tr_nome,
+                TR_DATA_CRIACAO = :tr_data_criacao, 
                 US_ID = :us_id,
                 TR_DURACAO_ESTIMADA = :tr_duracao_estimada,
                 TR_STATUS = :tr_status,
@@ -73,7 +76,8 @@
                 WHERE TR_ID = :tr_id";
             $stmt = $this->conn->prepare($query);
             
-            $stmt -> bindParam(':td_data_criacao', $this->TD_DATA_CRIACAO);
+            $stmt -> bindParam(':tr_nome', $this->TR_NOME);
+            $stmt -> bindParam(':tr_data_criacao', $this->TR_DATA_CRIACAO);
             $stmt -> bindParam(':us_id', $this->US_ID);
             $stmt -> bindParam(':tr_duracao_estimada', $this->TR_DURACAO_ESTIMADA);
             $stmt -> bindParam(':tr_status', $this->TR_STATUS);
@@ -96,4 +100,16 @@
 
             return $stmt;
         }  
+
+        public function buscarUsuarios($usuarioSelecionado = null)
+        {
+        $result = $this->conn->query("SELECT US_ID, US_NOME from Usuarios ORDER BY US_NOME");
+        $options = '';
+
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            $selected = ($usuarioSelecionado && $row['US_ID'] == $usuarioSelecionado) ? 'selected' : '';
+            $options .= "<option value='{$row['US_ID']}' {$selected}>{$row['US_NOME']}</option>";
+        }
+            return $options;
+        }
     }

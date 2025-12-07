@@ -1,3 +1,78 @@
+<?php
+session_start();
+
+require_once __DIR__ ."\\..\\..\\config\\Database.php";
+require_once __DIR__ ."\\..\\..\\models\\sagef\\Exercicio.php";
+require_once __DIR__. "\\..\\..\\models\\sagef\\Treino.php";
+require_once __DIR__ ."\\..\\..\\models\\sagef\\TreinoExercicios.php";
+
+use config\Database;
+use models\sagef\Exercicio;
+use models\sagef\Treino;
+use models\sagef\TreinoExercicios;
+
+$db = Database::getInstance()->getConnection();
+
+$controllerEx = new Exercicio($db);
+$controllerTr = new Treino($db);
+$controllerTE = new TreinoExercicios($db);
+
+if (!isset($_SESSION["treino_exercicios"])) {
+    $_SESSION["treino_exercicios"] = [];
+}
+
+/* ADICIONAR EXERCÍCIO */
+if (isset($_POST["adicionar_exercicio"])) {
+    $controllerEx->EX_ID = $_POST['EX_ID'];
+    $dados = $controllerEx->searchID(); // agora retorna array
+
+    $_SESSION["treino_exercicios"][] = [
+    "EX_ID" => $dados["EX_ID"],
+    "EX_NOME" => $dados["EX_NOME"],
+    "TE_SERIES" => $_POST["TE_SERIES"],
+    "TE_REPETICOES" => $_POST["TE_REPETICOES"]
+    ];
+
+
+    header("Location: /funcionario/register/treino");
+    exit;
+}
+
+/* REMOVER */
+if (isset($_GET["remover"])) {
+    unset($_SESSION["treino_exercicios"][ $_GET["remover"] ]);
+    $_SESSION["treino_exercicios"] = array_values($_SESSION["treino_exercicios"]);
+    header("Location: /funcionario/register/treino");
+    exit;
+}
+
+/* DELETAR TREINO */
+if (isset($_POST["deletar_treino"])) {
+    $controllerTr->TR_ID = $_POST["TR_ID"];
+    $controllerTr->delete();
+    header("Location: /funcionario/register/treino");
+    exit;
+}
+
+/* ATUALIZAR TREINO */
+if (isset($_POST["atualizar_treino"])) {
+    $controllerTr->TR_ID = $_POST["TR_ID"];
+    $controllerTr->TR_NOME = $_POST["TR_NOME"];
+    $controllerTr->TR_DATA_CRIACAO = $_POST["TR_DATA_CRIACAO"];
+    $controllerTr->US_ID = $_POST["US_ID"];
+    $controllerTr->TR_DURACAO_ESTIMADA = $_POST["TR_DURACAO_ESTIMADA"];
+    $controllerTr->TR_STATUS = $_POST["TR_STATUS"];
+    $controllerTr->TR_OBSERVACOES = $_POST["TR_OBSERVACOES"];
+    $controllerTr->update();
+    header("Location: /funcionario/register/treino");
+    exit;
+}
+
+$listaEx = $controllerEx->list(); // pega todos os exercícios
+$listaTreinos = $controllerTr->list(); // pega todos os treinos
+
+
+?>
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -13,6 +88,8 @@
 </head>
 
 <body>
+
+<div class="d-flex" style="height:100vh;">
     
     <div class="d-flex" style="height: 100vh; overflow-y: auto; order:1;">
    <!-- Barra lateral -->
@@ -68,59 +145,55 @@
                 </ul>
             </div>
         </div>
+    </main>
+</div>
 
-        <main class="flex-grow-1 p-4 " style="overflow-y: auto; order:2;">
-            
-<form action="salvar-treino.php" method="POST" class="row g-3">
 
-    <h3 class="mt-3">Cadastro de Treino</h3>
+<!-- MODAL PARA ADICIONAR EXERCÍCIO -->
+<div class="modal fade" id="modalExercicio">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
-    <!-- TR_DATA_CRIACAO -->
-    <div class="col-md-3">
-        <label class="form-label">Data do Treino *</label>
-        <input type="date" name="TR_DATA_CRIACAO" class="form-control" required>
+      <form method="POST">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Adicionar Exercício</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+
+            <label class="form-label">Exercício</label>
+            <select name="EX_ID" class="form-select" required>
+                <option value="">Selecione</option>
+
+                <?php foreach ($listaEx as $ex): ?>
+                    <option value="<?= $ex['EX_ID'] ?>">
+                        <?= $ex['EX_NOME'] ?>
+                    </option>
+                <?php endforeach; ?>
+
+            </select>
+
+            <label class="form-label mt-3">Séries</label>
+            <input type="number" name="TE_SERIES" class="form-control" value="3" required>
+
+            <label class="form-label mt-3">Repetições</label>
+            <input type="number" name="TE_REPETICOES" class="form-control" value="10" required>
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary" name="adicionar_exercicio">Adicionar</button>
+        </div>
+
+      </form>
+
     </div>
+  </div>
+</div>
 
-    <!-- US_ID -->
-    <div class="col-md-6">
-        <label class="form-label">Usuário *</label>
-        <select name="US_ID" class="form-select" required>
-            <option value="">Selecione</option>
-            <?php foreach($usuarios as $u): ?>
-                <option value="<?= $u['US_ID'] ?>"><?= $u['US_NOME'] ?></option>
-            <?php endforeach; ?>
-        </select>
-    </div>
 
-    <!-- TR_DURACAO_ESTIMADA -->
-    <div class="col-md-3">
-        <label class="form-label">Duração Estimada (min)</label>
-        <input type="number" name="TR_DURACAO_ESTIMADA" class="form-control" required>
-    </div>
-
-    <!-- TR_OBSERVACOES -->
-    <div class="col-md-12">
-        <label class="form-label">Observações</label>
-        <textarea name="TR_OBSERVACOES" class="form-control"></textarea>
-    </div>
-
-    <hr>
-
-    <h4>Exercícios do Treino</h4>
-
-    <div id="lista-exercicios"></div>
-
-    <button type="button" class="btn btn-secondary mt-2" onclick="addExercicio()">Adicionar Exercício</button>
-
-    <div class="col-12 mt-4">
-        <button type="submit" class="btn text-white" style="background-color:#e35c38;">Salvar Treino</button>
-    </div>
-
-</form>
-        </main>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
