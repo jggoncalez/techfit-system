@@ -90,6 +90,8 @@
         }
 
         public function delete(){
+            $stmt = $this->conn->prepare("DELETE FROM treino_exercicios WHERE TR_ID = ?");
+            $stmt->execute([$this->TR_ID]);
             $query = "DELETE FROM " . $this -> table . " WHERE TR_ID = :tr_id";
 
             $stmt = $this->conn->prepare($query);
@@ -97,7 +99,7 @@
             $stmt->bindParam(':tr_id', $this->TR_ID);
 
             $stmt -> execute();
-
+   
             return $stmt;
         }  
 

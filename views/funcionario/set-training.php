@@ -76,73 +76,202 @@ $listaTreinos = $controllerTr->list(); // pega todos os treinos
 <!doctype html>
 <html lang="pt-br">
 <head>
-    <title>TechFit</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="shortcut icon" href="/Assets/images/TechFit-icon.ico" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-
-    <link rel="stylesheet" href="../../Assets/style/style.css">
+    <meta charset="UTF-8">
+    <title>Montar Treino</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
 
 <div class="d-flex" style="height:100vh;">
     
-    <div class="d-flex" style="height: 100vh; overflow-y: auto; order:1;">
-   <!-- Barra lateral -->
-        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <img src="../../public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
-            </a>
+    <!-- SIDEBAR -->
+    <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+        <a href="/" class="d-flex align-items-center mb-3 link-dark text-decoration-none">
+            <img src="../../public/images/logo-fixed.webp" style="max-width:150px;">
+        </a>
+
+        <hr>
+
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li><a href="/funcionario" class="nav-link link-dark">Home</a></li>
+            <li><a href="/funcionario/register/exercicios" class="nav-link link-dark">Cadastrar Exercícios</a></li>
+            <li><a href="/funcionario/register/estudantes" class="nav-link link-dark">Cadastrar Alunos</a></li>
+            <li><a href="/funcionario/register/classes" class="nav-link link-dark">Cadastrar Aulas</a></li>
+            <li><a href="/funcionario/register/treino" class="nav-link active text-white" style="background:#e35c38;">Montar Treinos</a></li>
+        </ul>
+    </div>
+
+    <!-- CONTEÚDO -->
+    <main class="p-4 flex-grow-1">
+
+        <h2>Montar Treino</h2>
+
+        <form action="/funcionario/salvar" method="POST" class="row g-3">
+
+            <div class="col-md-4">
+                <label class="form-label">Nome do Treino</label>
+                <input type="text" name="TR_NOME" class="form-control" required>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Data</label>
+                <input type="date" name="TR_DATA_CRIACAO" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Usuário</label>
+                <select name="US_ID" class="form-select" required>
+                    <option value="">Selecione</option>
+                    <?= $controllerTr->buscarUsuarios() ?>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Duração (min)</label>
+                <input type="number" name="TR_DURACAO_ESTIMADA" class="form-control" required>
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label">Observações</label>
+                <textarea name="TR_OBSERVACOES" class="form-control"></textarea>
+            </div>
+
             <hr>
-            <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item">
-                    <a href="/funcionario" class="nav-link link-dark">
-                        <i class="bi bi-speedometer2 me-2"></i>Menu
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/funcionario/register/exercicios" class="nav-link link-dark">
-                        <i class="bi bi-plus-circle me-2"></i>Exercícios
-                    </a>
-                </li>
-                <li>
-                    <a href="/funcionario/register/estudantes" class="nav-link link-dark">
-                        <i class="bi bi-person-plus me-2"></i>Alunos
-                    </a>
-                </li>
-                <li>
-                    <a href="/funcionario/register/classes" class="nav-link link-dark">
-                        <i class="bi bi-calendar-plus me-2"></i>Aulas
-                    </a>
-                </li>
-                <li>
-                    <a href="/funcionario/register/treino" class="nav-link active text-white" style="background-color: #e35c38;" aria-current="page">
-                        <i class="bi bi-clipboard-plus me-2"></i>Treinos
-                    </a>
-                </li>
-                <li>
-                    <a href="/funcionario/RFID" class="nav-link link-dark">
-                        <i class="bi bi-box-arrow-in-up-left"></i>
-                          Acessos
-                    </a>
-                </li>
-            </ul>
-            <hr>
-            <div class="dropdown">
-                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" 
-                   id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://placehold.co/32x32" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong id="user-name-sidebar">User</strong>
-                </a>
-                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+
+            <h4>Exercícios do Treino</h4>
+
+            <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#modalExercicio">
+                Adicionar Exercício
+            </button>
+
+            <?php if (!empty($_SESSION["treino_exercicios"])): ?>
+                <ul class="list-group">
+                    <?php foreach ($_SESSION["treino_exercicios"] as $i => $item): ?>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <?= $item["EX_NOME"] ?> —
+                            <?= $item["TE_SERIES"] ?> séries —
+                            <?= $item["TE_REPETICOES"] ?> repetições
+
+                            <a href="/funcionario/register/treino?remover=<?= $i ?>" class="btn btn-danger btn-sm">X</a>
+
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
+            <?php endif; ?>
+
+            <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-success">Salvar Treino</button>
+            </div>
+
+        </form>
+
+        <!-- LISTA DE TREINOS -->
+        <div class="mt-5">
+            <h3>Treinos Cadastrados</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Nome</th>
+                            <th>Data</th>
+                            <th>Usuário</th>
+                            <th>Duração (min)</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $dados = $listaTreinos->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($dados as $treino): 
+                            $modalId = "modal-treino-" . $treino['TR_ID'];
+                            $statusClass = match($treino['TR_STATUS']) {
+                                'ATIVO' => 'bg-success',
+                                'INATIVO' => 'bg-secondary',
+                                'CONCLUIDO' => 'bg-primary',
+                                default => 'bg-warning'
+                            };
+                        ?>
+                            <tr>
+                                <td><?= $treino['TR_ID'] ?></td>
+                                <td><?= $treino['TR_NOME'] ?></td>
+                                <td><?= date('d/m/Y', strtotime($treino['TR_DATA_CRIACAO'])) ?></td>
+                                <td><?= $treino['US_ID'] ?></td>
+                                <td><?= $treino['TR_DURACAO_ESTIMADA'] ?></td>
+                                <td><span class="badge <?= $statusClass ?>"><?= $treino['TR_STATUS'] ?></span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#<?= $modalId ?>">Editar</button>
+                                    <form method="POST" style="display:inline;">
+                                        <input type="hidden" name="deletar_treino" value="1">
+                                        <input type="hidden" name="TR_ID" value="<?= $treino['TR_ID'] ?>">
+                                        <button class="btn btn-sm btn-danger" type="submit">Deletar</button>
+                                    </form>
+                                </td>
+                            </tr>
+
+                            <!-- MODAL EDITAR TREINO -->
+                            <div class="modal fade" id="<?= $modalId ?>" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Editar Treino #<?= $treino['TR_ID'] ?></h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST">
+                                                <input type="hidden" name="atualizar_treino" value="1">
+                                                <input type="hidden" name="TR_ID" value="<?= $treino['TR_ID'] ?>">
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nome do Treino</label>
+                                                    <input type="text" name="TR_NOME" class="form-control" value="<?= $treino['TR_NOME'] ?>" required>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Data</label>
+                                                    <input type="date" name="TR_DATA_CRIACAO" class="form-control" value="<?= $treino['TR_DATA_CRIACAO'] ?>" required>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Usuário</label>
+                                                    <select name="US_ID" class="form-select" required>
+                                                        <?= $controllerTr->buscarUsuarios($treino['US_ID']) ?>
+                                                    </select>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Duração (min)</label>
+                                                    <input type="number" name="TR_DURACAO_ESTIMADA" class="form-control" value="<?= $treino['TR_DURACAO_ESTIMADA'] ?>" required>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Status</label>
+                                                    <select name="TR_STATUS" class="form-select" required>
+                                                        <option value="ATIVO" <?= $treino['TR_STATUS'] == 'ATIVO' ? 'selected' : '' ?>>Ativo</option>
+                                                        <option value="INATIVO" <?= $treino['TR_STATUS'] == 'INATIVO' ? 'selected' : '' ?>>Inativo</option>
+                                                        <option value="CONCLUIDO" <?= $treino['TR_STATUS'] == 'CONCLUIDO' ? 'selected' : '' ?>>Concluído</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Observações</label>
+                                                    <textarea name="TR_OBSERVACOES" class="form-control" rows="3"><?= $treino['TR_OBSERVACOES'] ?></textarea>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-primary">Atualizar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>

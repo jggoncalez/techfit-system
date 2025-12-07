@@ -119,6 +119,8 @@
 
             $stmt -> execute();
 
+            $stmt = $this->conn->prepare("DELETE FROM participacoes_aula WHERE AU_ID = ?");
+            $stmt->execute([$this->AU_ID]);
             return $stmt;
         }  
 

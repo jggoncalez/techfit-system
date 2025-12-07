@@ -170,14 +170,29 @@ class Usuario
 
     public function delete()
     {
-        $query = "DELETE FROM " . $this->table . " WHERE US_ID = :us_id";
 
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bindParam(':us_id', $this->US_ID);
-
-        $stmt->execute();
-
+             $stmt = $this->conn->prepare("SELECT TR_ID FROM treinos WHERE US_ID = ?");
+        $stmt->execute([$this->US_ID]);
+        $treinoIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        
+        // 2. Deletar todos os exercícios desses treinos
+        if (!empty($treinoIds)) {
+            $placeholders = str_repeat('?,', count($treinoIds) - 1) . '?';
+            $stmt = $this->conn->prepare("DELETE FROM treino_exercicios WHERE TR_ID IN ($placeholders)");
+            $stmt->execute($treinoIds);
+        }
+        
+            // 3. Deletar todos os treinos do usuário
+            $stmt = $this->conn->prepare("DELETE FROM treinos WHERE US_ID = ?");
+            $stmt->execute([$this->US_ID]);
+            
+            // 4. Deletar todas as participações em aulas
+            $stmt = $this->conn->prepare("DELETE FROM participacoes_aula WHERE US_ID = ?");
+            $stmt->execute([$this->US_ID]);
+            
+            // 5. Finalmente deletar o usuário
+            $stmt = $this->conn->prepare("DELETE FROM usuarios WHERE US_ID = ?");
+            $stmt->execute([$this->US_ID]);
         return $stmt;
     }
 
@@ -474,5 +489,13 @@ class Usuario
         ";
     }
 }
+    public function deleteRFID() {
+        $query = "DELETE FROM RFID_TAGS  WHERE US_ID = :us_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':us_id', $this->US_ID);
 
+        $stmt->execute();
+        
+        return $stmt;
+    }
  }

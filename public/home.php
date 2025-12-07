@@ -130,7 +130,7 @@ include_once 'include/header.php';
                     $modalId = "modal-academia-{$count}";
 
                     // Card
-                    echo "<div class=\"card\" style=\"width: 18rem; height:750px;\">";
+                    echo "<div class=\"card\" style=\"width: 18rem; height:550px;\">";
                     echo "<img src=\"{$img}\" class=\"card-img-top\" alt=\"{$title}\">";
                     echo "<div class=\"card-body\">";
                     echo "<h5 class=\"card-title\">{$title}</h5>";

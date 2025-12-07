@@ -74,8 +74,12 @@ $controller->searchID();
             </div>
         </div>
 
-        <main class="flex-grow-1">
-           <?php $controller->buscarTreinos();?>
+        <main class="flex-grow-1 p-3">
+             <h2 class="mb-4">Meus Treinos</h2>
+               <div class="d-flex" style="gap:30px;">
+                    <?php $controller->buscarTreinos();?>
+               </div>
+           
         </main>
     </div>
 
