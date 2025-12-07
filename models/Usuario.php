@@ -24,6 +24,7 @@ class Usuario
     public $PL_ID;
     public $US_STATUS_PAGAMENTO;
 
+    public $US_SENHA;
     public function __construct($db)
     {
         $this->conn = $db;
@@ -78,6 +79,7 @@ class Usuario
             $this->US_DISPONIBILIDADE = $row['US_DISPONIBILIDADE'];
             $this->PL_ID = $row['PL_ID'];
             $this->US_STATUS_PAGAMENTO = $row['US_STATUS_PAGAMENTO'];
+            $this->US_SENHA = $row['US_SENHA'];
             return true;
         }
 
@@ -108,6 +110,7 @@ class Usuario
             $this->US_DISPONIBILIDADE = $row['US_DISPONIBILIDADE'];
             $this->PL_ID = $row['PL_ID'];
             $this->US_STATUS_PAGAMENTO = $row['US_STATUS_PAGAMENTO'];
+            $this->US_SENHA = $row['US_SENHA'];
             return true;
         }
 
@@ -187,6 +190,10 @@ class Usuario
                         {$row['PL_NOME']}
                      </option>";
         }
+    }
+
+    public function trocarSenha($senhanova) {
+        $this->conn->query("UPDATE {$this->table} set US_SENHA= {$senhanova} where US_ID = {$this->US_ID} ");
     }
 
     public function buscarTreinos()
