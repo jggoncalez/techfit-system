@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "img": "https://placehold.co/225x400?text=Techfit+Limeira",
+        "img": "/public/images/gyms/limeira.webp",
         "title": "Techfit Limeira",
         "address": "Av. Comendador Agostinho Prada 1737, Vila San Marino, Limeira, SP, 13482-220",
         "bio": "Academia moderna com treinos personalizados e equipamentos de ponta.",
@@ -9,7 +9,7 @@
     },
     {
         "id": 2,
-        "img": "https://placehold.co/225x400?text=Techfit+Piracicaba",
+        "img": "/public/images/gyms/piracicaba.webp",
         "title": "Techfit Piracicaba",
         "address": "Rua do Porto, 80 - Centro, Piracicaba, SP, 13400-120",
         "bio": "Espaço amplo com atividades físicas para todas as idades.",
@@ -17,7 +17,7 @@
     },
     {
         "id": 3,
-        "img": "https://placehold.co/225x400?text=Techfit+Americana",
+        "img": "/public/images/gyms/americana.webp",
         "title": "Techfit Americana",
         "address": "Av. Brasil, 400 - Jardim Guanabara, Americana, SP, 13465-090",
         "bio": "Treinos funcionais e musculação com profissionais qualificados.",
@@ -25,7 +25,7 @@
     },
     {
         "id": 4,
-        "img": "https://placehold.co/225x400?text=Techfit+Campinas",
+        "img": "/public/images/gyms/campinas.webp",
         "title": "Techfit Campinas",
         "address": "Rua Barreto Leme, 70 - Centro, Campinas, SP, 13015-000",
         "bio": "Academia completa, ideal para quem busca performance e saúde.",
@@ -33,7 +33,7 @@
     },
     {
         "id": 5,
-        "img": "https://placehold.co/225x400?text=Techfit+S%C3%A3o+Carlos",
+        "img": "/public/images/gyms/saocarlos.webp",
         "title": "Techfit São Carlos",
         "address": "Av. Trabalhador São-Carlense, 1000 - Centro, São Carlos, SP, 13560-230",
         "bio": "Local moderno com aulas diversas e acompanhamento personalizado.",
@@ -41,7 +41,7 @@
     },
     {
         "id": 6,
-        "img": "https://placehold.co/225x400?text=Techfit+Araraquara",
+        "img": "/public/images/gyms/araraquara.webp",
         "title": "Techfit Araraquara",
         "address": "Praça Barão de Araraquara, 50 - Centro, Araraquara, SP, 14801-180",
         "bio": "Academia bem equipada com treinos para todos os níveis.",
@@ -49,7 +49,7 @@
     },
     {
         "id": 7,
-        "img": "https://placehold.co/225x400?text=Techfit+Ribeir%C3%A3o+Preto",
+        "img": "/public/images/gyms/ribeirao.webp",
         "title": "Techfit Ribeirão Preto",
         "address": "Av. Saudade, 1234 - Jardim Sumaré, Ribeirão Preto, SP, 14021-001",
         "bio": "Treinos personalizados e ambiente moderno para atividades físicas.",
@@ -57,7 +57,7 @@
     },
     {
         "id": 8,
-        "img": "https://placehold.co/225x400?text=Techfit+Jundia%C3%AD",
+        "img": "/public/images/gyms/jundiai.webp",
         "title": "Techfit Jundiaí",
         "address": "Rua Barão de Jundiaí, 210 - Centro, Jundiaí, SP, 13201-100",
         "bio": "Espaço completo para musculação, funcional e bem-estar.",
@@ -65,7 +65,7 @@
     },
     {
         "id": 9,
-        "img": "https://placehold.co/225x400?text=Techfit+Sorocaba",
+        "img": "/public/images/gyms/SOROCABA.webp",
         "title": "Techfit Sorocaba",
         "address": "Av. Eng. Carlos Reinaldo Mendes, 150 - Vila Hortência, Sorocaba, SP, 18085-180",
         "bio": "Academia moderna com foco em saúde e performance.",
@@ -73,7 +73,7 @@
     },
     {
         "id": 10,
-        "img": "https://placehold.co/225x400?text=Techfit+S%C3%A3o+Jos%C3%A9+do+Rio+Preto",
+        "img": "/public/images/gyms/Techfit-São-José-do-Rio-Preto.webp",
         "title": "Techfit São José do Rio Preto",
         "address": "Av. Alberto Andaló, 555 - Centro, São José do Rio Preto, SP, 15015-320",
         "bio": "Treinos variados com acompanhamento profissional de qualidade.",
@@ -81,7 +81,7 @@
     },
     {
         "id": 11,
-        "img": "https://placehold.co/225x400?text=Techfit+Cosm%C3%B3polis",
+        "img": "/public/images/gyms/cosmopolis.webp",
         "title": "Techfit Cosmópolis",
         "address": "Av. Marginal, 900 - Jardim Bela Vista, Cosmópolis, SP, 13150-000",
         "bio": "Ambiente acolhedor com equipamentos modernos e treinos personalizados.",
@@ -89,7 +89,7 @@
     },
     {
         "id": 12,
-        "img": "https://placehold.co/225x400?text=Techfit+Paul%C3%ADnia",
+        "img": "/public/images/gyms/paulinia.webp",
         "title": "Techfit Paulínia",
         "address": "Rua José Paulino, 1220 - Centro, Paulínia, SP, 13140-000",
         "bio": "Academia completa com musculação, funcional e aulas em grupo.",
@@ -97,7 +97,7 @@
     },
     {
         "id": 13,
-        "img": "https://placehold.co/225x400?text=Techfit+Valinhos",
+        "img": "/public/images/gyms/valinhos.webp",
         "title": "Techfit Valinhos",
         "address": "Av. dos Esportes, 450 - Jardim São Jorge, Valinhos, SP, 13270-250",
         "bio": "Estrutura moderna com programas de treino para todos os objetivos.",
@@ -105,7 +105,7 @@
     },
     {
         "id": 14,
-        "img": "https://placehold.co/225x400?text=Techfit+Indaiatuba",
+        "img": "/public/images/gyms/indaiatuba.webp",
         "title": "Techfit Indaiatuba",
         "address": "Rua das Primaveras, 320 - Jardim Primavera, Indaiatuba, SP, 13330-060",
         "bio": "Ambiente moderno e profissionais qualificados para seu bem-estar.",
@@ -113,7 +113,7 @@
     },
     {
         "id": 15,
-        "img": "https://placehold.co/225x400?text=Techfit+Itu",
+        "img": "/public/images/gyms/itu.webp",
         "title": "Techfit Itu",
         "address": "Av. Prudente de Moraes, 700 - Centro, Itu, SP, 13300-150",
         "bio": "Espaço amplo com equipamentos novos e treinos personalizados.",

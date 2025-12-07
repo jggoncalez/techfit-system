@@ -101,4 +101,22 @@
 
             return $stmt;
         }  
+
+        // Método alternativo mais simples
+        public function atualizarVagasDisponiveis($aulaId) {
+            $query = "UPDATE AULAS A
+                    SET A.AU_VAGAS_DISPONIVEIS = A.AU_VAGAS_TOTAIS - (
+                        SELECT COUNT(*) 
+                        FROM PARTICIPACOES_AULA PA
+                        WHERE PA.AU_ID = A.AU_ID 
+                        AND PA.PA_STATUS IN ('INSCRITO', 'PRESENTE')
+                    )
+                    WHERE A.AU_ID = :au_id";
+            
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':au_id', $aulaId);
+            $stmt->execute();
+            
+            return $stmt;
+        }
     }

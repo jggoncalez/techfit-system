@@ -1,5 +1,4 @@
 <?php
-
 namespace config;
 require_once 'Config.php';
 use PDO;

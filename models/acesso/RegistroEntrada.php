@@ -1,109 +1,132 @@
 <?php
-    namespace models\acesso;
+namespace models\acesso;
+use config\Database;
+use PDO;
 
-    use PDO;
-    class RegistroEntrada{
-        // Conexão
-        private $conn;
-        private $table = "REGISTRO_ENTRADA";
+class RegistroEntrada
+{
+    private $pdo;
+    private $table = 'REGISTRO_ENTRADAS';
 
-        public $RE_ID;
-        public $US_ID;
-        public $RFID_ID;
-        public $RE_DATA_HORA;
-        public $RE_TIPO_ENTRADA;
-        public $RE_STATUS;
-        public $RE_MOTIVO_NEGACAO;
-        public $RE_LOCALIZACAO;
-
-        public function __construct($db){
-            $this -> conn = $db;
-        }
-
-
-        public function create(){
-            $query = "INSERT INTO " . $this->table . " (US_ID, RFID_ID, RE_DATA_HORA, RE_TIPO_ENTRADA, RE_STATUS, RE_MOTIVO_NEGACAO, RE_LOCALIZACAO) VALUES (:us_id, :rfid_id, :re_data_hora, :re_tipo_entrada, :re_status, :re_motivo_negacao, :re_localizacao)";
-            $stmt = $this->conn->prepare($query);
-
-            $stmt -> bindParam(':us_id', $this->US_ID);
-            $stmt -> bindParam(':rfid_id', $this->RFID_ID);
-            $stmt -> bindParam(':re_data_hora', $this->RE_DATA_HORA);
-            $stmt -> bindParam(':re_tipo_entrada', $this->RE_TIPO_ENTRADA);
-            $stmt -> bindParam(':re_status', $this->RE_STATUS);
-            $stmt -> bindParam(':re_motivo_negacao', $this->RE_MOTIVO_NEGACAO);
-            $stmt -> bindParam(':re_localizacao', $this->RE_LOCALIZACAO);
-
-            $stmt -> execute();
-            return $stmt;
-        }
-
-        public function searchID() {
-            $query = "SELECT * FROM " . $this->table . " WHERE RE_ID = :re_id LIMIT 1";
-
-            $stmt = $this -> conn -> prepare($query);
-            $stmt -> bindParam(':re_id', $this->RE_ID);
-            $stmt -> execute();
-
-            $row = $stmt -> fetch(PDO::FETCH_ASSOC);
-
-            if($row) {
-                $this->US_ID = $row['US_ID'];
-                $this->RFID_ID = $row['RFID_ID'];
-                $this->RE_DATA_HORA = $row['RE_DATA_HORA'];
-                $this->RE_TIPO_ENTRADA = $row['RE_TIPO_ENTRADA'];
-                $this->RE_STATUS = $row['RE_STATUS'];
-                $this->RE_MOTIVO_NEGACAO = $row['RE_MOTIVO_NEGACAO'];
-                $this->RE_LOCALIZACAO = $row['RE_LOCALIZACAO'];
-                return true;
-            }
-
-            return false;
-        }
-
-        public function list(){
-            $query = "SELECT * FROM " .  $this->table;
-            $stmt = $this->conn->prepare($query);
-            
-            $stmt -> execute();
-
-            return $stmt;
-        }
-
-        public function update(){
-            $query = "UPDATE {$this->table} SET
-                US_ID = :us_id, 
-                RFID_ID = :rfid_id,
-                RE_DATA_HORA = :re_data_hora,
-                RE_TIPO_ENTRADA = :re_tipo_entrada,
-                RE_STATUS = :re_status,
-                RE_MOTIVO_NEGACAO = :re_motivo_negacao,
-                RE_LOCALIZACAO = :re_localizacao
-                WHERE RE_ID = :re_id";
-            $stmt = $this->conn->prepare($query);
-            
-            $stmt -> bindParam(':us_id', $this->US_ID);
-            $stmt -> bindParam(':rfid_id', $this->RFID_ID);
-            $stmt -> bindParam(':re_data_hora', $this->RE_DATA_HORA);
-            $stmt -> bindParam(':re_tipo_entrada', $this->RE_TIPO_ENTRADA);
-            $stmt -> bindParam(':re_status', $this->RE_STATUS);
-            $stmt -> bindParam(':re_motivo_negacao', $this->RE_MOTIVO_NEGACAO);
-            $stmt -> bindParam(':re_localizacao', $this->RE_LOCALIZACAO);
-            $stmt -> bindParam(':re_id', $this->RE_ID);
-            
-            $stmt->execute();
-
-            return $stmt;
-        }
-
-        public function delete(){
-            $query = "DELETE FROM " . $this -> table . " WHERE RE_ID = :re_id";
-
-            $stmt = $this->conn->prepare($query);
-
-            $stmt->bindParam(':re_id', $this->RE_ID);
-
-            $stmt -> execute();
-
-            return $stmt;
-        }  
+    public function __construct()
+    {
+        $this->pdo = Database::getInstance()->getConnection();
     }
+
+    /**
+     * Executar query com preparação automática
+     */
+    private function executar($sql, $params = [], $fetch = false)
+    {
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return $fetch ? $stmt->fetchAll(PDO::FETCH_ASSOC) : true;
+        } catch (\PDOException $e) {
+            throw new \Exception("Erro no banco: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Criar registro de entrada
+     */
+    public function criar($usId, $rfidId, $tipoEntrada, $status, $motivo = null, $localizacao = null)
+    {
+        $sql = "INSERT INTO {$this->table} 
+                (US_ID, RFID_ID, RE_TIPO_ENTRADA, RE_STATUS, RE_MOTIVO_NEGACAO, RE_LOCALIZACAO) 
+                VALUES (?, ?, ?, ?, ?, ?)";
+        
+        return $this->executar($sql, [$usId, $rfidId, $tipoEntrada, $status, $motivo, $localizacao]);
+    }
+
+    /**
+     * Obter registros com joins
+     */
+    public function obterTodos($limit = 50)
+    {
+        $sql = "SELECT re.*, u.US_NOME, u.US_EMAIL, r.RFID_TAG_CODE
+                FROM {$this->table} re
+                LEFT JOIN USUARIOS u ON re.US_ID = u.US_ID
+                LEFT JOIN RFID_TAGS r ON re.RFID_ID = r.RFID_ID
+                ORDER BY re.RE_DATA_HORA DESC
+                LIMIT ?";
+        
+        return $this->executar($sql, [$limit], true);
+    }
+
+    /**
+     * Obter por data
+     */
+    public function obterPorData($data)
+    {
+        $sql = "SELECT re.*, u.US_NOME, r.RFID_TAG_CODE
+                FROM {$this->table} re
+                LEFT JOIN USUARIOS u ON re.US_ID = u.US_ID
+                LEFT JOIN RFID_TAGS r ON re.RFID_ID = r.RFID_ID
+                WHERE DATE(re.RE_DATA_HORA) = ?
+                ORDER BY re.RE_DATA_HORA DESC";
+        
+        return $this->executar($sql, [$data], true);
+    }
+
+    /**
+     * Obter por usuário
+     */
+    public function obterPorUsuario($usId, $limit = 50)
+    {
+        $sql = "SELECT re.*, u.US_NOME, r.RFID_TAG_CODE
+                FROM {$this->table} re
+                LEFT JOIN USUARIOS u ON re.US_ID = u.US_ID
+                LEFT JOIN RFID_TAGS r ON re.RFID_ID = r.RFID_ID
+                WHERE re.US_ID = ?
+                ORDER BY re.RE_DATA_HORA DESC
+                LIMIT ?";
+        
+        return $this->executar($sql, [$usId, $limit], true);
+    }
+
+    /**
+     * Obter por ID
+     */
+    public function obterPorId($reId)
+    {
+        $sql = "SELECT re.*, u.US_NOME, r.RFID_TAG_CODE
+                FROM {$this->table} re
+                LEFT JOIN USUARIOS u ON re.US_ID = u.US_ID
+                LEFT JOIN RFID_TAGS r ON re.RFID_ID = r.RFID_ID
+                WHERE re.RE_ID = ?";
+        
+        $result = $this->executar($sql, [$reId], true);
+        return $result[0] ?? null;
+    }
+
+    /**
+     * Contar registros por status
+     */
+    public function contar($status, $data = null)
+    {
+        $sql = "SELECT COUNT(*) as total FROM {$this->table} WHERE RE_STATUS = ?";
+        $params = [$status];
+        
+        if ($data) {
+            $sql .= " AND DATE(RE_DATA_HORA) = ?";
+            $params[] = $data;
+        }
+        
+        $result = $this->executar($sql, $params, true);
+        return $result[0]['total'] ?? 0;
+    }
+
+    /**
+     * Atalhos para contagem
+     */
+    public function contarPermitidos($data = null)
+    {
+        return $this->contar('PERMITIDO', $data);
+    }
+
+    public function contarNegados($data = null)
+    {
+        return $this->contar('NEGADO', $data);
+    }
+}

@@ -7,9 +7,9 @@ $conn = $db->getConnection();
 $stmt = $conn ->prepare("SELECT * FROM aulas");
 $stmt -> execute([1]);
 
-while ($row = $stmt ->fetch_assoc(PDO::FETCH_ASSOC)){
-    echo "{$row['AU_NOME']}";
-}
+// while ($row = $stmt ->fetch_assoc(PDO::FETCH_ASSOC)){
+//     echo "{$row['AU_NOME']}";
+// }
 
 ?>
 
