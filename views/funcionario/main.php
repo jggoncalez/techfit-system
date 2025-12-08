@@ -150,7 +150,7 @@
                 </li>
                 <li>
                     <a href="/funcionario/register/admin" class="nav-link link-dark">
-                        <i class="bi bi-clipboard-plus me-2"></i>Funcionários
+                        <i class="bi bi-people-fill me-2"></i>Funcionários
                     </a>
                 </li>
                 <li>
