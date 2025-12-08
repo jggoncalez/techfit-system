@@ -1,21 +1,17 @@
 <?php
 session_start();
 
-require_once __DIR__ ."\\..\\..\\config\\Database.php";
-require_once __DIR__ ."\\..\\..\\models\\sagef\\Exercicio.php";
-require_once __DIR__. "\\..\\..\\models\\sagef\\Treino.php";
-require_once __DIR__ ."\\..\\..\\models\\sagef\\TreinoExercicios.php";
+require_once __DIR__ ."\\..\\..\\controllers\\sagef\\exercicioController.php";
+require_once __DIR__. "\\..\\..\\controllers\\sagef\\treinoController.php";
+require_once __DIR__ ."\\..\\..\\controllers\\sagef\\treino_exercicio_Controller.php";
 
-use config\Database;
-use models\sagef\Exercicio;
-use models\sagef\Treino;
-use models\sagef\TreinoExercicios;
+use controllers\sagef\TreinoExercicioController;
+use controllers\sagef\ExercicioController;
+use controllers\sagef\TreinoController;
 
-$db = Database::getInstance()->getConnection();
-
-$controllerEx = new Exercicio($db);
-$controllerTr = new Treino($db);
-$controllerTE = new TreinoExercicios($db);
+$controllerEx = new ExercicioController();
+$controllerTr = new TreinoController();
+$controllerTE = new TreinoExercicioController();
 
 if (!isset($_SESSION["treino_exercicios"])) {
     $_SESSION["treino_exercicios"] = [];

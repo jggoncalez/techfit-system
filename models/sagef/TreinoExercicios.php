@@ -43,7 +43,8 @@ public function create()
     $stmt->bindParam(':TE_ORDEM', $this->TE_ORDEM);
 
     $stmt->execute();
-    return $stmt;
+    
+    return true; 
 }
 
 

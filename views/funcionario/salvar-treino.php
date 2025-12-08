@@ -1,13 +1,11 @@
 <?php
 session_start();
+require_once __DIR__ ."\\..\\..\\controllers\\sagef\\exercicioController.php";
+require_once __DIR__. "\\..\\..\\controllers\\sagef\\treinoController.php";
+require_once __DIR__ ."\\..\\..\\controllers\\sagef\\treino_exercicio_Controller.php";
 
-use config\Database;
-use models\sagef\Treino;
-use models\sagef\TreinoExercicios;
-
-require_once __DIR__ . "/../../config/Database.php";
-require_once __DIR__ . "/../../models/sagef/Treino.php";
-require_once __DIR__ . "/../../models/sagef/TreinoExercicios.php";
+use controllers\sagef\TreinoExercicioController;
+use controllers\sagef\TreinoController;
 
 // =====================================
 // 1. VERIFICAR SE TREINO TEM EXERCÍCIOS
@@ -19,9 +17,8 @@ if (!isset($_SESSION["treino_exercicios"]) || count($_SESSION["treino_exercicios
 // =====================================
 // 2. CONEXÃO E MODELS
 // =====================================
-$db = Database::getInstance()->getConnection();
-$treino = new Treino($db);
-$treinoEx = new TreinoExercicios($db);
+$treino = new TreinoController();
+$treinoEx = new TreinoExercicioController();
 
 // =====================================
 // 3. RECEBE OS DADOS DO FORMULÁRIO
@@ -36,20 +33,17 @@ $treino->TR_OBSERVACOES      = $_POST["TR_OBSERVACOES"];
 // =====================================
 // 4. CRIA O TREINO
 // =====================================
-$stmt = $treino->create();
+$ultimoID = $treino->create();
+$ordem = 1;
 
-if (!$stmt) {
+if (!$ultimoID) {
     die("Erro ao cadastrar o treino.");
 }
-
-// pega o ID gerado automaticamente
-$treinoID = $db->lastInsertId();
-$ordem = 1;
 // =====================================
 // 5. SALVAR CADA EXERCÍCIO NO TREINO_EXERCICIOS
 // =====================================
 foreach ($_SESSION["treino_exercicios"] as $item) {
-
+    
     $treinoEx->TR_ID         = $treinoID;
     $treinoEx->EX_ID         = $item["EX_ID"];
     $treinoEx->TE_SERIES     = $item["TE_SERIES"];

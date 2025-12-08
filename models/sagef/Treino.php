@@ -31,7 +31,7 @@
             $stmt -> bindParam(':tr_observacoes', $this->TR_OBSERVACOES);
 
             $stmt -> execute();
-            return $stmt;
+            return $this->conn->lastInsertId();
         }
 
         public function searchID() {

@@ -7,7 +7,7 @@ from datetime import datetime
 DB_CONFIG = {
     'host': 'localhost',
     'user': 'root',
-    'password': '7900',
+    'password': 'senaisp',
     'database': 'TechFitDatabase',
     'auth_plugin': 'mysql_native_password'
 }
