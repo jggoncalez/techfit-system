@@ -208,7 +208,7 @@ class Usuario
     }
 
     public function trocarSenha($senhanova) {
-        $this->conn->query("UPDATE {$this->table} set US_SENHA= {$senhanova} where US_ID = {$this->US_ID} ");
+        $this->conn->query("UPDATE {$this->table} set US_SENHA= '{$senhanova}' where US_ID = {$this->US_ID} ");
     }
 
     public function buscarTreinos()
@@ -223,7 +223,6 @@ class Usuario
                                                     TE.TE_ORDEM,
                                                     TE.TE_SERIES,
                                                     TE.TE_REPETICOES,
-                                                    TE.TE_CONCLUIDO,
                                                     EX.EX_NOME
                                                 FROM TREINO_EXERCICIOS TE
                                                 JOIN EXERCICIOS EX ON EX.EX_ID = TE.EX_ID

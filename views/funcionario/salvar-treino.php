@@ -1,6 +1,5 @@
 <?php
 session_start();
-require_once __DIR__ ."\\..\\..\\controllers\\sagef\\exercicioController.php";
 require_once __DIR__. "\\..\\..\\controllers\\sagef\\treinoController.php";
 require_once __DIR__ ."\\..\\..\\controllers\\sagef\\treino_exercicio_Controller.php";
 
