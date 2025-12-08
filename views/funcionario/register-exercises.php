@@ -107,6 +107,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </a>
                 </li>
                 <li>
+                    <a href="/funcionario/register/admin" class="nav-link link-dark">
+                        <i class="bi bi-clipboard-plus me-2"></i>Funcionários
+                    </a>
+                </li>
+                <li>
                     <a href="/funcionario/RFID" class="nav-link link-dark">
                         <i class="bi bi-box-arrow-in-up-left"></i>
                           Acessos

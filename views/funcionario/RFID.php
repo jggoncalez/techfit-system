@@ -61,9 +61,15 @@ $negadosHoje = $pdo->query("SELECT COUNT(*) FROM REGISTRO_ENTRADAS WHERE DATE(RE
                         <i class="bi bi-calendar-plus me-2"></i>Aulas
                     </a>
                 </li>
+                
                 <li>
                     <a href="/funcionario/register/treino" class="nav-link link-dark">
                         <i class="bi bi-clipboard-plus me-2"></i>Treinos
+                    </a>
+                </li>
+                <li>
+                    <a href="/funcionario/register/admin" class="nav-link link-dark">
+                        <i class="bi bi-clipboard-plus me-2"></i>Funcionários
                     </a>
                 </li>
                 <li>
