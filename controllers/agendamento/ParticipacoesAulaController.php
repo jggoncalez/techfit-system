@@ -38,6 +38,7 @@ class ParticipacoesAulaController
     }
 
     public function searchID() {
+        $this->dao->PA_ID = $this->PA_ID;
         return $this->dao->searchID();
     }
 
@@ -46,14 +47,23 @@ class ParticipacoesAulaController
     }
 
     public function update() {
+        $this->dao->PA_ID = $this->PA_ID;
+        $this->dao->AU_ID = $this->AU_ID;
+        $this->dao->US_ID = $this->US_ID;
+        $this->dao->PA_DATA_INSCRICAO = $this->PA_DATA_INSCRICAO;
+        $this->dao->PA_STATUS = $this->PA_STATUS;
+        $this->dao->PA_AVALIACAO = $this->PA_AVALIACAO;
+        $this->dao->PA_COMENTARIO = $this->PA_COMENTARIO;
         return $this->dao->update();
     }
 
     public function delete() {
+         $this->dao->PA_ID = $this->PA_ID;
         return $this->dao->delete();
     }
 
     public function buscarAvaliacoes() {
+         $this->dao->PA_ID = $this->PA_ID;
         return $this->dao->buscarAvaliações();
     }
 

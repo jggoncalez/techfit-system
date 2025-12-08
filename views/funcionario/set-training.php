@@ -13,22 +13,32 @@ $controllerEx = new ExercicioController();
 $controllerTr = new TreinoController();
 $controllerTE = new TreinoExercicioController();
 
+
 if (!isset($_SESSION["treino_exercicios"])) {
     $_SESSION["treino_exercicios"] = [];
 }
 
 /* ADICIONAR EXERCÍCIO */
 if (isset($_POST["adicionar_exercicio"])) {
-    $controllerEx->EX_ID = $_POST['EX_ID'];
-    $dados = $controllerEx->searchID(); // agora retorna array
+    $exercicioId = $_POST['EX_ID'] ?? '';
+    
+    if (empty($exercicioId)) {
+        die("❌ ERRO: Nenhum exercício foi selecionado!");
+    }
+    
+    $controllerEx->EX_ID = $exercicioId;
+    $dados = $controllerEx->searchID();
+    
+    if (!$dados || !is_array($dados)) {
+        die("❌ ERRO: Exercício não encontrado!");
+    }
 
     $_SESSION["treino_exercicios"][] = [
-    "EX_ID" => $dados["EX_ID"],
-    "EX_NOME" => $dados["EX_NOME"],
-    "TE_SERIES" => $_POST["TE_SERIES"],
-    "TE_REPETICOES" => $_POST["TE_REPETICOES"]
+        "EX_ID" => $dados["EX_ID"],
+        "EX_NOME" => $dados["EX_NOME"],
+        "TE_SERIES" => $_POST["TE_SERIES"],
+        "TE_REPETICOES" => $_POST["TE_REPETICOES"]
     ];
-
 
     header("Location: /funcionario/register/treino");
     exit;
@@ -100,8 +110,11 @@ $listaTreinos = $controllerTr->list(); // pega todos os treinos
 
     <!-- CONTEÚDO -->
     <main class="p-4 flex-grow-1">
-
+    
+    <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Montar Treino</h2>
+    </div>
+
 
         <form action="/funcionario/salvar" method="POST" class="row g-3">
 
@@ -194,7 +207,7 @@ $listaTreinos = $controllerTr->list(); // pega todos os treinos
                                 <td><?= $treino['TR_ID'] ?></td>
                                 <td><?= $treino['TR_NOME'] ?></td>
                                 <td><?= date('d/m/Y', strtotime($treino['TR_DATA_CRIACAO'])) ?></td>
-                                <td><?= $treino['US_ID'] ?></td>
+                                <td><?= $controllerTr->buscarUsuarios($treino['US_ID']) ?></td>
                                 <td><?= $treino['TR_DURACAO_ESTIMADA'] ?></td>
                                 <td><span class="badge <?= $statusClass ?>"><?= $treino['TR_STATUS'] ?></span></td>
                                 <td>

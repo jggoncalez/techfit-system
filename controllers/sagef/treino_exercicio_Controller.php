@@ -43,6 +43,7 @@ class TreinoExercicioController
     }
 
     public function searchID(){
+        $this->dao->TR_ID           = $this->TR_ID;
         return $this->dao->searchID();
     }
 
@@ -51,10 +52,21 @@ class TreinoExercicioController
     }
 
     public function update() {
+         $this->dao->TR_ID           = $this->TR_ID;
+        $this->dao->EX_ID           = $this->EX_ID;
+        $this->dao->TE_ORDEM        = $this->TE_ORDEM;
+        $this->dao->TE_SERIES       = $this->TE_SERIES;
+        $this->dao->TE_REPETICOES   = $this->TE_REPETICOES;
+        $this->dao->TE_CARGA        = $this->TE_CARGA;
+        $this->dao->TE_TEMPO_DESCANSO = $this->TE_TEMPO_DESCANSO;
+        $this->dao->TE_OBSERVACOES  = $this->TE_OBSERVACOES;
+        $this->dao->TE_CONCLUIDO    = $this->TE_CONCLUIDO;
+
         return $this->dao->update();
     }
 
     public function delete() {
+        $this->dao->TR_ID           = $this->TR_ID;
         return $this->dao->delete();
     }
 } ?>

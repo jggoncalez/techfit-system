@@ -13,20 +13,11 @@
 </head>
 
 <?php
-require_once __DIR__ . '\\..\\..\\config\\Database.php';
-require_once __DIR__ . '\\..\\..\\models\\Funcionario.php';
+require_once __DIR__ . '\\..\\..\\controllers\\FuncionarioController.php';
 
-use config\Database;
-use models\Funcionario;
+use controllers\FuncionarioController;
 
-try {
-    $db = Database::getInstance()->getConnection();
-} catch (Exception $e) {
-    echo "Erro: " . $e->getMessage();
-    exit;
-}
-
-$controller = new Funcionario($db);
+$controller = new FuncionarioController();
 $stmt = $controller->list();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -39,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $controller->FU_NIVEL_ACESSO = $_POST['FU_NIVEL_ACESSO'];
         $controller->FU_SALARIO = $_POST['FU_SALARIO'];
         $controller->FU_DATA_ADMISSAO = $_POST['FU_DATA_ADMISSAO'];
+        
         $controller->create();
         header("Location: /funcionario/register/admin");
         exit;

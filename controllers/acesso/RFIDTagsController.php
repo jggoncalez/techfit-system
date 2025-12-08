@@ -2,6 +2,7 @@
 namespace controllers\acesso;
 
 require_once __DIR__ . "/../../models/acesso/RFIDTags.php";
+require_once __DIR__ . "\\..\\..\\config\\Database.php";
 
 use models\acesso\RFIDTags;
 use config\Database;

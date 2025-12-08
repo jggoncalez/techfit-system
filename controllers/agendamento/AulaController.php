@@ -46,6 +46,7 @@ class AulaController
     }
 
     public function searchID() {
+        $this->dao->AU_ID = $this->AU_ID;
         return $this->dao->searchID();
     }
 
@@ -54,10 +55,22 @@ class AulaController
     }
 
     public function update() {
+        $this->dao->AU_ID = $this->AU_ID;
+        $this->dao->FU_ID = $this->FU_ID;
+        $this->dao->AU_NOME = $this->AU_NOME;
+        $this->dao->AU_DATA = $this->AU_DATA;
+        $this->dao->AU_HORA_INICIO = $this->AU_HORA_INICIO;
+        $this->dao->AU_HORA_FIM = $this->AU_HORA_FIM;
+        $this->dao->AU_VAGAS_DISPONIVEIS = $this->AU_VAGAS_DISPONIVEIS;
+        $this->dao->AU_VAGAS_TOTAIS = $this->AU_VAGAS_TOTAIS;
+        $this->dao->AU_SALA = $this->AU_SALA;
+        $this->dao->AU_STATUS = $this->AU_STATUS;
+        $this->dao->AU_OBSERVACOES = $this->AU_OBSERVACOES;
         return $this->dao->update();
     }
 
     public function delete() {
+        $this->dao->AU_ID = $this->AU_ID;
         return $this->dao->delete();
     }
 

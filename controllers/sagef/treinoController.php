@@ -5,7 +5,6 @@ require_once __DIR__. "\\..\\..\\models\\sagef\\Treino.php";
 require_once __DIR__ ."\\..\\..\\config\\Database.php";
 
 use models\sagef\Treino;
-
 use config\Database;
 
 class TreinoController
@@ -27,17 +26,19 @@ class TreinoController
     }
 
     public function create() {
-    $this->dao->TR_NOME = $this->TR_NOME;
-    $this->dao->TR_DATA_CRIACAO = $this->TR_DATA_CRIACAO;
-    $this->dao->US_ID = $this->US_ID;
-    $this->dao->TR_DURACAO_ESTIMADA = $this->TR_DURACAO_ESTIMADA;
-    $this->dao->TR_STATUS = $this->TR_STATUS;
-    $this->dao->TR_OBSERVACOES = $this->TR_OBSERVACOES;
+
+        $this->dao->TR_NOME = $this->TR_NOME;
+        $this->dao->TR_DATA_CRIACAO = $this->TR_DATA_CRIACAO;
+        $this->dao->US_ID = $this->US_ID;
+        $this->dao->TR_DURACAO_ESTIMADA = $this->TR_DURACAO_ESTIMADA;
+        $this->dao->TR_STATUS = $this->TR_STATUS;
+        $this->dao->TR_OBSERVACOES = $this->TR_OBSERVACOES;
         return $this->dao->create();
     }
 
     public function searchID() {
-       return  $this->dao->searchID();
+        $this->dao->TR_ID = $this->TR_ID;
+        return $this->dao->searchID();
     }
 
     public function list() {
@@ -45,15 +46,24 @@ class TreinoController
     }
 
     public function update() {
+        $this->dao->TR_ID = $this->TR_ID;
+        $this->dao->TR_NOME = $this->TR_NOME;
+        $this->dao->TR_DATA_CRIACAO = $this->TR_DATA_CRIACAO;
+        $this->dao->US_ID = $this->US_ID;
+        $this->dao->TR_DURACAO_ESTIMADA = $this->TR_DURACAO_ESTIMADA;
+        $this->dao->TR_STATUS = $this->TR_STATUS;
+        $this->dao->TR_OBSERVACOES = $this->TR_OBSERVACOES;
+        
         return $this->dao->update();
     }
 
     public function delete() {
-       return  $this->dao->delete();
+        $this->dao->TR_ID = $this->TR_ID;
+        return $this->dao->delete();
     }
 
     public function buscarUsuarios($usuarioSelecionado = null) {
         return $this->dao->buscarUsuarios($usuarioSelecionado);
     }
-
-} ?>
+}
+?>

@@ -13,36 +13,33 @@
 </head>
 
 <?php
-require_once __DIR__ . '\\..\\..\\config\\Database.php';
-require_once __DIR__ . '\\..\\..\\models\\agendamento\\Aula.php';
-require_once __DIR__ . '\\..\\..\\models\\agendamento\\ParticipacoesAula.php';
-use config\Database;
-use models\agendamento\Aula;
-use models\agendamento\ParticipacoesAula;
-try {
-    $db = Database::getInstance()->getConnection();
-} catch (Exception $e) {
-    echo "Erro: " . $e->getMessage();
-    exit;
-}
-$controllerPart = new ParticipacoesAula($db);
-$controller = new Aula($db);
+require_once __DIR__ . '\\..\\..\\controllers\\agendamento\\AulaController.php';
+require_once __DIR__ . '\\..\\..\\controllers\\agendamento\\ParticipacoesAulaController.php';
+
+use controllers\agendamento\AulaController;
+use controllers\agendamento\ParticipacoesAulaController;
+
+$controller = new AulaController();
+$controllerPart = new ParticipacoesAulaController();
+
 $stmt = $controller->list();
-$stmtPart = $controllerPart->buscarAvaliações();
+$stmtPart = $controllerPart->buscarAvaliacoes();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? '';
 
     if ($acao === 'criar') {
         $controller->AU_NOME = $_POST['AU_NOME'];
         $controller->AU_DATA = $_POST['AU_DATA'];
-        $controller->AU_HORA_FIM = $_POST['AU_HORA_FIM'];
         $controller->AU_HORA_INICIO = $_POST['AU_HORA_INICIO'];
-        $controller->AU_OBSERVACOES = $_POST['AU_OBSERVACOES'];
+        $controller->AU_HORA_FIM = $_POST['AU_HORA_FIM'];
         $controller->AU_SALA = $_POST['AU_SALA'];
-        $controller->AU_STATUS = $_POST['AU_STATUS'];
         $controller->AU_VAGAS_TOTAIS = $_POST['AU_VAGAS_TOTAIS'];
         $controller->AU_VAGAS_DISPONIVEIS = $_POST['AU_VAGAS_TOTAIS'];
+        $controller->AU_STATUS = $_POST['AU_STATUS'];
+        $controller->AU_OBSERVACOES = $_POST['AU_OBSERVACOES'];
         $controller->FU_ID = $_POST['FU_ID'];
+        
         $controller->create();
         header("Location: /funcionario/register/classes");
         exit;
@@ -52,14 +49,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $controller->AU_ID = $_POST['AU_ID'];
         $controller->AU_NOME = $_POST['AU_NOME'];
         $controller->AU_DATA = $_POST['AU_DATA'];
-        $controller->AU_HORA_FIM = $_POST['AU_HORA_FIM'];
         $controller->AU_HORA_INICIO = $_POST['AU_HORA_INICIO'];
-        $controller->AU_OBSERVACOES = $_POST['AU_OBSERVACOES'];
+        $controller->AU_HORA_FIM = $_POST['AU_HORA_FIM'];
         $controller->AU_SALA = $_POST['AU_SALA'];
-        $controller->AU_STATUS = $_POST['AU_STATUS'];
         $controller->AU_VAGAS_TOTAIS = $_POST['AU_VAGAS_TOTAIS'];
         $controller->AU_VAGAS_DISPONIVEIS = $_POST['AU_VAGAS_DISPONIVEIS'];
+        $controller->AU_STATUS = $_POST['AU_STATUS'];
+        $controller->AU_OBSERVACOES = $_POST['AU_OBSERVACOES'];
         $controller->FU_ID = $_POST['FU_ID'];
+        
         $controller->update();
         header("Location: /funcionario/register/classes");
         exit;

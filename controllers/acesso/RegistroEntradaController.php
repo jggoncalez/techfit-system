@@ -1,19 +1,21 @@
 <?php
-
-
 namespace controllers\acesso;
 
-require_once __DIR__ . "/../../models/acesso/RegistroEntrada.php";
+require_once __DIR__ . "\\..\\..\\models\\acesso\\RegistroEntrada.php";
+require_once __DIR__ . "\\..\\..\\config\\Database.php";
 
 use models\acesso\RegistroEntrada;
+use config\Database;
 
 class RegistroEntradaController
 {
     private $dao;
-
+    private $db;
     public function __construct()
     {
-        $this->dao = new RegistroEntrada();
+        $this->db = Database::getInstance()->getConnection();
+        $this->dao = new RegistroEntrada($this-> db);
+        
     }
 
     // ==========================================

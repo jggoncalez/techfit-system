@@ -56,9 +56,8 @@ class UsuarioController
         $this->dao->PL_ID                = $this->PL_ID;
         $this->dao->US_STATUS_PAGAMENTO  = $this->US_STATUS_PAGAMENTO;
 
-        $this->dao->create();
+        return $this->dao->create();
 
-        return $this->db->lastInsertId();
     }
 
     // ==========================================
@@ -159,4 +158,9 @@ class UsuarioController
         $this->dao->US_ID = $this->US_ID;
         return $this->dao->buscarParticipacoes();
     }
-}?>
+
+    public function buscarPlanos() {
+        $this->dao->US_ID = $this->US_ID;
+        return $this->dao->buscarPlanos();
+    }
+ }?>

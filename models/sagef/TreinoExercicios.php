@@ -29,24 +29,30 @@ class TreinoExercicios
 
 public function create()
 {
-    $query = "INSERT INTO TREINO_EXERCICIOS 
-        (TR_ID, EX_ID, TE_SERIES, TE_REPETICOES, TE_ORDEM)
-        VALUES (:TR_ID, :EX_ID, :TE_SERIES, :TE_REPETICOES, :TE_ORDEM)";
+    try {
+        $query = "INSERT INTO TREINO_EXERCICIOS 
+            (TR_ID, EX_ID, TE_SERIES, TE_REPETICOES, TE_ORDEM)
+            VALUES (:TR_ID, :EX_ID, :TE_SERIES, :TE_REPETICOES, :TE_ORDEM)";
 
-    $stmt = $this->conn->prepare($query);
+        $stmt = $this->conn->prepare($query);
 
-    // Parâmetros corretos, exatamente como no SQL
-    $stmt->bindParam(':TR_ID', $this->TR_ID);
-    $stmt->bindParam(':EX_ID', $this->EX_ID);
-    $stmt->bindParam(':TE_SERIES', $this->TE_SERIES);
-    $stmt->bindParam(':TE_REPETICOES', $this->TE_REPETICOES);
-    $stmt->bindParam(':TE_ORDEM', $this->TE_ORDEM);
+        $stmt->bindParam(':TR_ID', $this->TR_ID);
+        $stmt->bindParam(':EX_ID', $this->EX_ID);
+        $stmt->bindParam(':TE_SERIES', $this->TE_SERIES);
+        $stmt->bindParam(':TE_REPETICOES', $this->TE_REPETICOES);
+        $stmt->bindParam(':TE_ORDEM', $this->TE_ORDEM);
 
-    $stmt->execute();
-    
-    return true; 
+        if ($stmt->execute()) {
+            return $this->conn->lastInsertId();
+        }
+        
+        return false;
+        
+    } catch (\PDOException $e) {
+        error_log("Erro ao inserir exercício no treino: " . $e->getMessage());
+        return false;
+    }
 }
-
 
     public function searchID()
     {

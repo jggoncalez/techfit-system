@@ -39,9 +39,7 @@ class FuncionarioController
         $this->dao->FU_SALARIO      = $this->FU_SALARIO;
         $this->dao->FU_DATA_ADMISSAO= $this->FU_DATA_ADMISSAO;
 
-        $this->dao->create();
-
-        return $this->db->lastInsertId();
+        return $this->dao->create();;
     }
 
     // ==========================================
