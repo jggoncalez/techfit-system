@@ -97,6 +97,7 @@ class Dashboard {
         $query = "SELECT 
                     (SELECT COUNT(*) FROM usuarios WHERE US_STATUS_PAGAMENTO = 'EM_DIA') as usuarios_ativos,
                     (SELECT COUNT(*) FROM aulas WHERE AU_DATA >= CURDATE()) as aulas_futuras,
+                    (SELECT COUNT(*) FROM treinos WHERE TR_STATUS = 'ATIVO') as treinos_ativos,
                     (SELECT COUNT(*) FROM pagamentos WHERE PG_STATUS = 'ATRASADO') as pagamentos_atrasados,
                     (SELECT COALESCE(SUM(PG_VALOR), 0) FROM pagamentos 
                      WHERE PG_STATUS = 'PAGO' 

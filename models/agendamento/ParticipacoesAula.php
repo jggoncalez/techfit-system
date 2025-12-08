@@ -34,7 +34,16 @@
             $stmt -> execute();
             return $stmt;
         }
+        public function buscarAvaliações() {
+            $query = "SELECT p.PA_AVALIACAO, p.PA_COMENTARIO, a.AU_NOME, u.US_NOME 
+            FROM " . $this->table . " p 
+            JOIN AULAS a ON a.AU_ID = p.AU_ID 
+            JOIN USUARIOS u ON u.US_ID = p.US_ID";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
 
+            return $stmt;
+        }
         public function searchID() {
             $query = "SELECT * FROM " . $this->table . " WHERE PA_ID = :pa_id LIMIT 1";
 

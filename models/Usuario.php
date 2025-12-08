@@ -380,14 +380,14 @@ class Usuario
                     <td>{$row['AU_VAGAS_TOTAIS']}</td>
                     <td>{$row['AU_SALA']}</td>
                 <td>
-    <form method='POST'> 
-        <input type='hidden' name='acao' value='participar'>
-        <input type='hidden' name='AU_ID' value='{$row['AU_ID']}'>
-        <button type='submit' class='btn btn-sm text-white' style='background-color:#e35c38;' " . ($row['AU_VAGAS_DISPONIVEIS'] <= 0 ? 'disabled' : '') . ">
-            " . ($row['AU_VAGAS_DISPONIVEIS'] > 0 ? 'Participar' : 'Sem Vagas') . "
-        </button>
-    </form>
-</td>
+                    <form method='POST'> 
+                        <input type='hidden' name='acao' value='participar'>
+                        <input type='hidden' name='AU_ID' value='{$row['AU_ID']}'>
+                        <button type='submit' class='btn btn-sm text-white' style='background-color:#e35c38;' " . ($row['AU_VAGAS_DISPONIVEIS'] <= 0 ? 'disabled' : '') . ">
+                            " . ($row['AU_VAGAS_DISPONIVEIS'] > 0 ? 'Participar' : 'Sem Vagas') . "
+                        </button>
+                    </form>
+                </td>
                     </tr>
                     </tbody>
                     </table>

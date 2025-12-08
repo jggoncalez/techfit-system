@@ -15,20 +15,20 @@
 <?php
 require_once __DIR__ . '\\..\\..\\config\\Database.php';
 require_once __DIR__ . '\\..\\..\\models\\agendamento\\Aula.php';
-
+require_once __DIR__ . '\\..\\..\\models\\agendamento\\ParticipacoesAula.php';
 use config\Database;
 use models\agendamento\Aula;
-
+use models\agendamento\ParticipacoesAula;
 try {
     $db = Database::getInstance()->getConnection();
 } catch (Exception $e) {
     echo "Erro: " . $e->getMessage();
     exit;
 }
-
+$controllerPart = new ParticipacoesAula($db);
 $controller = new Aula($db);
 $stmt = $controller->list();
-
+$stmtPart = $controllerPart->buscarAvaliações();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? '';
 
@@ -343,6 +343,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ?>
                     </tbody>
                 </table>
+            </div>
+            <h2 class="mb-4">Avaliações</h2>
+            <div class="d-flex" style="gap:30px;">
+                <?php 
+                $dados = $stmtPart->fetchAll(PDO::FETCH_ASSOC);
+                
+                    if (empty($dados)){
+                        echo "Nenhuma avaliação feita...";
+                    }else {
+                        foreach ($dados as $row){
+                             if ($row['PA_AVALIACAO'] ==! null){
+                                echo "<div class='card' style='width: 18rem;'>
+                                <div class='card-body'>
+                                    <h5 class='card-title'>{$row['US_NOME']}</h5>
+                                    <h6 class='card-subtitle mb-2 text-body-secondary'>{$row['PA_AVALIACAO']}/10</h6>
+                                    <hr>
+                                    <p class='card-text'><strong>Comentario:</strong> {$row['PA_COMENTARIO']}</p>
+                                    <hr>
+                                    <p class='card-text'><strong>Avalição feita em: {$row['AU_NOME']}</strong></p>
+                                </div>
+                                </div> ";
+                    } 
+                    }
+                } ?>
             </div>
         </main>
     </div>

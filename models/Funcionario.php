@@ -1,8 +1,8 @@
 <?php
-    namespace models\agendamento;
+    namespace models;
 
     use PDO;
-    class Funcionario{
+    class Funcionario {
         // Conexão
         private $conn;
         private $table = "FUNCIONARIOS";

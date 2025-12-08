@@ -44,3 +44,4 @@ class Database{
     private function __clone(){}
 
 }
+
