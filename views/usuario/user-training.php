@@ -1,3 +1,25 @@
+<?php
+require_once __DIR__ . "/../../models/Usuario.php";
+require_once __DIR__ . "/../../config/Database.php";
+
+use models\Usuario;
+use config\Database;
+
+// session_start TEM que vir ANTES de qualquer HTML!
+session_start();
+
+try {
+    $db = Database::getInstance()->getConnection();
+} catch (Exception $e) {
+    echo $e;
+    exit;
+}
+
+$controller = new Usuario($db);
+$user = $_SESSION['user_ID'];
+$controller->US_ID = $user;
+$controller->searchID();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -7,31 +29,10 @@
     <link rel="shortcut icon" href="../public/images/TechFit-icon.ico" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <link rel="stylesheet" href="../../Assets/style/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
-<?php 
-require_once __DIR__ . "\\..\\..\\models\\Usuario.php";
-
-require_once __DIR__ . "\\..\\..\\config\\Database.php";
-
-use models\Usuario;
-use config\Database;
-
-try {
-     $db = Database::getInstance()->getConnection();
-} catch (Exception $e) {
-    echo $e;
-}
-
-session_start();
-$controller = new Usuario($db);
-$user = $_SESSION['user_ID'];
-$controller->US_ID = $user;
-$controller->searchID();
-?>
 <body>
-    
     <div class="d-flex" style="height: 100vh; overflow-y: auto;">
         <!-- Sidebar -->
         <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
@@ -41,7 +42,7 @@ $controller->searchID();
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="/usuario" class="nav-link link-dark" >
+                    <a href="/usuario" class="nav-link link-dark">
                         <i class="bi bi-house-door me-2"></i>Home
                     </a>
                 </li>
@@ -61,30 +62,25 @@ $controller->searchID();
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" 
                    id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://placehold.co/32x32" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <p id="user-name"><strong><?php echo $controller->US_NOME ?></strong></p>
+                    <strong><?php echo $controller->US_NOME; ?></strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="/usuario/profile"><i class="bi bi-person me-2"></i>Perfil</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                    <li><a class="dropdown-item" href="/core/Session.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
                 </ul>
             </div>
         </div>
 
         <main class="flex-grow-1 p-3">
-             <h2 class="mb-4">Meus Treinos</h2>
-               <div class="d-flex" style="gap:30px;">
-                    <?php $controller->buscarTreinos();?>
-               </div>
-           
+            <h2 class="mb-4">Meus Treinos</h2>
+            <div class="d-flex" style="gap:30px;">
+                <?php $controller->buscarTreinos(); ?>
+            </div>
         </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
 </body>
 </html>

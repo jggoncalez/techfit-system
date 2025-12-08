@@ -13,8 +13,8 @@
 </head>
 
 <?php
-require_once __DIR__ . "\\..\\..\\models\\Usuario.php";
-require_once __DIR__ . "\\..\\..\\config\\Database.php";
+require_once __DIR__ . "/../..//models/Usuario.php";
+require_once __DIR__ . "/../../config/Database.php";
 
 use models\Usuario;
 use config\Database;
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="/usuario/profile"><i class="bi bi-person me-2"></i>Perfil</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                    <li><a class="dropdown-item" href="/core/Session.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
                 </ul>
             </div>
         </div>

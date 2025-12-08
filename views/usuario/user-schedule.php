@@ -8,15 +8,15 @@
     <link rel="shortcut icon" href="../public/images/TechFit-icon.ico" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../../Assets/style/style.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 </head>
 
 </html>
 <?php
-require_once __DIR__ . "\\..\\..\\models\\Usuario.php";
-require_once __DIR__ . "\\..\\..\\config\\Database.php";
-require_once __DIR__ . "\\..\\..\\models\\agendamento\\ParticipacoesAula.php";
+require_once __DIR__ . "/../../models/Usuario.php";
+require_once __DIR__ . "/../../config/Database.php";
+require_once __DIR__ . "/../../models/agendamento/ParticipacoesAula.php";
 
 use models\agendamento\ParticipacoesAula;
 use models\Usuario;
@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="/usuario/profile"><i class="bi bi-person me-2"></i>Perfil</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                    <li><a class="dropdown-item" href="/core/Session.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
                 </ul>
             </div>
         </div>

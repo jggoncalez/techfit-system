@@ -5,8 +5,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-require_once __DIR__ . '\\..\\..\\core\\Session.php';
-require_once __DIR__ . '\\..\\..\\config\\Database.php';
+require_once __DIR__ . '/../../core/Session.php';
+require_once __DIR__ . '/../../config/Database.php';
 
 use config\Database;
 use core\Session;
@@ -19,7 +19,7 @@ $session = new Session($db);
 
 // Verifica se está logado
 if (!$session->isLoggedIn()) {
-    header('Location: login.php');
+    header('Location: /login');
     exit;
 }
 
@@ -78,7 +78,7 @@ $userName = $session->getUserName();
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="/usuario/profile"><i class="bi bi-person me-2"></i>Perfil</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                    <li><a class="dropdown-item" href="/core/Session.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
                 </ul>
             </div>
         </div>
@@ -92,7 +92,5 @@ $userName = $session->getUserName();
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
-        <script src="../get-user.js"></script>
     </body>
 </html>
