@@ -13,22 +13,23 @@
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
 <?php
-require_once __DIR__ . '\\..\\..\\config\\Database.php';
-require_once __DIR__ . '\\..\\..\\models\\sagef\\Exercicio.php';
+require_once __DIR__ . '\\..\\..\\controllers\\sagef\\ExercicioController.php';
+require_once __DIR__ . "\\..\\..\\controllers\\FuncionarioController.php";
+use controllers\FuncionarioController;
+session_start();
 
-use config\Database;
-use models\sagef\Exercicio;
-
-try {
-    $db = Database::getInstance()->getConnection();
-} catch (Exception $e) {
-    echo "Ai " . $e->getMessage();
+// Verifica se está logado
+if (!isset($_SESSION['user_ID'])) {
+    header("Location: /public/login.php");
+    exit();
 }
+use controllers\sagef\ExercicioController;
 
-
-
-$controller = new Exercicio($db);
+$controller = new ExercicioController();
 $stmt = $controller->list();
+$controllerFun = new FuncionarioController();
+$controllerFun->FU_ID = $_SESSION['user_ID'];
+$controllerFun->searchID();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? '';
     if ($acao === 'criar') {
@@ -107,6 +108,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </a>
                 </li>
                 <li>
+                    <a href="/funcionario/register/admin" class="nav-link link-dark">
+                        <i class="bi bi-people-fill me-2"></i>Funcionários
+                    </a>
+                </li>
+                <li>
                     <a href="/funcionario/RFID" class="nav-link link-dark">
                         <i class="bi bi-box-arrow-in-up-left"></i>
                           Acessos
@@ -117,13 +123,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" 
                    id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://placehold.co/32x32" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong id="user-name-sidebar">User</strong>
+                    <img src="../../public/images/pfp_placeholder.webp" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong id="user-name-sidebar"><?php echo $controllerFun->FU_NOME ?></strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                    <li><a class="dropdown-item" href="/core/Session.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
                 </ul>
             </div>
         </div>

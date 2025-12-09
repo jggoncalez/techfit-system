@@ -13,36 +13,49 @@
 </head>
 
 <?php
-require_once __DIR__ . '\\..\\..\\config\\Database.php';
-require_once __DIR__ . '\\..\\..\\models\\agendamento\\Aula.php';
-require_once __DIR__ . '\\..\\..\\models\\agendamento\\ParticipacoesAula.php';
-use config\Database;
-use models\agendamento\Aula;
-use models\agendamento\ParticipacoesAula;
-try {
-    $db = Database::getInstance()->getConnection();
-} catch (Exception $e) {
-    echo "Erro: " . $e->getMessage();
-    exit;
+require_once __DIR__ . '\\..\\..\\controllers\\agendamento\\AulaController.php';
+require_once __DIR__ . '\\..\\..\\controllers\\agendamento\\ParticipacoesAulaController.php';
+
+
+
+use controllers\agendamento\AulaController;
+use controllers\agendamento\ParticipacoesAulaController;
+require_once __DIR__ . "\\..\\..\\controllers\\FuncionarioController.php";
+use controllers\FuncionarioController;
+session_start();
+
+// Verifica se está logado
+if (!isset($_SESSION['user_ID'])) {
+    header("Location: /public/login.php");
+    exit();
 }
-$controllerPart = new ParticipacoesAula($db);
-$controller = new Aula($db);
+
+$controller = new AulaController();
+$controllerPart = new ParticipacoesAulaController();
+$controllerFun = new FuncionarioController();
+$controllerFun->FU_ID = $_SESSION['user_ID'];
+$controllerFun->searchID();
+
 $stmt = $controller->list();
-$stmtPart = $controllerPart->buscarAvaliações();
+
+
+$stmtPart = $controllerPart->buscarAvaliacoes();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? '';
 
     if ($acao === 'criar') {
         $controller->AU_NOME = $_POST['AU_NOME'];
         $controller->AU_DATA = $_POST['AU_DATA'];
-        $controller->AU_HORA_FIM = $_POST['AU_HORA_FIM'];
         $controller->AU_HORA_INICIO = $_POST['AU_HORA_INICIO'];
-        $controller->AU_OBSERVACOES = $_POST['AU_OBSERVACOES'];
+        $controller->AU_HORA_FIM = $_POST['AU_HORA_FIM'];
         $controller->AU_SALA = $_POST['AU_SALA'];
-        $controller->AU_STATUS = $_POST['AU_STATUS'];
         $controller->AU_VAGAS_TOTAIS = $_POST['AU_VAGAS_TOTAIS'];
         $controller->AU_VAGAS_DISPONIVEIS = $_POST['AU_VAGAS_TOTAIS'];
+        $controller->AU_STATUS = $_POST['AU_STATUS'];
+        $controller->AU_OBSERVACOES = $_POST['AU_OBSERVACOES'];
         $controller->FU_ID = $_POST['FU_ID'];
+        
         $controller->create();
         header("Location: /funcionario/register/classes");
         exit;
@@ -52,14 +65,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $controller->AU_ID = $_POST['AU_ID'];
         $controller->AU_NOME = $_POST['AU_NOME'];
         $controller->AU_DATA = $_POST['AU_DATA'];
-        $controller->AU_HORA_FIM = $_POST['AU_HORA_FIM'];
         $controller->AU_HORA_INICIO = $_POST['AU_HORA_INICIO'];
-        $controller->AU_OBSERVACOES = $_POST['AU_OBSERVACOES'];
+        $controller->AU_HORA_FIM = $_POST['AU_HORA_FIM'];
         $controller->AU_SALA = $_POST['AU_SALA'];
-        $controller->AU_STATUS = $_POST['AU_STATUS'];
         $controller->AU_VAGAS_TOTAIS = $_POST['AU_VAGAS_TOTAIS'];
         $controller->AU_VAGAS_DISPONIVEIS = $_POST['AU_VAGAS_DISPONIVEIS'];
+        $controller->AU_STATUS = $_POST['AU_STATUS'];
+        $controller->AU_OBSERVACOES = $_POST['AU_OBSERVACOES'];
         $controller->FU_ID = $_POST['FU_ID'];
+        
         $controller->update();
         header("Location: /funcionario/register/classes");
         exit;
@@ -110,6 +124,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </a>
                 </li>
                 <li>
+                    <a href="/funcionario/register/admin" class="nav-link link-dark">
+                        <i class="bi bi-people-fill me-2"></i>Funcionários
+                    </a>
+                </li>
+                <li>
                     <a href="/funcionario/RFID" class="nav-link link-dark">
                         <i class="bi bi-box-arrow-in-up-left"></i>
                           Acessos
@@ -120,13 +139,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" 
                    id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://placehold.co/32x32" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong id="user-name-sidebar">User</strong>
+                    <img src="../../public/images/pfp_placeholder.webp" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong id="user-name-sidebar"><?php echo $controllerFun->FU_NOME ?></strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                    <li><a class="dropdown-item" href="/core/Session.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
                 </ul>
             </div>
         </div>

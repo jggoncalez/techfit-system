@@ -1,20 +1,35 @@
 <?php
-// Configuração e conexão
-$pdo = new PDO("mysql:host=localhost;dbname=TechFitDatabase;charset=utf8", "root", "7900");
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+require_once __DIR__ . '\\..\\..\\controllers\\acesso\\RegistroEntradaController.php';
 
-// Busca dados
-$acessos = $pdo->query("
-    SELECT re.*, u.US_NOME, r.RFID_TAG_CODE
-    FROM REGISTRO_ENTRADAS re
-    LEFT JOIN USUARIOS u ON re.US_ID = u.US_ID
-    LEFT JOIN RFID_TAGS r ON re.RFID_ID = r.RFID_ID
-    ORDER BY re.RE_DATA_HORA DESC
-    LIMIT 50
-")->fetchAll(PDO::FETCH_ASSOC);
+use controllers\acesso\RegistroEntradaController;
 
-$totalHoje = $pdo->query("SELECT COUNT(*) FROM REGISTRO_ENTRADAS WHERE DATE(RE_DATA_HORA) = CURDATE()")->fetchColumn();
-$negadosHoje = $pdo->query("SELECT COUNT(*) FROM REGISTRO_ENTRADAS WHERE DATE(RE_DATA_HORA) = CURDATE() AND RE_STATUS = 'NEGADO'")->fetchColumn();
+$controller = new RegistroEntradaController();
+
+// Buscar últimos 50 acessos
+$acessos = $controller->obterTodos(50);
+
+// Total de acessos hoje
+$totalHoje = $controller->contar(null, date('Y-m-d')); // null = todos os status
+
+// Acessos negados hoje
+$negadosHoje = $controller->contarNegados(date('Y-m-d'));
+
+// Acessos permitidos hoje (se precisar)
+$permitidosHoje = $controller->contarPermitidos(date('Y-m-d'));
+
+require_once __DIR__ . "\\..\\..\\controllers\\FuncionarioController.php";
+use controllers\FuncionarioController;
+session_start();
+
+// Verifica se está logado
+if (!isset($_SESSION['user_ID'])) {
+    header("Location: /public/login.php");
+    exit();
+}
+
+$controllerFun = new FuncionarioController();
+$controllerFun->FU_ID = $_SESSION['user_ID'];
+$controllerFun->searchID();
 ?>
 
 <!doctype html>
@@ -61,9 +76,15 @@ $negadosHoje = $pdo->query("SELECT COUNT(*) FROM REGISTRO_ENTRADAS WHERE DATE(RE
                         <i class="bi bi-calendar-plus me-2"></i>Aulas
                     </a>
                 </li>
+                
                 <li>
                     <a href="/funcionario/register/treino" class="nav-link link-dark">
                         <i class="bi bi-clipboard-plus me-2"></i>Treinos
+                    </a>
+                </li>
+                <li>
+                    <a href="/funcionario/register/admin" class="nav-link link-dark">
+                        <i class="bi bi-people-fill me-2"></i>Funcionários
                     </a>
                 </li>
                 <li>
@@ -77,13 +98,13 @@ $negadosHoje = $pdo->query("SELECT COUNT(*) FROM REGISTRO_ENTRADAS WHERE DATE(RE
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" 
                    id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://placehold.co/32x32" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong id="user-name-sidebar">User</strong>
+                    <img src="../../public/images/pfp_placeholder.webp" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong id="user-name-sidebar"><?php echo $controllerFun->FU_NOME?></strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                    <li><a class="dropdown-item" href="/core/Session.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
                 </ul>
             </div>
         </div>
@@ -150,7 +171,7 @@ $negadosHoje = $pdo->query("SELECT COUNT(*) FROM REGISTRO_ENTRADAS WHERE DATE(RE
                                         <?= $a['US_NOME'] ? "<strong>".htmlspecialchars($a['US_NOME'])."</strong>" : "<span class='text-muted'>Não identificado</span>" ?>
                                     </td>
                                     <td><code><?= $a['RFID_TAG_CODE'] ?? 'N/A' ?></code></td>
-                                    <td><span class="badge bg-secondary"><?= $a['RE_TIPO_ENTRADA'] ?></span></td>
+                                    <td><span class="badge text-black bg-secondary"><?= $a['RE_TIPO_ENTRADA'] ?></span></td>
                                     <td>
                                         <?php if ($a['RE_STATUS'] === 'PERMITIDO'): ?>
                                             <span class="badge badge-permitido">

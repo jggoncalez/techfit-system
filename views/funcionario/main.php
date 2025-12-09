@@ -113,6 +113,26 @@
             }
         }
     </style>
+
+    <?php 
+    require_once __DIR__ . "\\..\\..\\controllers\\FuncionarioController.php";
+use controllers\FuncionarioController;
+
+session_start();
+
+// Verifica se está logado
+if (!isset($_SESSION['user_ID'])) {
+    header("Location: /public/login.php");
+    exit();
+}
+
+$controller = new FuncionarioController();
+$controller->FU_ID = $_SESSION['user_ID'];
+
+// Busca os dados do funcionário
+$controller->searchID();
+
+    ?>
 </head>
 <body>
     <div class="d-flex">
@@ -149,6 +169,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/funcionario/register/admin" class="nav-link link-dark">
+                        <i class="bi bi-people-fill me-2"></i>Funcionários
+                    </a>
+                </li>
+                <li>
                     <a href="/funcionario/RFID" class="nav-link link-dark">
                         <i class="bi bi-box-arrow-in-up-left"></i>
                           Acessos
@@ -159,13 +184,13 @@
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" 
                    id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://placehold.co/32x32" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong id="user-name-sidebar">User</strong>
+                    <img src="../../public/images/pfp_placeholder.webp" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong id="user-name-sidebar"><?php echo $controller->FU_NOME ?></strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
+                    <li><a class="dropdown-item" href="/funcionario/profile"><i class="bi bi-person me-2"></i>Perfil</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                    <li><a class="dropdown-item" href="/core/Session.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
                 </ul>
             </div>
         </div>

@@ -90,12 +90,13 @@ class Usuario
         $query = "SELECT * FROM " . $this->table . " WHERE US_NOME = :us_nome LIMIT 1";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':us_nome', $this->US_ID);
+        $stmt->bindParam(':us_nome', $this->US_NOME);
         $stmt->execute();
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($row) {
+            $this->US_ID = $row['US_ID'];
             $this->US_NOME = $row['US_NOME'];
             $this->US_GENERO = $row['US_GENERO'];
             $this->US_DATA_NASCIMENTO = $row['US_DATA_NASCIMENTO'];
@@ -208,7 +209,7 @@ class Usuario
     }
 
     public function trocarSenha($senhanova) {
-        $this->conn->query("UPDATE {$this->table} set US_SENHA= {$senhanova} where US_ID = {$this->US_ID} ");
+        $this->conn->query("UPDATE {$this->table} set US_SENHA= '{$senhanova}' where US_ID = {$this->US_ID} ");
     }
 
     public function buscarTreinos()
@@ -223,7 +224,6 @@ class Usuario
                                                     TE.TE_ORDEM,
                                                     TE.TE_SERIES,
                                                     TE.TE_REPETICOES,
-                                                    TE.TE_CONCLUIDO,
                                                     EX.EX_NOME
                                                 FROM TREINO_EXERCICIOS TE
                                                 JOIN EXERCICIOS EX ON EX.EX_ID = TE.EX_ID

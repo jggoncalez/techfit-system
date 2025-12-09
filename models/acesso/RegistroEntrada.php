@@ -1,6 +1,5 @@
 <?php
 namespace models\acesso;
-use config\Database;
 use PDO;
 
 class RegistroEntrada
@@ -8,9 +7,9 @@ class RegistroEntrada
     private $pdo;
     private $table = 'REGISTRO_ENTRADAS';
 
-    public function __construct()
+    public function __construct($db)
     {
-        $this->pdo = Database::getInstance()->getConnection();
+        $this->pdo = $db;
     }
 
     /**
@@ -42,17 +41,29 @@ class RegistroEntrada
     /**
      * Obter registros com joins
      */
-    public function obterTodos($limit = 50)
-    {
-        $sql = "SELECT re.*, u.US_NOME, u.US_EMAIL, r.RFID_TAG_CODE
-                FROM {$this->table} re
-                LEFT JOIN USUARIOS u ON re.US_ID = u.US_ID
-                LEFT JOIN RFID_TAGS r ON re.RFID_ID = r.RFID_ID
-                ORDER BY re.RE_DATA_HORA DESC
-                LIMIT ?";
+   public function obterTodos($limit = 50)
+{
+        // Garantir que é um inteiro
+        $limit = (int)$limit;
         
-        return $this->executar($sql, [$limit], true);
-    }
+        $query = "
+            SELECT re.*, 
+                   u.US_NOME, 
+                   r.RFID_TAG_CODE
+            FROM {$this->table} re
+            LEFT JOIN USUARIOS u ON re.US_ID = u.US_ID
+            LEFT JOIN RFID_TAGS r ON re.RFID_ID = r.RFID_ID
+            ORDER BY re.RE_DATA_HORA DESC
+            LIMIT {$limit}
+        ";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+  
+}
 
     /**
      * Obter por data
