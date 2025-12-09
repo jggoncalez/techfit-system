@@ -1,8 +1,9 @@
 <?php
 
 namespace controllers\sagef;
-require_once __DIR__. "\\..\\..\\models\\sagef\\Treino.php";
-require_once __DIR__ ."\\..\\..\\config\\Database.php";
+
+require_once __DIR__ . "\\..\\..\\models\\sagef\\Treino.php";
+require_once __DIR__ . "\\..\\..\\config\\Database.php";
 
 use models\sagef\Treino;
 use config\Database;
@@ -16,6 +17,7 @@ class TreinoController
     public $TR_DURACAO_ESTIMADA;
     public $TR_STATUS;
     public $TR_OBSERVACOES;
+    
     private $db;
     private $dao;
 
@@ -26,19 +28,39 @@ class TreinoController
     }
 
     public function create() {
-
-        $this->dao->TR_NOME = $this->TR_NOME;
-        $this->dao->TR_DATA_CRIACAO = $this->TR_DATA_CRIACAO;
-        $this->dao->US_ID = $this->US_ID;
+        $this->dao->TR_NOME             = $this->TR_NOME;
+        $this->dao->TR_DATA_CRIACAO     = $this->TR_DATA_CRIACAO;
+        $this->dao->US_ID               = $this->US_ID;
         $this->dao->TR_DURACAO_ESTIMADA = $this->TR_DURACAO_ESTIMADA;
-        $this->dao->TR_STATUS = $this->TR_STATUS;
-        $this->dao->TR_OBSERVACOES = $this->TR_OBSERVACOES;
+        $this->dao->TR_STATUS           = $this->TR_STATUS;
+        $this->dao->TR_OBSERVACOES      = $this->TR_OBSERVACOES;
+        
         return $this->dao->create();
     }
 
+    // ==========================================
+    // SEARCH ID (Atualizado para carregar dados)
+    // ==========================================
     public function searchID() {
+        // 1. Passa o ID para o DAO
         $this->dao->TR_ID = $this->TR_ID;
-        return $this->dao->searchID();
+        
+        // 2. Executa a busca
+        $result = $this->dao->searchID();
+
+        // 3. Se encontrou, hidrata o Controller com os dados do DAO
+        if ($result) {
+            $this->TR_NOME             = $this->dao->TR_NOME;
+            $this->TR_DATA_CRIACAO     = $this->dao->TR_DATA_CRIACAO;
+            $this->US_ID               = $this->dao->US_ID;
+            $this->TR_DURACAO_ESTIMADA = $this->dao->TR_DURACAO_ESTIMADA;
+            $this->TR_STATUS           = $this->dao->TR_STATUS;
+            $this->TR_OBSERVACOES      = $this->dao->TR_OBSERVACOES;
+            
+            return true;
+        }
+
+        return false;
     }
 
     public function list() {
@@ -46,13 +68,13 @@ class TreinoController
     }
 
     public function update() {
-        $this->dao->TR_ID = $this->TR_ID;
-        $this->dao->TR_NOME = $this->TR_NOME;
-        $this->dao->TR_DATA_CRIACAO = $this->TR_DATA_CRIACAO;
-        $this->dao->US_ID = $this->US_ID;
+        $this->dao->TR_ID               = $this->TR_ID;
+        $this->dao->TR_NOME             = $this->TR_NOME;
+        $this->dao->TR_DATA_CRIACAO     = $this->TR_DATA_CRIACAO;
+        $this->dao->US_ID               = $this->US_ID;
         $this->dao->TR_DURACAO_ESTIMADA = $this->TR_DURACAO_ESTIMADA;
-        $this->dao->TR_STATUS = $this->TR_STATUS;
-        $this->dao->TR_OBSERVACOES = $this->TR_OBSERVACOES;
+        $this->dao->TR_STATUS           = $this->TR_STATUS;
+        $this->dao->TR_OBSERVACOES      = $this->TR_OBSERVACOES;
         
         return $this->dao->update();
     }

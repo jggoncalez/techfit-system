@@ -10,21 +10,11 @@
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
 <?php 
-require_once __DIR__ . "\\..\\..\\models\\Usuario.php";
-
-require_once __DIR__ . "\\..\\..\\config\\Database.php";
-
-use models\Usuario;
-use config\Database;
-
-try {
-     $db = Database::getInstance()->getConnection();
-} catch (Exception $e) {
-    echo $e;
-}
+require_once __DIR__ . "\\..\\..\\controllers\\UsuarioController.php";
+use controllers\UsuarioController;
 
 session_start();
-$controller = new Usuario($db);
+$controller = new UsuarioController();
 $user = $_SESSION['user_ID'];
 $controller->US_ID = $user;
 $controller->searchID();

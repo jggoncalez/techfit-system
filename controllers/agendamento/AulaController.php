@@ -1,6 +1,7 @@
 <?php
 
 namespace controllers\agendamento;
+
 require_once __DIR__ . "\\..\\..\\models\\agendamento\\Aula.php";
 require_once __DIR__ . "\\..\\..\\config\\Database.php";
 
@@ -31,23 +32,47 @@ class AulaController
     }
 
     public function create() {
-        $this->dao->FU_ID = $this->FU_ID;
-        $this->dao->AU_NOME = $this->AU_NOME;
-        $this->dao->AU_DATA = $this->AU_DATA;
-        $this->dao->AU_HORA_INICIO = $this->AU_HORA_INICIO;
-        $this->dao->AU_HORA_FIM = $this->AU_HORA_FIM;
+        $this->dao->FU_ID                = $this->FU_ID;
+        $this->dao->AU_NOME              = $this->AU_NOME;
+        $this->dao->AU_DATA              = $this->AU_DATA;
+        $this->dao->AU_HORA_INICIO       = $this->AU_HORA_INICIO;
+        $this->dao->AU_HORA_FIM          = $this->AU_HORA_FIM;
         $this->dao->AU_VAGAS_DISPONIVEIS = $this->AU_VAGAS_DISPONIVEIS;
-        $this->dao->AU_VAGAS_TOTAIS = $this->AU_VAGAS_TOTAIS;
-        $this->dao->AU_SALA = $this->AU_SALA;
-        $this->dao->AU_STATUS = $this->AU_STATUS;
-        $this->dao->AU_OBSERVACOES = $this->AU_OBSERVACOES;
+        $this->dao->AU_VAGAS_TOTAIS      = $this->AU_VAGAS_TOTAIS;
+        $this->dao->AU_SALA              = $this->AU_SALA;
+        $this->dao->AU_STATUS            = $this->AU_STATUS;
+        $this->dao->AU_OBSERVACOES       = $this->AU_OBSERVACOES;
 
         return $this->dao->create();
     }
 
+    // ==========================================
+    // SEARCH ID (Hidrata o Controller)
+    // ==========================================
     public function searchID() {
+        // 1. Passa o ID para o DAO
         $this->dao->AU_ID = $this->AU_ID;
-        return $this->dao->searchID();
+        
+        // 2. Busca no banco
+        $result = $this->dao->searchID();
+
+        // 3. Se achou, traz os dados de volta para o Controller
+        if ($result) {
+            $this->FU_ID                = $this->dao->FU_ID;
+            $this->AU_NOME              = $this->dao->AU_NOME;
+            $this->AU_DATA              = $this->dao->AU_DATA;
+            $this->AU_HORA_INICIO       = $this->dao->AU_HORA_INICIO;
+            $this->AU_HORA_FIM          = $this->dao->AU_HORA_FIM;
+            $this->AU_VAGAS_DISPONIVEIS = $this->dao->AU_VAGAS_DISPONIVEIS;
+            $this->AU_VAGAS_TOTAIS      = $this->dao->AU_VAGAS_TOTAIS;
+            $this->AU_SALA              = $this->dao->AU_SALA;
+            $this->AU_STATUS            = $this->dao->AU_STATUS;
+            $this->AU_OBSERVACOES       = $this->dao->AU_OBSERVACOES;
+            
+            return true;
+        }
+
+        return false;
     }
 
     public function list() {
@@ -55,17 +80,18 @@ class AulaController
     }
 
     public function update() {
-        $this->dao->AU_ID = $this->AU_ID;
-        $this->dao->FU_ID = $this->FU_ID;
-        $this->dao->AU_NOME = $this->AU_NOME;
-        $this->dao->AU_DATA = $this->AU_DATA;
-        $this->dao->AU_HORA_INICIO = $this->AU_HORA_INICIO;
-        $this->dao->AU_HORA_FIM = $this->AU_HORA_FIM;
+        $this->dao->AU_ID                = $this->AU_ID;
+        $this->dao->FU_ID                = $this->FU_ID;
+        $this->dao->AU_NOME              = $this->AU_NOME;
+        $this->dao->AU_DATA              = $this->AU_DATA;
+        $this->dao->AU_HORA_INICIO       = $this->AU_HORA_INICIO;
+        $this->dao->AU_HORA_FIM          = $this->AU_HORA_FIM;
         $this->dao->AU_VAGAS_DISPONIVEIS = $this->AU_VAGAS_DISPONIVEIS;
-        $this->dao->AU_VAGAS_TOTAIS = $this->AU_VAGAS_TOTAIS;
-        $this->dao->AU_SALA = $this->AU_SALA;
-        $this->dao->AU_STATUS = $this->AU_STATUS;
-        $this->dao->AU_OBSERVACOES = $this->AU_OBSERVACOES;
+        $this->dao->AU_VAGAS_TOTAIS      = $this->AU_VAGAS_TOTAIS;
+        $this->dao->AU_SALA              = $this->AU_SALA;
+        $this->dao->AU_STATUS            = $this->AU_STATUS;
+        $this->dao->AU_OBSERVACOES       = $this->AU_OBSERVACOES;
+        
         return $this->dao->update();
     }
 

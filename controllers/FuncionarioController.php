@@ -32,23 +32,40 @@ class FuncionarioController
     // ==========================================
     public function create()
     {
-        $this->dao->FU_GENERO       = $this->FU_GENERO;
-        $this->dao->FU_NIVEL_ACESSO = $this->FU_NIVEL_ACESSO;
-        $this->dao->FU_SENHA        = $this->FU_SENHA;
-        $this->dao->FU_NOME         = $this->FU_NOME;
-        $this->dao->FU_SALARIO      = $this->FU_SALARIO;
-        $this->dao->FU_DATA_ADMISSAO= $this->FU_DATA_ADMISSAO;
+        $this->dao->FU_GENERO        = $this->FU_GENERO;
+        $this->dao->FU_NIVEL_ACESSO  = $this->FU_NIVEL_ACESSO;
+        $this->dao->FU_SENHA         = $this->FU_SENHA;
+        $this->dao->FU_NOME          = $this->FU_NOME;
+        $this->dao->FU_SALARIO       = $this->FU_SALARIO;
+        $this->dao->FU_DATA_ADMISSAO = $this->FU_DATA_ADMISSAO;
 
-        return $this->dao->create();;
+        return $this->dao->create();
     }
 
     // ==========================================
-    // READ BY ID
+    // READ BY ID (Atualizado para carregar os dados)
     // ==========================================
     public function searchID()
     {
+        // 1. Passa o ID para o DAO
         $this->dao->FU_ID = $this->FU_ID;
-        return $this->dao->searchID();
+        
+        // 2. Executa a busca
+        $result = $this->dao->searchID();
+
+        // 3. Se encontrou, preenche o Controller com os dados vindos do banco
+        if ($result) {
+            $this->FU_GENERO        = $this->dao->FU_GENERO;
+            $this->FU_NIVEL_ACESSO  = $this->dao->FU_NIVEL_ACESSO;
+            $this->FU_SENHA         = $this->dao->FU_SENHA;
+            $this->FU_NOME          = $this->dao->FU_NOME;
+            $this->FU_SALARIO       = $this->dao->FU_SALARIO;
+            $this->FU_DATA_ADMISSAO = $this->dao->FU_DATA_ADMISSAO;
+            
+            return true;
+        }
+
+        return false;
     }
 
     // ==========================================
@@ -64,13 +81,13 @@ class FuncionarioController
     // ==========================================
     public function update()
     {
-        $this->dao->FU_ID           = $this->FU_ID;
-        $this->dao->FU_GENERO       = $this->FU_GENERO;
-        $this->dao->FU_NIVEL_ACESSO = $this->FU_NIVEL_ACESSO;
-        $this->dao->FU_SENHA        = $this->FU_SENHA;
-        $this->dao->FU_NOME         = $this->FU_NOME;
-        $this->dao->FU_SALARIO      = $this->FU_SALARIO;
-        $this->dao->FU_DATA_ADMISSAO= $this->FU_DATA_ADMISSAO;
+        $this->dao->FU_ID            = $this->FU_ID;
+        $this->dao->FU_GENERO        = $this->FU_GENERO;
+        $this->dao->FU_NIVEL_ACESSO  = $this->FU_NIVEL_ACESSO;
+        $this->dao->FU_SENHA         = $this->FU_SENHA;
+        $this->dao->FU_NOME          = $this->FU_NOME;
+        $this->dao->FU_SALARIO       = $this->FU_SALARIO;
+        $this->dao->FU_DATA_ADMISSAO = $this->FU_DATA_ADMISSAO;
 
         return $this->dao->update();
     }

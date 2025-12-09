@@ -19,50 +19,44 @@ use controllers\sagef\ExercicioController;
 
 $controller = new ExercicioController();
 $stmt = $controller->list();
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? '';
-    
     if ($acao === 'criar') {
-        $controller->EX_NOME = $_POST['EX_NOME'];
         $controller->EX_DESCRICAO = $_POST['EX_DESCRICAO'];
-        $controller->EX_TIPO = $_POST['EX_TIPO'];
         $controller->EX_DIFICULDADE = $_POST['EX_DIFICULDADE'];
         $controller->EX_EQUIPAMENTO = $_POST['EX_EQUIPAMENTO'];
-        $controller->EX_MIN_REPETICOES = $_POST['EX_MIN_REPETICOES'];
         $controller->EX_MAX_REPETICOES = $_POST['EX_MAX_REPETICOES'];
-        $controller->EX_TEMPO_DESCANSO = $_POST['EX_TEMPO_DESCANSO'];
+        $controller->EX_MIN_REPETICOES = $_POST['EX_MIN_REPETICOES'];
+        $controller->EX_NOME = $_POST['EX_NOME'];
         $controller->EX_PONTUACAO = $_POST['EX_PONTUACAO'];
-        
+        $controller->EX_TEMPO_DESCANSO = $_POST['EX_TEMPO_DESCANSO'];
+        $controller->EX_TIPO = $_POST['EX_TIPO'];
         $controller->create();
         header("Location: /funcionario/register/exercicios");
         exit;
     } 
-    
     if ($acao === 'atualizar') {
         $controller->EX_ID = $_POST['EX_ID'];
-        $controller->EX_NOME = $_POST['EX_NOME'];
         $controller->EX_DESCRICAO = $_POST['EX_DESCRICAO'];
-        $controller->EX_TIPO = $_POST['EX_TIPO'];
         $controller->EX_DIFICULDADE = $_POST['EX_DIFICULDADE'];
         $controller->EX_EQUIPAMENTO = $_POST['EX_EQUIPAMENTO'];
-        $controller->EX_MIN_REPETICOES = $_POST['EX_MIN_REPETICOES'];
         $controller->EX_MAX_REPETICOES = $_POST['EX_MAX_REPETICOES'];
-        $controller->EX_TEMPO_DESCANSO = $_POST['EX_TEMPO_DESCANSO'];
+        $controller->EX_MIN_REPETICOES = $_POST['EX_MIN_REPETICOES'];
+        $controller->EX_NOME = $_POST['EX_NOME'];
         $controller->EX_PONTUACAO = $_POST['EX_PONTUACAO'];
-        
+        $controller->EX_TEMPO_DESCANSO = $_POST['EX_TEMPO_DESCANSO'];
+        $controller->EX_TIPO = $_POST['EX_TIPO'];
         $controller->update();
         header("Location: /funcionario/register/exercicios");
         exit;
     }
-    
-    if ($acao === 'deletar') {
+    if ($acao === 'deletar'){
         $controller->EX_ID = $_POST['EX_ID'];
         $controller->delete();
         header("Location: /funcionario/register/exercicios");
         exit;
     }
-}
+ }
 ?>
 
 <body>
