@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $controller->FU_NIVEL_ACESSO = $_POST['FU_NIVEL_ACESSO'];
         $controller->FU_SALARIO = $_POST['FU_SALARIO'];
         $controller->FU_DATA_ADMISSAO = $_POST['FU_DATA_ADMISSAO'];
-        
+        $controller->FU_EMAIL = $_POST['FU_EMAIL'];
         // Só atualiza a senha se foi fornecida uma nova
         if (!empty($_POST['FU_SENHA'])) {
             $controller->FU_SENHA = $_POST['FU_SENHA'];
@@ -305,6 +305,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                         <label class='form-label'>Nova Senha</label>
                                                         <input type='password' class='form-control' name='FU_SENHA' minlength='4'>
                                                         <small class='text-muted'>Deixe em branco para manter a senha atual</small>
+                                                    </div>
+                                                    
+                                                    <div class='col-md-6'>
+                                                        <label class='form-label'>Novo Email</label>
+                                                        <input type='text' class='form-control' name='FU_EMAIL' value={$row['FU_EMAIL']} >
                                                     </div>
                                                     
                                                     <div class='col-md-6'>

@@ -171,7 +171,7 @@ $controllerFun->searchID();
                                         <?= $a['US_NOME'] ? "<strong>".htmlspecialchars($a['US_NOME'])."</strong>" : "<span class='text-muted'>Não identificado</span>" ?>
                                     </td>
                                     <td><code><?= $a['RFID_TAG_CODE'] ?? 'N/A' ?></code></td>
-                                    <td><span class="badge bg-secondary"><?= $a['RE_TIPO_ENTRADA'] ?></span></td>
+                                    <td><span class="badge text-black bg-secondary"><?= $a['RE_TIPO_ENTRADA'] ?></span></td>
                                     <td>
                                         <?php if ($a['RE_STATUS'] === 'PERMITIDO'): ?>
                                             <span class="badge badge-permitido">
