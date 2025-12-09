@@ -207,7 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- US_TEMPO_TREINOANT -->
                 <div class="col-md-3">
                     <label class="form-label">Tempo de treino (meses)</label>
-                    <input type="number" class="form-control" name="US_TEMPO_TREINOANT">
+                    <input type="number" class="form-control" name="US_TEMPO_TREINOANT" value = 0>
                 </div>
 
                 <!-- PL_ID -->
@@ -395,7 +395,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <select class='form-select' name='US_OBJETIVO'>
                                         <option value=''>Selecione...</option>
                                         <option value='EMAGRECER' <?= $row['US_OBJETIVO'] == 'EMAGRECER' ? 'selected' : '' ?>>Emagrecer</option>
-                                        <option value='PERDER PESO' <?= $row['US_OBJETIVO'] == 'PERDER PESO' ? 'selected' : '' ?>>Perder Peso</option>
+                                        <option value='PERDER PESO' <?= $row['US_OBJETIVO'] == 'GANHAR PESO' ? 'selected' : '' ?>>Perder Peso</option>
                                         <option value='SAÚDE' <?= $row['US_OBJETIVO'] == 'SAÚDE' ? 'selected' : '' ?>>Saúde</option>
                                     </select>
                                 </div>

@@ -8,11 +8,16 @@ require_once __DIR__ ."\\..\\..\\controllers\\sagef\\treino_exercicio_Controller
 use controllers\sagef\TreinoExercicioController;
 use controllers\sagef\ExercicioController;
 use controllers\sagef\TreinoController;
+require_once __DIR__ . "\\..\\..\\controllers\\UsuarioController.php";
+use controllers\UsuarioController;
 
+$controllerUS = new UsuarioController();
 $controllerEx = new ExercicioController();
 $controllerTr = new TreinoController();
 $controllerTE = new TreinoExercicioController();
 
+$controllerUS->US_ID = $controllerTr->US_ID;
+$stmt = $controllerUS->searchID();
 
 if (!isset($_SESSION["treino_exercicios"])) {
     $_SESSION["treino_exercicios"] = [];
@@ -207,7 +212,7 @@ $listaTreinos = $controllerTr->list(); // pega todos os treinos
                                 <td><?= $treino['TR_ID'] ?></td>
                                 <td><?= $treino['TR_NOME'] ?></td>
                                 <td><?= date('d/m/Y', strtotime($treino['TR_DATA_CRIACAO'])) ?></td>
-                                <td><?= $controllerTr->buscarUsuarios($treino['US_ID']) ?></td>
+                                <td><?php $controllerUS->US_ID =  $treino['US_ID']; $controllerUS->searchID(); echo $controllerUS->US_NOME?></td>
                                 <td><?= $treino['TR_DURACAO_ESTIMADA'] ?></td>
                                 <td><span class="badge <?= $statusClass ?>"><?= $treino['TR_STATUS'] ?></span></td>
                                 <td>

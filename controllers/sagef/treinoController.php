@@ -87,5 +87,6 @@ class TreinoController
     public function buscarUsuarios($usuarioSelecionado = null) {
         return $this->dao->buscarUsuarios($usuarioSelecionado);
     }
+
 }
 ?>
