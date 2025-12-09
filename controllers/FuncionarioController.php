@@ -102,7 +102,30 @@ class FuncionarioController
     }
 
     public function trocarSenha($senhaNova){
+        $this->dao->FU_ID = $this->FU_ID;
         $this->dao->trocarSenha($senhaNova);
+    }
+
+    public function searchEMAIL () {
+         // 1. Passa o email para o DAO
+        $this->dao->FU_EMAIL = $this->FU_EMAIL;
+        
+        // 2. Executa a busca
+        $result = $this->dao->searchEMAIL();
+
+        // 3. Se encontrou, preenche o Controller com os dados vindos do banco
+        if ($result) {
+            $this->FU_GENERO        = $this->dao->FU_GENERO;
+            $this->FU_NIVEL_ACESSO  = $this->dao->FU_NIVEL_ACESSO;
+            $this->FU_SENHA         = $this->dao->FU_SENHA;
+            $this->FU_NOME          = $this->dao->FU_NOME;
+            $this->FU_SALARIO       = $this->dao->FU_SALARIO;
+            $this->FU_DATA_ADMISSAO = $this->dao->FU_DATA_ADMISSAO;
+            $this->FU_ID = $this->dao->FU_ID;
+            return true;
+        }
+
+        return false;
     }
 } 
 ?>

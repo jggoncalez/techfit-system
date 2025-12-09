@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
 
-    <div class="d-flex" style="height: 100vh; overflow-y: auto;">
+    <div class="d-flex" >
         <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                 <img src="../../public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" 
                     id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://placehold.co/32x32" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <img src="../../public/images/pfp_placeholder.webp" alt="" width="32" height="32" class="rounded-circle me-2">
                     <strong><?php echo $controller->US_NOME ?></strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
 
-        <main class="main-content flex-grow-1">
+        <main class=" main-content flex-grow-1 d-flex align-items-center justify-content-center" >
             <div class="profile-container">
                 <h1 class="display-6 mb-4">
                     <i class="bi bi-person-circle me-2" style="color:#e35c38;"></i>
