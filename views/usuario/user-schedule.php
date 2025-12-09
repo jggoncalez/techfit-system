@@ -14,26 +14,21 @@
 
 </html>
 <?php
-require_once __DIR__ . "/../../models/Usuario.php";
-require_once __DIR__ . "/../../config/Database.php";
-require_once __DIR__ . "/../../models/agendamento/ParticipacoesAula.php";
+require_once __DIR__ . "\\..\\..\\controllers\\UsuarioController.php";
+require_once __DIR__ . "\\..\\..\\config\\Database.php";
+require_once __DIR__ . "\\..\\..\\controllers\\agendamento\\ParticipacoesAulaController.php";
 
-use models\agendamento\ParticipacoesAula;
-use models\Usuario;
-use config\Database;
+use controllers\agendamento\ParticipacoesAulaController;
+use controllers\UsuarioController;
 
-try {
-    $db = Database::getInstance()->getConnection();
-} catch (Exception $e) {
-    echo $e;
-}
+
 
 session_start();
-$controller = new Usuario($db);
+$controller = new UsuarioController();
 $user = $_SESSION['user_ID'];
 $controller->US_ID = $user;
 $controller->searchID();
-$controllerPart = new ParticipacoesAula($db);
+$controllerPart = new ParticipacoesAulaController();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $acao = $_POST['acao'] ?? '';

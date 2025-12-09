@@ -8,27 +8,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
 
 <?php
-require_once __DIR__ . '\\..\\..\\config\\Database.php';
-require_once __DIR__ . '\\..\\..\\models\\Usuario.php';
+require_once __DIR__ . '\\..\\..\\controllers\\UsuarioController.php';
 
-use config\Database;
-use models\Usuario;
+use controllers\UsuarioController;
 
-try {
-    $db = Database::getInstance()->getConnection();
-} catch (Exception $e) {
-    echo "Erro: " . $e->getMessage();
-    exit;
-}
-
-$controller = new Usuario($db);
+$controller = new UsuarioController();
 $stmt = $controller->list();
 
+// Processar ações do formulário
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? '';
 
@@ -47,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $controller->US_DISPONIBILIDADE = json_encode($_POST['US_DISPONIBILIDADE'] ?? [], JSON_UNESCAPED_UNICODE);
         $controller->PL_ID = $_POST['PL_ID'];
         $controller->US_STATUS_PAGAMENTO = $_POST['US_STATUS_PAGAMENTO'] ?? 'EM_DIA';
+        
         $controller->create();
         header("Location: /funcionario/register/estudantes");
         exit;
@@ -68,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $controller->US_DISPONIBILIDADE = json_encode($_POST['US_DISPONIBILIDADE'] ?? [], JSON_UNESCAPED_UNICODE);
         $controller->PL_ID = $_POST['PL_ID'];
         $controller->US_STATUS_PAGAMENTO = $_POST['US_STATUS_PAGAMENTO'] ?? 'EM_DIA';
+        
         $controller->update();
         header("Location: /funcionario/register/estudantes");
         exit;
@@ -85,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
     <div class="d-flex">
-      <!-- Barra lateral -->
+        <!-- Barra lateral -->
         <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                 <img src="../../public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
@@ -125,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li>
                     <a href="/funcionario/RFID" class="nav-link link-dark">
                         <i class="bi bi-box-arrow-in-up-left"></i>
-                          Acessos
+                        Acessos
                     </a>
                 </li>
             </ul>
@@ -202,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <select class="form-select" name="US_OBJETIVO">
                         <option value="">Selecione...</option>
                         <option value="EMAGRECER">Emagrecer</option>
-                        <option value="PERDER PESO">Perder Peso</option>
+                        <option value="PERDER PESO">Ganhar Peso</option>
                         <option value="SAÚDE">Saúde</option>
                     </select>
                 </div>
@@ -219,7 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- US_TEMPO_TREINOANT -->
                 <div class="col-md-3">
                     <label class="form-label">Tempo de treino (meses)</label>
-                    <input type="number" class="form-control" name="US_TEMPO_TREINOANT">
+                    <input type="number" class="form-control" name="US_TEMPO_TREINOANT" value = 0>
                 </div>
 
                 <!-- PL_ID -->
@@ -333,7 +326,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <form method='POST' style='display:inline;'>
                                         <input type='hidden' name='acao' value='deletar'>
                                         <input type='hidden' name='US_ID' value='{$row['US_ID']}'>
-                                        <button class='btn btn-sm btn-danger' type='submit'>Deletar</button>
+                                        <button class='btn btn-sm btn-danger' type='submit' onclick='return confirm(\"Tem certeza que deseja deletar este usuário?\")'>Deletar</button>
                                     </form>
                                 </td>
                             </tr>";
@@ -407,7 +400,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <select class='form-select' name='US_OBJETIVO'>
                                         <option value=''>Selecione...</option>
                                         <option value='EMAGRECER' <?= $row['US_OBJETIVO'] == 'EMAGRECER' ? 'selected' : '' ?>>Emagrecer</option>
-                                        <option value='PERDER PESO' <?= $row['US_OBJETIVO'] == 'PERDER PESO' ? 'selected' : '' ?>>Perder Peso</option>
+                                        <option value='PERDER PESO' <?= $row['US_OBJETIVO'] == 'GANHAR PESO' ? 'selected' : '' ?>>Perder Peso</option>
                                         <option value='SAÚDE' <?= $row['US_OBJETIVO'] == 'SAÚDE' ? 'selected' : '' ?>>Saúde</option>
                                     </select>
                                 </div>
@@ -450,34 +443,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class='col-md-12'>
                                     <label class='form-label'>Disponibilidade</label>
                                     <div class='d-flex flex-wrap gap-3'>
-                                        <div class='form-check'>
-                                            <input class='form-check-input' type='checkbox' name='US_DISPONIBILIDADE[]' value='segunda' id='edit-segunda-<?= $row['US_ID'] ?>' <?= in_array('segunda', $disponibilidade) ? 'checked' : '' ?>>
-                                            <label class='form-check-label' for='edit-segunda-<?= $row['US_ID'] ?>'>Segunda</label>
-                                        </div>
-                                        <div class='form-check'>
-                                            <input class='form-check-input' type='checkbox' name='US_DISPONIBILIDADE[]' value='terça' id='edit-terça-<?= $row['US_ID'] ?>' <?= in_array('terça', $disponibilidade) ? 'checked' : '' ?>>
-                                            <label class='form-check-label' for='edit-terça-<?= $row['US_ID'] ?>'>Terça</label>
-                                        </div>
-                                        <div class='form-check'>
-                                            <input class='form-check-input' type='checkbox' name='US_DISPONIBILIDADE[]' value='quarta' id='edit-quarta-<?= $row['US_ID'] ?>' <?= in_array('quarta', $disponibilidade) ? 'checked' : '' ?>>
-                                            <label class='form-check-label' for='edit-quarta-<?= $row['US_ID'] ?>'>Quarta</label>
-                                        </div>
-                                        <div class='form-check'>
-                                            <input class='form-check-input' type='checkbox' name='US_DISPONIBILIDADE[]' value='quinta' id='edit-quinta-<?= $row['US_ID'] ?>' <?= in_array('quinta', $disponibilidade) ? 'checked' : '' ?>>
-                                            <label class='form-check-label' for='edit-quinta-<?= $row['US_ID'] ?>'>Quinta</label>
-                                        </div>
-                                        <div class='form-check'>
-                                            <input class='form-check-input' type='checkbox' name='US_DISPONIBILIDADE[]' value='sexta' id='edit-sexta-<?= $row['US_ID'] ?>' <?= in_array('sexta', $disponibilidade) ? 'checked' : '' ?>>
-                                            <label class='form-check-label' for='edit-sexta-<?= $row['US_ID'] ?>'>Sexta</label>
-                                        </div>
-                                        <div class='form-check'>
-                                            <input class='form-check-input' type='checkbox' name='US_DISPONIBILIDADE[]' value='sábado' id='edit-sábado-<?= $row['US_ID'] ?>' <?= in_array('sábado', $disponibilidade) ? 'checked' : '' ?>>
-                                            <label class='form-check-label' for='edit-sábado-<?= $row['US_ID'] ?>'>Sábado</label>
-                                        </div>
-                                        <div class='form-check'>
-                                            <input class='form-check-input' type='checkbox' name='US_DISPONIBILIDADE[]' value='domingo' id='edit-domingo-<?= $row['US_ID'] ?>' <?= in_array('domingo', $disponibilidade) ? 'checked' : '' ?>>
-                                            <label class='form-check-label' for='edit-domingo-<?= $row['US_ID'] ?>'>Domingo</label>
-                                        </div>
+                                        <?php
+                                        $diasSemana = ['segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado', 'domingo'];
+                                        foreach ($diasSemana as $dia):
+                                            $checked = in_array($dia, $disponibilidade) ? 'checked' : '';
+                                            $inputId = "edit-{$dia}-{$row['US_ID']}";
+                                        ?>
+                                            <div class='form-check'>
+                                                <input class='form-check-input' type='checkbox' name='US_DISPONIBILIDADE[]' 
+                                                       value='<?= $dia ?>' id='<?= $inputId ?>' <?= $checked ?>>
+                                                <label class='form-check-label' for='<?= $inputId ?>'><?= ucfirst($dia) ?></label>
+                                            </div>
+                                        <?php endforeach; ?>
                                     </div>
                                 </div>
                             </div>

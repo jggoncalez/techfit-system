@@ -1,21 +1,20 @@
-<?php
-require_once __DIR__ . "/../../models/Usuario.php";
-require_once __DIR__ . "/../../config/Database.php";
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>TechFit</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="shortcut icon" href="../public/images/TechFit-icon.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="../../Assets/style/style.css">
+</head>
+<?php 
+require_once __DIR__ . "\\..\\..\\controllers\\UsuarioController.php";
+use controllers\UsuarioController;
 
-use models\Usuario;
-use config\Database;
-
-// session_start TEM que vir ANTES de qualquer HTML!
 session_start();
-
-try {
-    $db = Database::getInstance()->getConnection();
-} catch (Exception $e) {
-    echo $e;
-    exit;
-}
-
-$controller = new Usuario($db);
+$controller = new UsuarioController();
 $user = $_SESSION['user_ID'];
 $controller->US_ID = $user;
 $controller->searchID();
