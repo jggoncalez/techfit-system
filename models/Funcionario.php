@@ -107,4 +107,20 @@
 
             return $stmt;
         }  
+
+        public function trocarSenha($novaSenha) {
+
+            $this->FU_SENHA = $novaSenha;
+
+            $query = "UPDATE {$this->table} SET
+                FU_SENHA = :fu_senha
+                WHERE FU_ID = :fu_id";
+            
+            $stmt = $this->conn->prepare($query);
+            
+            $stmt->bindParam(':fu_senha', $this->FU_SENHA);
+            $stmt->bindParam(':fu_id', $this->FU_ID);
+            
+            return $stmt->execute();
+        }
     }

@@ -17,7 +17,7 @@ class FuncionarioController
     public $FU_NOME;
     public $FU_SALARIO;
     public $FU_DATA_ADMISSAO;
-
+    public $FU_EMAIL; 
     private $dao;
     private $db;
 
@@ -61,7 +61,7 @@ class FuncionarioController
             $this->FU_NOME          = $this->dao->FU_NOME;
             $this->FU_SALARIO       = $this->dao->FU_SALARIO;
             $this->FU_DATA_ADMISSAO = $this->dao->FU_DATA_ADMISSAO;
-            
+            $this->FU_EMAIL = $this->dao->FU_EMAIL;
             return true;
         }
 
@@ -100,5 +100,9 @@ class FuncionarioController
         $this->dao->FU_ID = $this->FU_ID;
         return $this->dao->delete();
     }
-}
+
+    public function trocarSenha($senhaNova){
+        $this->dao->trocarSenha($senhaNova);
+    }
+} 
 ?>
