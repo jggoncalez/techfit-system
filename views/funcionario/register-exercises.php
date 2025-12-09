@@ -13,21 +13,11 @@
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
 <?php
-require_once __DIR__ . '\\..\\..\\config\\Database.php';
-require_once __DIR__ . '\\..\\..\\models\\sagef\\Exercicio.php';
+require_once __DIR__ . '\\..\\..\\controllers\\sagef\\ExercicioController.php';
 
-use config\Database;
-use models\sagef\Exercicio;
+use controllers\sagef\ExercicioController;
 
-try {
-    $db = Database::getInstance()->getConnection();
-} catch (Exception $e) {
-    echo "Ai " . $e->getMessage();
-}
-
-
-
-$controller = new Exercicio($db);
+$controller = new ExercicioController();
 $stmt = $controller->list();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? '';

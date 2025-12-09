@@ -12,33 +12,54 @@
 </head>
 
 <?php
-require_once __DIR__ . "\\..\\..\\models\\Usuario.php";
-require_once __DIR__ . "\\..\\..\\config\\Database.php";
 
-use models\Usuario;
-use config\Database;
-
-try {
-    $db = Database::getInstance()->getConnection();
-} catch (Exception $e) {
-    echo $e;
-}
+require_once __DIR__ . "\\..\\..\\controllers\\UsuarioController.php";
+use controllers\UsuarioController;
 
 session_start();
-$controller = new Usuario($db);
-$user = $_SESSION['user_ID'];
-$controller->US_ID = $user;
+
+// Verifica se está logado antes de continuar
+if (!isset($_SESSION['user_ID'])) {
+    header("Location: /public/login.php");
+    exit();
+}
+
+$controller = new UsuarioController();
+$controller->US_ID = $_SESSION['user_ID'];
+
+// Busca os dados do usuário (Agora vai preencher o $controller->US_SENHA)
 $controller->searchID();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? '';
-    if ($acao === 'trocarsenha'){
-        if ($_POST['US_SENHA_NOVA'] === $_POST['US_SENHA_CONFIRM'] && $_POST['US_SENHA_ANTIGA'] === $controller->US_SENHA){
-            $controller->trocarSenha($_POST['US_SENHA_NOVA']);
-            header("Location: /public/login.php");
-            exit();
+
+    if ($acao === 'trocarsenha') {
+        $senhaNova = $_POST['US_SENHA_NOVA'];
+        $senhaConfirm = $_POST['US_SENHA_CONFIRM'];
+        $senhaAntiga = $_POST['US_SENHA_ANTIGA'];
+        
+        // Verifica se a senha nova bate com a confirmação
+        if ($senhaNova === $senhaConfirm) {
+            
+            // Verifica se a senha antiga digitada bate com a do banco
+            // OBS: Se você usa hash (password_hash), use password_verify aqui. 
+            // Se for texto puro (não recomendado), use === como você estava fazendo.
+            if ($senhaAntiga === $controller->US_SENHA) {
+                
+                // Define a nova senha no controller e manda salvar
+                $controller->trocarSenha($senhaNova);
+                
+                header("Location: /public/login.php");
+                exit();
+            } else {
+                echo "A senha antiga está incorreta.";
+            }
+        } else {
+            echo "A nova senha e a confirmação não conferem.";
         }
     }
 }
+
 ?>
 
 <body>

@@ -1,20 +1,21 @@
 <?php
-// Configuração e conexão
-$pdo = new PDO("mysql:host=localhost;dbname=TechFitDatabase;charset=utf8", "root", "7900");
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+require_once __DIR__ . '\\..\\..\\controllers\\acesso\\RegistroEntradaController.php';
 
-// Busca dados
-$acessos = $pdo->query("
-    SELECT re.*, u.US_NOME, r.RFID_TAG_CODE
-    FROM REGISTRO_ENTRADAS re
-    LEFT JOIN USUARIOS u ON re.US_ID = u.US_ID
-    LEFT JOIN RFID_TAGS r ON re.RFID_ID = r.RFID_ID
-    ORDER BY re.RE_DATA_HORA DESC
-    LIMIT 50
-")->fetchAll(PDO::FETCH_ASSOC);
+use controllers\acesso\RegistroEntradaController;
 
-$totalHoje = $pdo->query("SELECT COUNT(*) FROM REGISTRO_ENTRADAS WHERE DATE(RE_DATA_HORA) = CURDATE()")->fetchColumn();
-$negadosHoje = $pdo->query("SELECT COUNT(*) FROM REGISTRO_ENTRADAS WHERE DATE(RE_DATA_HORA) = CURDATE() AND RE_STATUS = 'NEGADO'")->fetchColumn();
+$controller = new RegistroEntradaController();
+
+// Buscar últimos 50 acessos
+$acessos = $controller->obterTodos(50);
+
+// Total de acessos hoje
+$totalHoje = $controller->contar(null, date('Y-m-d')); // null = todos os status
+
+// Acessos negados hoje
+$negadosHoje = $controller->contarNegados(date('Y-m-d'));
+
+// Acessos permitidos hoje (se precisar)
+$permitidosHoje = $controller->contarPermitidos(date('Y-m-d'));
 ?>
 
 <!doctype html>
