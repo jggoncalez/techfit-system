@@ -62,9 +62,15 @@ $permitidosHoje = $controller->contarPermitidos(date('Y-m-d'));
                         <i class="bi bi-calendar-plus me-2"></i>Aulas
                     </a>
                 </li>
+                
                 <li>
                     <a href="/funcionario/register/treino" class="nav-link link-dark">
                         <i class="bi bi-clipboard-plus me-2"></i>Treinos
+                    </a>
+                </li>
+                <li>
+                    <a href="/funcionario/register/admin" class="nav-link link-dark">
+                        <i class="bi bi-people-fill me-2"></i>Funcionários
                     </a>
                 </li>
                 <li>
@@ -84,7 +90,7 @@ $permitidosHoje = $controller->contarPermitidos(date('Y-m-d'));
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                    <li><a class="dropdown-item" href="/core/Session.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
                 </ul>
             </div>
         </div>

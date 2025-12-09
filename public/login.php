@@ -21,12 +21,27 @@ $auth = new Session($db);
 if(isset($_POST['login'])){
     $auth->user_name = $_POST['username'];
     $auth->user_pass = $_POST['password'];
+    $sucesso = false;
 
+    // 1. Tenta o login como Usuário (Cliente)
     if($auth->userLogin()){
-        session_regenerate_id(true);
+        $sucesso = true;
+        // Redireciona para a área do Usuário
         header("Location: /usuario?username={$_POST['username']}");
         exit;
-    } else {
+    }
+    
+    // 2. Se não for um Usuário, tenta o login como Funcionário
+    if(!$sucesso && $auth->funcLogin()){
+        $sucesso = true;
+        // Redireciona para a área do Funcionário (Ajuste o caminho conforme necessário)
+        // Por exemplo, para um painel de funcionário.
+        header("Location: /funcionario?username={$_POST['username']}");
+        exit;
+    }
+
+    // 3. Se nenhuma das tentativas funcionou
+    if(!$sucesso){
         $erro = "Usuário ou senha incorretos!";
     }
 }
@@ -56,7 +71,7 @@ include_once 'include/header.php';
         <h1 class="h6 mb-3 fw-normal text-center" data-vivaldi-translated="">Se possuir uma conta, insira seus dados</h1>
         <div class="form-floating" data-vivaldi-translated=""> <input type="text" name="username" class="form-control" style="border-bottom: #E35C38; border-width: 2px; border-style: solid;"
                 id="floatingInput" placeholder="name@example.com" data-vivaldi-translated=""> <label for="floatingInput"
-                data-vivaldi-translated="">CPF ou nome de usuário</label> </div>
+                data-vivaldi-translated="">Nome de Usuário ou Email</label> </div>
         <div class="form-floating" data-vivaldi-translated=""> <input type="password" name="password" class="form-control" style="border-bottom: #E35C38; border-width: 2px; border-style: solid;"
                 id="floatingPassword" placeholder="Senha" data-vivaldi-translated=""> <label for="floatingPassword"
                 data-vivaldi-translated="">Senha</label> </div>
