@@ -16,9 +16,21 @@
 require_once __DIR__ . '\\..\\..\\controllers\\FuncionarioController.php';
 
 use controllers\FuncionarioController;
+session_start();
+
+// Verifica se está logado
+if (!isset($_SESSION['user_ID'])) {
+    header("Location: /public/login.php");
+    exit();
+}
 
 $controller = new FuncionarioController();
 $stmt = $controller->list();
+
+$controller->FU_ID = $_SESSION['user_ID'];
+
+// Busca os dados do funcionário
+$controller->searchID();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? '';
@@ -114,8 +126,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" 
                    id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://placehold.co/32x32" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong id="user-name-sidebar">User</strong>
+                    <img src="../../public/images/pfp_placeholder.webp" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong id="user-name-sidebar"><?php echo $controller->FU_NOME ?></strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
@@ -196,6 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <th>Nível</th>
                             <th>Salário</th>
                             <th>Data Admissão</th>
+                            <th>Email</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -236,6 +249,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <td><span class='badge {$nivelClass}'>{$nivelTexto}</span></td>
                                 <td>R$ " . number_format($row['FU_SALARIO'], 2, ',', '.') . "</td>
                                 <td>" . date('d/m/Y', strtotime($row['FU_DATA_ADMISSAO'])) . "</td>
+                                <td>{$row['FU_EMAIL']}</td>
                                 <td>
                                     <button class='btn btn-sm btn-warning' data-bs-toggle='modal' data-bs-target='#{$modalId}'>
                                         <i class='bi bi-pencil'></i> Editar

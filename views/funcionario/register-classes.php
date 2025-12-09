@@ -16,13 +16,29 @@
 require_once __DIR__ . '\\..\\..\\controllers\\agendamento\\AulaController.php';
 require_once __DIR__ . '\\..\\..\\controllers\\agendamento\\ParticipacoesAulaController.php';
 
+
+
 use controllers\agendamento\AulaController;
 use controllers\agendamento\ParticipacoesAulaController;
+require_once __DIR__ . "\\..\\..\\controllers\\FuncionarioController.php";
+use controllers\FuncionarioController;
+session_start();
+
+// Verifica se está logado
+if (!isset($_SESSION['user_ID'])) {
+    header("Location: /public/login.php");
+    exit();
+}
 
 $controller = new AulaController();
 $controllerPart = new ParticipacoesAulaController();
+$controllerFun = new FuncionarioController();
+$controllerFun->FU_ID = $_SESSION['user_ID'];
+$controllerFun->searchID();
 
 $stmt = $controller->list();
+
+
 $stmtPart = $controllerPart->buscarAvaliacoes();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -123,8 +139,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" 
                    id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://placehold.co/32x32" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong id="user-name-sidebar">User</strong>
+                    <img src="../../public/images/pfp_placeholder.webp" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong id="user-name-sidebar"><?php echo $controllerFun->FU_NOME ?></strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>

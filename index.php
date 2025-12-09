@@ -15,6 +15,9 @@ switch($request) {
     case '/funcionario':
         require __DIR__ . '/views/funcionario/main.php';
         break;
+    case '/funcionario/profile':
+        require __DIR__ . '/views/funcionario/profileAdmin.php';
+        break;
     case '/funcionario/register/classes':
         require __DIR__ . '/views/funcionario/register-classes.php';
         break;

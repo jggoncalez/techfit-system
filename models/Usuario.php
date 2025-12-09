@@ -90,12 +90,13 @@ class Usuario
         $query = "SELECT * FROM " . $this->table . " WHERE US_NOME = :us_nome LIMIT 1";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':us_nome', $this->US_ID);
+        $stmt->bindParam(':us_nome', $this->US_NOME);
         $stmt->execute();
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($row) {
+            $this->US_ID = $row['US_ID'];
             $this->US_NOME = $row['US_NOME'];
             $this->US_GENERO = $row['US_GENERO'];
             $this->US_DATA_NASCIMENTO = $row['US_DATA_NASCIMENTO'];
