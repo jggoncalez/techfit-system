@@ -41,20 +41,20 @@ class Session
 
     public function funcLogin()
     {
-        $query = 'SELECT FU_ID, FU_NOME FROM FUNCIONARIOS
-                  WHERE FU_NOME = :fu_nome 
+        $query = 'SELECT FU_ID, FU_EMAIL FROM FUNCIONARIOS
+                  WHERE FU_EMAIL = :fu_email 
                   AND FU_SENHA = :fu_senha 
                   LIMIT 1';
         
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':fu_nome', $this->user_name);
+        $stmt->bindParam(':fu_email', $this->user_name);
         $stmt->bindParam(':fu_senha', $this->user_pass);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
             $row = $stmt->fetch(\PDO::FETCH_ASSOC);
             $_SESSION['user_ID'] = $row['FU_ID'];
-            $_SESSION['user_Name'] = $row['FU_NOME'];
+            $_SESSION['user_Name'] = $row['FU_EMAIL'];
             $_SESSION['type'] = 'func';
             return true;
         }
