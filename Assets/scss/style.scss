@@ -1,38 +1,464 @@
-// arquivo: Assets/scss/style.scss (ou semelhante)
-// coloque isto **no topo** do seu SCSS, antes de qualquer regra CSS
+// ==========================================
+// VARIÁVEIS BOOTSTRAP
+// ==========================================
 
-@use "../../node_modules/bootstrap/scss/bootstrap" with (
-  // sobrescreve o mapa de cores do tema
-  $theme-colors: (
-    "primary": #e35c38,
-    "secondary": #ffffff
-  ),
-  // outras variáveis suportadas pelo bootstrap
-  $body-bg: #FFFDFA,
-  $font-family-base: ('Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif),
-  $font-size-base: 1rem,
-  $line-height-base: 1.6,
-  $spacer: 1rem,
-  $border-radius: 0.5rem,
-  $border-radius-sm: 0.25rem,
-  $border-radius-lg: 1rem,
-  $btn-padding-y: 0.75rem,
-  $btn-padding-x: 1.5rem,
-  $btn-border-radius: 0.5rem,
-  $card-border-radius: 1rem,
-  $navbar-dark-color: rgba(255, 255, 255, 0.9),
-  $navbar-dark-hover-color: rgba(255, 255, 255, 1),
-  $navbar-padding-y: 1rem,
-  $input-bg: #FFFDFA,
-  $input-border-color: #FFFDFA,
-  
-);
+$primary: #e35c38;
+$secondary: #ffffff;
+$body-bg: #FFFDFA;
+$font-family-base: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$font-size-base: 1rem;
+$line-height-base: 1.6;
+$border-radius: 0.5rem;
+$border-radius-sm: 0.25rem;
+$border-radius-lg: 1rem;
+$btn-padding-y: 0.75rem;
+$btn-padding-x: 1.5rem;
+$btn-border-radius: 0.5rem;
+$card-border-radius: 1rem;
+$navbar-dark-color: rgba(255, 255, 255, 0.9);
+$navbar-dark-hover-color: rgba(255, 255, 255, 1);
+$navbar-padding-y: 1rem;
+$input-bg: #FFFDFA;
+$input-border-color: #dee2e6;
+$input-focus-border-color: $primary;
 
-// seu CSS adicional depois de importar o bootstrap
+// ==========================================
+// IMPORTA BOOTSTRAP
+// ==========================================
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// ==========================================
+// ANIMAÇÕES - アニメーション
+// ==========================================
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.badge-animated {
+  animation: pulse 2s infinite;
+}
+
+// ==========================================
+// ESTILOS GERAIS
+// ==========================================
+
 body {
   overflow-x: hidden;
-
 }
+
+// ==========================================
+// HERO SECTION - FIX DE LEGIBILIDADE
+// ==========================================
+
+.imagem-fundo {
+  position: relative;
+  background-image: url('/public/images/gyms/saocarlos.webp');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: scroll;
+  min-height: 600px;
+
+  // Overlay escuro para melhorar legibilidade
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.5) 50%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+    z-index: 1;
+  }
+
+  // Garante que o conteúdo fique acima do overlay
+  > div {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+.hero-title {
+  text-shadow: 0px 4px 12px rgba(0, 0, 0, 0.8), 0px 2px 4px rgba(0, 0, 0, 0.6);
+  color: white !important;
+}
+
+.hero-subtitle {
+  text-shadow: 0px 3px 8px rgba(0, 0, 0, 0.9), 0px 1px 3px rgba(0, 0, 0, 0.7);
+  max-width: 700px;
+  margin: 0 auto;
+  color: white !important;
+}
+
+.badge-animated {
+  animation: pulse 2s infinite;
+  box-shadow: 0 4px 15px rgba(227, 92, 56, 0.4);
+}
+// ==========================================
+// FEATURE ICONS - 機能アイコン
+// ==========================================
+
+.feature-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba($primary, 0.1);
+  margin-bottom: 1rem;
+
+  i {
+    font-size: 2rem;
+    color: $primary;
+  }
+}
+
+// ==========================================
+// CARDS - カード
+// ==========================================
+
+.card {
+  border-radius: 1rem;
+  border: 1px solid #dee2e6;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-img-top {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba($primary, 0.3) !important;
+  }
+}
+
+// ==========================================
+// PRICING CARDS - 価格カード
+// ==========================================
+
+.pricing-card-title {
+  font-size: 3rem;
+  margin: 1rem 0;
+}
+
+.plan-card-popular {
+  border: 3px solid $primary !important;
+  transform: scale(1.05);
+  position: relative;
+  overflow: visible;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, $primary, lighten($primary, 15%));
+  }
+}
+
+.popular-badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.card-header-popular {
+  margin-top: 15px;
+}
+
+// ==========================================
+// TESTIMONIALS - 証言カード
+// ==========================================
+
+.testimonial-card {
+  transition: all 0.3s ease;
+  border-left: 4px solid $primary !important;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.testimonial-avatar {
+  width: 50px;
+  height: 50px;
+  background-color: $primary;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+// ==========================================
+// ACADEMY CARDS - アカデミーカード
+// ==========================================
+
+.academy-card {
+  width: 22rem;
+
+  .academy-card-img {
+    height: 250px;
+    object-fit: cover;
+  }
+}
+
+// ==========================================
+// CTA SECTION - コールトゥアクション
+// ==========================================
+
+.cta-section {
+  background: linear-gradient(135deg, $primary 0%, darken($primary, 10%) 100%);
+}
+
+.cta-disclaimer {
+  opacity: 0.9;
+}
+
+// ==========================================
+// HEADER STYLES - ヘッダースタイル
+// ==========================================
+
+.header-modern {
+  position: relative;
+  z-index: 1030;
+
+  .top-bar {
+    font-size: 0.875rem;
+    
+    i {
+      opacity: 0.9;
+    }
+  }
+
+  .navbar {
+    padding: 0.75rem 0;
+    transition: all 0.3s ease;
+
+    .navbar-brand {
+      img {
+        transition: transform 0.3s ease;
+        max-height: 40px;
+        width: auto;
+      }
+
+      &:hover img {
+        transform: scale(1.05);
+      }
+    }
+
+    .navbar-toggler {
+      border-color: $primary;
+      
+      &:focus {
+        box-shadow: 0 0 0 0.25rem rgba($primary, 0.25);
+      }
+    }
+
+    .nav-link {
+      color: #333;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      transition: all 0.3s ease;
+      position: relative;
+
+      i {
+        color: $primary;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover {
+        color: $primary;
+        
+        i {
+          transform: translateY(-2px);
+        }
+      }
+
+      &.active {
+        color: $primary;
+        
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 1rem;
+          right: 1rem;
+          height: 2px;
+          background-color: $primary;
+        }
+      }
+    }
+
+    .btn-primary {
+      padding: 0.5rem 1.5rem;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba($primary, 0.3);
+      }
+    }
+  }
+
+  &.sticky-top {
+    .navbar {
+      &.scrolled {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}
+
+// ==========================================
+// FOOTER STYLES - フッタースタイル
+// ==========================================
+
+footer {
+  .hover-primary {
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: $primary !important;
+    }
+  }
+
+  .input-group {
+    .form-control:focus {
+      border-color: $primary;
+      box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+    }
+  }
+
+  a {
+    transition: all 0.3s ease;
+  }
+}
+
+// ==========================================
+// CARD HOVER EFFECTS
+// ==========================================
+
+.hover-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba($primary, 0.3) !important;
+  }
+}
+
+// ==========================================
+// FORMS - フォーム
+// ==========================================
+
+.input-group-lg {
+  .input-group-text {
+    border: none;
+  }
+
+  .form-control:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+  }
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: $primary;
+  box-shadow: 0 0 0 0.25rem rgba($primary, 0.25);
+}
+
+// ==========================================
+// BUTTONS - ボタン
+// ==========================================
+
+.btn {
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &.btn-primary {
+    &:hover {
+      background-color: darken($primary, 10%);
+      border-color: darken($primary, 10%);
+    }
+  }
+}
+
+// ==========================================
+// MODALS - モーダル
+// ==========================================
+
+.modal {
+  .modal-content {
+    border-radius: 1rem;
+    border: none;
+  }
+
+  .modal-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    
+    &.bg-primary {
+      background-color: $primary !important;
+      color: white !important;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+    }
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+  }
+
+  .modal-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+// ==========================================
+// LAYOUT
+// ==========================================
 
 .cards {
   display: flex;
@@ -44,16 +470,6 @@ body {
   margin-bottom: 20px;
   gap: 30px;
 }
-.imagem-fundo {
-  position: relative;
-  /* caminho do arquivo: `public\images\gyms\saocarlos.webp` */
-  /* use `/public/...` se o servidor expõe o projeto a partir do diretório pai */
-  background-image: url('/public/images/gyms/saocarlos.webp');
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: scroll;
-}
 
 .sidebar {
   min-height: 100vh;
@@ -62,34 +478,168 @@ body {
 
 .profile {
   display: flex;
-  text-align:start ;
+  text-align: start;
   flex-direction: column;
   padding: 10px;
   margin: 20px;
   width: 500px;
   height: auto;
-  box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.25);
+  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 15px;
   gap: 8px;
 
+  h2 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom: 2px solid $primary;
+  }
 }
 
 .profile-container {
   display: flex;
-  text-align:start ;
+  text-align: start;
   flex-direction: column;
   padding: 5px;
   margin: 20px;
   width: 550px;
   height: auto;
-  box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.25);
+  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 15px;
 }
 
-.profile h2 {
-  font-size: 1.3rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-bottom: 2px solid #e35c38;
+// ==========================================
+// UTILITIES
+// ==========================================
+
+.shadow-p {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.spinner-border {
+  &.text-primary {
+    color: $primary !important;
+  }
+}
+
+// ==========================================
+// RESPONSIVE
+// ==========================================
+
+@media (max-width: 991px) {
+  .header-modern {
+    .top-bar {
+      text-align: center;
+      
+      .row > div {
+        text-align: center !important;
+        margin-bottom: 0.5rem;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    .navbar {
+      .navbar-nav {
+        padding: 1rem 0;
+        
+        .nav-item {
+          text-align: center;
+          
+          .nav-link {
+            padding: 0.75rem 1rem;
+          }
+          
+          &.ms-lg-3 {
+            margin-left: 0 !important;
+            margin-top: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .cards {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .profile,
+  .profile-container {
+    width: 100%;
+    margin: 10px;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .hero-stats {
+    gap: 1rem;
+
+    .stat-item .stat-number {
+      font-size: 1.5rem;
+    }
+  }
+
+  .plan-card-popular {
+    transform: scale(1) !important;
+  }
+
+  .academy-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .display-1 {
+    font-size: 2.5rem;
+  }
+
+  .display-2 {
+    font-size: 2rem;
+  }
+
+  .display-4 {
+    font-size: 2rem;
+  }
+
+  .pricing-card-title {
+    font-size: 2rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+}
+
+// ==========================================
+// SCROLLBAR - スクロールバー
+// ==========================================
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $primary;
+  border-radius: 5px;
+
+  &:hover {
+    background: darken($primary, 10%);
+  }
 }
