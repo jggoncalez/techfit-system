@@ -36,23 +36,18 @@
                 <h5 class="text-primary mb-3">Links Rápidos</h5>
                 <ul class="list-unstyled">
                     <li class="mb-2">
-                        <a href="#about" class="text-white-50 text-decoration-none hover-primary">
+                        <a href="/#about" class="text-white-50 text-decoration-none hover-primary">
                             <i class="bi bi-chevron-right"></i> Sobre Nós
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#planos" class="text-white-50 text-decoration-none hover-primary">
+                        <a href="/#planos" class="text-white-50 text-decoration-none hover-primary">
                             <i class="bi bi-chevron-right"></i> Planos
                         </a>
                     </li>
                     <li class="mb-2">
                         <a href="#" class="text-white-50 text-decoration-none hover-primary">
                             <i class="bi bi-chevron-right"></i> Academias
-                        </a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#" class="text-white-50 text-decoration-none hover-primary">
-                            <i class="bi bi-chevron-right"></i> Blog
                         </a>
                     </li>
                 </ul>
@@ -129,7 +124,7 @@
         <div class="row align-items-center">
             <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                 <p class="text-white-50 mb-0">
-                    <i class="bi bi-c-circle"></i> 2024 TechFit. Todos os direitos reservados.
+                    <i class="bi bi-c-circle"></i> 2025 TechFit. Desenvolvido para o SENAI LUIZ VARGA por João Gabriel Gonçalez e Henrique Rodrigues Motta
                 </p>
             </div>
             <div class="col-md-6">
@@ -162,18 +157,3 @@
 </body>
 
 </html>
-
-/* Footer Styles */
-footer .hover-primary:hover {
-    color: #DA614E !important;
-    transition: color 0.3s ease;
-}
-
-footer .input-group .form-control:focus {
-    border-color: #DA614E;
-    box-shadow: 0 0 0 0.2rem rgba(218, 97, 78, 0.25);
-}
-
-footer a {
-    transition: all 0.3s ease;
-}

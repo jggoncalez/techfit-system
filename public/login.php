@@ -44,6 +44,7 @@ if(isset($_POST['login'])){
     <link rel="shortcut icon" href="../Assets/images/TechFit-icon.ico" type="image/x-icon">
     <script src="../docs/5.3/assets/js/color-modes.js"></script>
     <link rel="stylesheet" href="../Assets/style/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 </head>
 
 <?php

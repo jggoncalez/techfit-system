@@ -7,94 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Academia com tecnologia de ponta. Treinos personalizados com IA através do sistema SAGEF.">
     <link rel="shortcut icon" href="../Assets/images/TechFit-icon.ico" type="image/x-icon">
-    <script src="../docs/5.3/assets/js/color-modes.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/Assets/style/style.css">
-    
-    <!-- Animações CSS customizadas -->
-    <style>
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-        
-        .fade-in-up {
-            animation: fadeInUp 0.8s ease-out;
-        }
-        
-        .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .hover-lift:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(218, 97, 78, 0.3) !important;
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #DA614E;
-        }
-        
-        .badge-animated {
-            animation: pulse 2s infinite;
-        }
-        
-        .testimonial-card {
-            transition: all 0.3s ease;
-            border-left: 4px solid #DA614E;
-        }
-        
-        .testimonial-card:hover {
-            transform: scale(1.05);
-        }
-        
-        .cta-section {
-            background: linear-gradient(135deg, #DA614E 0%, #c54d3a 100%);
-        }
-        
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            background: rgba(218, 97, 78, 0.1);
-            margin-bottom: 1rem;
-        }
-        
-        .plan-card-popular {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .plan-card-popular::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #DA614E, #ff8a75);
-        }
-    </style>
 </head>
 
 <body>
@@ -103,20 +17,16 @@ include_once 'include/header.php';
 ?>
 
 <main>
-    <!-- Hero Section MELHORADO -->
+    <!-- Hero Section -->
     <div class="imagem-fundo position-relative">
         <div class="position-relative overflow-hidden p-3 p-md-5 text-center">
             <div class="col-md-8 p-lg-5 mx-auto my-5 fade-in-up">
-                <!-- Badge animado -->
-                <span class="badge bg-primary text-secondary mb-3 px-4 py-2 badge-animated">
-                    <i class="bi bi-stars me-2"></i>Sistema SAGEF Integrado
-                </span>
                 
-                <h1 class="display-1 text-primary fw-bold mb-4" style="text-shadow: 0px 4px 8px rgba(0,0,0,0.3);">
+                <h1 class="display-1 text-primary fw-bold mb-4 hero-title">
                     Bem-Vindo à TechFit
                 </h1>
                 
-                <p class="lead text-white fs-4 mb-4" style="text-shadow: 0px 2px 4px #000; max-width: 700px; margin: 0 auto;">
+                <p class="lead text-white fs-4 mb-4 hero-subtitle">
                     Transforme seu corpo com tecnologia de ponta. Treinos personalizados por inteligência artificial.
                 </p>
                 
@@ -130,27 +40,25 @@ include_once 'include/header.php';
                 </div>
                 
                 <!-- Contador de membros -->
-                <div class="mt-5 d-flex justify-content-center gap-5 flex-wrap">
-                    <div class="text-white text-center">
+                <div class="hero-stats mt-5 d-flex justify-content-center gap-5 flex-wrap">
+                    <div class="text-white text-center stat-item">
                         <div class="stat-number text-white">500+</div>
                         <small class="d-block fs-6">Membros Ativos</small>
                     </div>
-                    <div class="text-white text-center">
+                    <div class="text-white text-center stat-item">
                         <div class="stat-number text-white">50K+</div>
                         <small class="d-block fs-6">Treinos Realizados</small>
                     </div>
-                    <div class="text-white text-center">
+                    <div class="text-white text-center stat-item">
                         <div class="stat-number text-white">98%</div>
                         <small class="d-block fs-6">Satisfação</small>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="product-device shadow-sm d-none d-md-block"></div>
-        <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
     </div>
 
-    <!-- Sobre nós MELHORADO -->
+    <!-- Sobre nós -->
     <div class="container col-xxl-8 px-4 py-5">
         <div id="about" class="row featurette mb-3 align-items-center">
             <div class="col-md-7 p-5">
@@ -198,24 +106,21 @@ include_once 'include/header.php';
                 <p class="text-muted">Somos a academia que treina seu corpo e revoluciona sua forma de se exercitar.</p>
                 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
-                    <button type="button" class="btn btn-primary btn-lg px-5">
+                    <a href="#planos" class="btn btn-primary btn-lg px-5">
                         <i class="bi bi-rocket-takeoff me-2"></i>Começar Agora
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">
-                        <i class="bi bi-play-circle me-2"></i>Saiba Mais
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Features MELHORADAS -->
+    <!-- Features -->
     <div class="container px-4 py-5" id="featured-3">
         <h2 class="pb-2 border-bottom mb-5">Por que a TechFit é a melhor escolha para você?</h2>
         <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
             <div class="feature col">
                 <div class="feature-icon">
-                    <i class="bi bi-lightning-fill" style="font-size: 2rem; color: #DA614E;"></i>
+                    <i class="bi bi-lightning-fill"></i>
                 </div>
                 <h3 class="mb-3">Tecnologia de Ponta</h3>
                 <p>Nossa plataforma oferece treinos personalizados e inteligentes para você. Com a tecnologia SAGEF, 
@@ -229,7 +134,7 @@ include_once 'include/header.php';
             
             <div class="feature col">
                 <div class="feature-icon">
-                    <i class="bi bi-graph-up-arrow" style="font-size: 2rem; color: #DA614E;"></i>
+                    <i class="bi bi-graph-up-arrow"></i>
                 </div>
                 <h3 class="mb-3">Acompanhamento de Resultados</h3>
                 <p>Monitore seu progresso em tempo real com nossos sistemas de ranking e relatórios de desempenho. 
@@ -243,7 +148,7 @@ include_once 'include/header.php';
             
             <div class="feature col">
                 <div class="feature-icon">
-                    <i class="bi bi-shield-check" style="font-size: 2rem; color: #DA614E;"></i>
+                    <i class="bi bi-shield-check"></i>
                 </div>
                 <h3 class="mb-3">Segurança e Confiabilidade</h3>
                 <p>Treine com segurança e confiança em uma plataforma robusta que protege seus dados. A TechFit oferece 
@@ -256,7 +161,7 @@ include_once 'include/header.php';
         </div>
     </div>
 
-    <!-- Cards de planos MELHORADOS -->
+    <!-- Cards de planos -->
     <div class="container py-5">
         <div class="text-center mb-5">
             <span class="badge bg-primary text-secondary mb-3">Planos</span>
@@ -292,18 +197,20 @@ include_once 'include/header.php';
 
             <!-- Plano Basic (POPULAR) -->
             <div class="col">
-                <div class="card mb-1 rounded-3 shadow-lg hover-lift h-100 plan-card-popular" 
-                     style="border: 2px solid #DA614E; transform: scale(1.05);">
-                    <div class="card-header py-2 text-bg-primary border-primary">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="badge bg-secondary">
-                                <i class="bi bi-star-fill me-1"></i>MAIS POPULAR
-                            </span>
-                        </div>
+                <div class="card mb-1 rounded-3 shadow-lg hover-lift h-100 plan-card-popular position-relative">
+                    <!-- Badge "Mais Popular" FORA do card -->
+                    <div class="popular-badge">
+                        <span class="badge bg-primary text-white px-4 py-2 fs-6 shadow-lg">
+                            <i class="bi bi-star-fill me-2"></i>MAIS POPULAR
+                        </span>
                     </div>
+                    
+                    <div class="card-header py-3 text-bg-primary border-primary card-header-popular">
+                        <h4 class="my-0 fw-bold text-center text-white">Basic</h4>
+                        <h6 class="my-0 fw-normal text-center text-white">O custo benefício</h6>
+                    </div>
+                    
                     <div class="card-body d-flex flex-column">
-                        <h4 class="my-0 fw-bold">Basic</h4>
-                        <h6 class="my-0 fw-normal text-muted mb-3">O custo benefício</h6>
                         <h1 class="card-title pricing-card-title text-center mb-4 text-primary">
                             R$100<small class="text-body-secondary fw-light fs-5">/mês</small>
                         </h1>
@@ -341,16 +248,16 @@ include_once 'include/header.php';
                             <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Rendimento por Treino</li>
                             <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>1 Personal por semana</strong></li>
                         </ul>
-                        <button type="button" class="w-100 btn btn-lg btn-outline-primary">
+                        <a type="button" class="w-100 btn btn-lg btn-outline-primary">
                             <i class="bi bi-trophy me-2"></i>Seja Premium
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Depoimentos dos Clientes (NOVO) -->
+    <!-- Depoimentos -->
     <div class="container py-5 my-5">
         <div class="text-center mb-5">
             <span class="badge bg-primary text-secondary mb-3">Depoimentos</span>
@@ -372,8 +279,7 @@ include_once 'include/header.php';
                         <p class="card-text mb-4">"O SAGEF mudou completamente minha rotina de treinos. Os exercícios 
                         personalizados me ajudaram a evoluir muito mais rápido. Resultados visíveis em apenas 2 meses!"</p>
                         <div class="d-flex align-items-center">
-                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" 
-                                 style="width: 50px; height: 50px;">
+                            <div class="testimonial-avatar">
                                 <span class="fw-bold">MS</span>
                             </div>
                             <div>
@@ -398,8 +304,7 @@ include_once 'include/header.php';
                         <p class="card-text mb-4">"A melhor academia que já frequentei! A tecnologia realmente faz 
                         diferença. O sistema de rankings me mantém sempre motivado a superar meus próprios limites."</p>
                         <div class="d-flex align-items-center">
-                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" 
-                                 style="width: 50px; height: 50px;">
+                            <div class="testimonial-avatar">
                                 <span class="fw-bold">JS</span>
                             </div>
                             <div>
@@ -424,8 +329,7 @@ include_once 'include/header.php';
                         <p class="card-text mb-4">"Nunca pensei que treinar pudesse ser tão inteligente! O 
                         acompanhamento em tempo real e os ajustes automáticos dos treinos são incríveis. Vale cada centavo!"</p>
                         <div class="d-flex align-items-center">
-                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" 
-                                 style="width: 50px; height: 50px;">
+                            <div class="testimonial-avatar">
                                 <span class="fw-bold">AL</span>
                             </div>
                             <div>
@@ -449,7 +353,6 @@ include_once 'include/header.php';
         
         <div class="cards d-flex flex-wrap justify-content-center gap-4">
             <?php
-            // Renderiza os cards do arquivo academias.json no servidor (versão PHP simples)
             $jsonPath = __DIR__ . '/../public/academias.json';
             if (file_exists($jsonPath)) {
                 $json = file_get_contents($jsonPath);
@@ -465,9 +368,8 @@ include_once 'include/header.php';
                     $distance = isset($card['distance']) ? htmlspecialchars($card['distance'], ENT_QUOTES) : '';
                     $modalId = "modal-academia-{$count}";
 
-                    // Card melhorado
-                    echo "<div class=\"card shadow hover-lift\" style=\"width: 22rem;\">";
-                    echo "<img src=\"{$img}\" class=\"card-img-top\" alt=\"{$title}\" style=\"height: 250px; object-fit: cover;\">";
+                    echo "<div class=\"card shadow hover-lift academy-card\">";
+                    echo "<img src=\"{$img}\" class=\"card-img-top academy-card-img\" alt=\"{$title}\">";
                     echo "<div class=\"card-body d-flex flex-column\">";
                     echo "<h5 class=\"card-title fw-bold\">{$title}</h5>";
                     echo "<p class=\"card-text text-muted flex-grow-1\">{$bio}</p>";
@@ -477,7 +379,6 @@ include_once 'include/header.php';
                     echo "Ver Detalhes <i class=\"bi bi-arrow-right ms-1\"></i></button>";
                     echo "</div></div></div>";
 
-                    // Modal melhorado
                     echo "<div class=\"modal fade\" id=\"{$modalId}\" tabindex=\"-1\">";
                     echo "<div class=\"modal-dialog modal-dialog-centered\">";
                     echo "<div class=\"modal-content\">";
@@ -508,7 +409,7 @@ include_once 'include/header.php';
         </div>
     </div>
 
-    <!-- Call to Action Final (NOVO) -->
+    <!-- Call to Action Final -->
     <div class="cta-section text-white py-5 my-5">
         <div class="container text-center py-4">
             <div class="row justify-content-center">
@@ -521,19 +422,19 @@ include_once 'include/header.php';
                     <div class="d-flex gap-3 justify-content-center flex-wrap">
                         <a href="#planos" class="btn btn-light btn-lg px-5 py-3">
                             <i class="bi bi-lightning-fill text-primary me-2"></i>
-                            <strong>Começar Gratuitamente</strong>
+                            <strong>Ver planos</strong>
                         </a>
                         <a href="#about" class="btn btn-outline-light btn-lg px-5 py-3">
                             <i class="bi bi-telephone me-2"></i>Falar com Consultor
                         </a>
                     </div>
-                    <p class="mt-4 mb-0"><small><i class="bi bi-shield-check me-2"></i>Sem compromisso. Cancele quando quiser.</small></p>
+                    <p class="mt-4 mb-0 cta-disclaimer"><small><i class="bi bi-shield-check me-2"></i>Sem compromisso. Cancele quando quiser.</small></p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- FAQ Section (BONUS) -->
+    <!-- FAQ Section -->
     <div class="container py-5 mb-5">
         <div class="text-center mb-5">
             <span class="badge bg-primary text-secondary mb-3">FAQ</span>
@@ -597,9 +498,8 @@ include_once 'include/header.php';
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Animação suave ao scroll -->
 <script>
-    // Smooth scroll para links internos
+    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -613,7 +513,7 @@ include_once 'include/header.php';
         });
     });
     
-    // Animação de entrada dos cards
+    // Animação de entrada
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
