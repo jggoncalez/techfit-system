@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.44, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: techfitdatabase
+-- Host: localhost    Database: techfitdatabase
 -- ------------------------------------------------------
--- Server version	8.0.44
+-- Server version	8.0.43
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -206,7 +206,7 @@ CREATE TABLE `planos` (
 
 LOCK TABLES `planos` WRITE;
 /*!40000 ALTER TABLE `planos` DISABLE KEYS */;
-INSERT INTO `planos` VALUES (1,'Starter',60.00,'{\"beneficios\": [\"First Training\", \"Acesso a uma academia\", \"Sistema de Rankings\"]}',1,'2025-12-10 13:37:09'),(2,'Basic',100.00,'{\"beneficios\": [\"First Training\", \"Acesso a todas academias\", \"Treinos Personalizados\", \"Sistema de Rankings\", \"Rendimento por treino\"]}',1,'2025-12-10 13:37:09'),(3,'Advanced',150.00,'{\"beneficios\": [\"First Training\", \"Acesso a todas academias\", \"Treinos Personalizados\", \"Sistema de Rankings\", \"Rendimento por treino\", \"1 treino com personal/semana\", \"Aulas ilimitadas\"]}',1,'2025-12-10 13:37:09');
+INSERT INTO `planos` VALUES (1,'Starter',60.00,'{\"beneficios\": [\"First Training\", \"Acesso a uma academia\", \"Sistema de Rankings\"]}',1,'2025-12-10 16:20:20'),(2,'Basic',100.00,'{\"beneficios\": [\"First Training\", \"Acesso a todas academias\", \"Treinos Personalizados\", \"Sistema de Rankings\", \"Rendimento por treino\"]}',1,'2025-12-10 16:20:20'),(3,'Advanced',150.00,'{\"beneficios\": [\"First Training\", \"Acesso a todas academias\", \"Treinos Personalizados\", \"Sistema de Rankings\", \"Rendimento por treino\", \"1 treino com personal/semana\", \"Aulas ilimitadas\"]}',1,'2025-12-10 16:20:20');
 /*!40000 ALTER TABLE `planos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,7 +262,7 @@ CREATE TABLE `registro_entradas` (
   KEY `RFID_ID` (`RFID_ID`),
   CONSTRAINT `registro_entradas_ibfk_1` FOREIGN KEY (`US_ID`) REFERENCES `usuarios` (`US_ID`) ON DELETE SET NULL,
   CONSTRAINT `registro_entradas_ibfk_2` FOREIGN KEY (`RFID_ID`) REFERENCES `rfid_tags` (`RFID_ID`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -271,6 +271,7 @@ CREATE TABLE `registro_entradas` (
 
 LOCK TABLES `registro_entradas` WRITE;
 /*!40000 ALTER TABLE `registro_entradas` DISABLE KEYS */;
+INSERT INTO `registro_entradas` VALUES (1,2,2,'2025-12-10 16:20:27','RFID','PERMITIDO',NULL,'Entrada Principal');
 /*!40000 ALTER TABLE `registro_entradas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,7 +293,7 @@ CREATE TABLE `rfid_tags` (
   UNIQUE KEY `RFID_TAG_CODE` (`RFID_TAG_CODE`),
   KEY `US_ID` (`US_ID`),
   CONSTRAINT `rfid_tags_ibfk_1` FOREIGN KEY (`US_ID`) REFERENCES `usuarios` (`US_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -301,7 +302,7 @@ CREATE TABLE `rfid_tags` (
 
 LOCK TABLES `rfid_tags` WRITE;
 /*!40000 ALTER TABLE `rfid_tags` DISABLE KEYS */;
-INSERT INTO `rfid_tags` VALUES (1,'2E20F804',1,'ATIVO','2025-12-10','2026-12-10');
+INSERT INTO `rfid_tags` VALUES (1,'2E20F804',1,'ATIVO','2025-12-10','2026-12-10'),(2,'FAC07FBF',2,'ATIVO','2025-12-10','2026-12-10');
 /*!40000 ALTER TABLE `rfid_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -393,7 +394,7 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `US_NOME` (`US_NOME`),
   KEY `PL_ID` (`PL_ID`),
   CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`PL_ID`) REFERENCES `planos` (`PL_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -402,7 +403,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (75.50,'2000-01-15',1,'Heniq','1234','M',175,'SAÚDE',1,12,'Rua Exemplo, 123 - Limeira/SP','{\"dias\": [\"SEG\", \"QUA\", \"SEX\"], \"horario\": \"MANHA\"}',2,'EM_DIA');
+INSERT INTO `usuarios` VALUES (75.50,'2000-01-15',1,'Heniq','1234','M',175,'SAÚDE',1,12,'Rua Exemplo, 123 - Limeira/SP','{\"dias\": [\"SEG\", \"QUA\", \"SEX\"], \"horario\": \"MANHA\"}',2,'EM_DIA'),(75.50,'2000-01-15',2,'João','1234','M',175,'SAÚDE',1,12,'Rua Exemplo, 123 - Limeira/SP','{\"dias\": [\"SEG\", \"QUA\", \"SEX\"], \"horario\": \"MANHA\"}',2,'EM_DIA');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -423,4 +424,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-12-10 10:38:39
+-- Dump completed on 2025-12-10 13:22:09

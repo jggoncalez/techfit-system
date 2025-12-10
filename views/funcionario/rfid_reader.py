@@ -7,11 +7,11 @@ from datetime import datetime
 DB_CONFIG = {
     'host': 'localhost',
     'user': 'root',
-    'password': '7900',
+    'password': 'senaisp',
     'database': 'TechFitDatabase',
     'auth_plugin': 'mysql_native_password'
 }
-PORTA_SERIAL = 'COM3'
+PORTA_SERIAL = 'COM4'
 BAUD_RATE = 9600
 
 def executar_query(query, params=None, fetch=False):
