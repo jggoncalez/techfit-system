@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <strong id="user-name-sidebar"><?php echo $controllerFun->FU_NOME ?></strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
+                    <li><a class="dropdown-item" href="/funcionario/profile"><i class="bi bi-person me-2"></i>Perfil</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="/core/Session.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
                 </ul>
@@ -205,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <select class="form-select" name="US_OBJETIVO">
                         <option value="">Selecione...</option>
                         <option value="EMAGRECER">Emagrecer</option>
-                        <option value="PERDER PESO">Ganhar Peso</option>
+                        <option value="GANHAR PESO">Ganhar Peso</option>
                         <option value="SAÚDE">Saúde</option>
                     </select>
                 </div>
@@ -410,7 +410,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <select class='form-select' name='US_OBJETIVO'>
                                         <option value=''>Selecione...</option>
                                         <option value='EMAGRECER' <?= $row['US_OBJETIVO'] == 'EMAGRECER' ? 'selected' : '' ?>>Emagrecer</option>
-                                        <option value='PERDER PESO' <?= $row['US_OBJETIVO'] == 'GANHAR PESO' ? 'selected' : '' ?>>Perder Peso</option>
+                                        <option value='GANHAR PESO' <?= $row['US_OBJETIVO'] == 'GANHAR PESO' ? 'selected' : '' ?>>Ganhar Peso</option>
                                         <option value='SAÚDE' <?= $row['US_OBJETIVO'] == 'SAÚDE' ? 'selected' : '' ?>>Saúde</option>
                                     </select>
                                 </div>
