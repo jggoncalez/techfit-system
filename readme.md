@@ -36,7 +36,7 @@
 
 ## 🎯 Sobre o Projeto
 <p align="center">
-    <img src=".github/main-page-screenshot.png" alt="Main Page">
+    <img src=".github/main-page-screenshot.webp" alt="Main Page">
 </p>
 
 A **TechFit** é um sistema completo de gerenciamento de academia que integra tecnologia IoT para controle de acesso via RFID, sistema de gestão completo para academias e dashboards analíticos em tempo real.
