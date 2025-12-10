@@ -35,13 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($acao === 'criar') {
         $controller->US_NOME = $_POST['US_NOME'];
-        $controller->US_IDADE = $_POST['US_IDADE'];
         $controller->US_GENERO = $_POST['US_GENERO'];
         $controller->US_DATA_NASCIMENTO = $_POST['US_DATA_NASCIMENTO'];
         $controller->US_ALTURA = $_POST['US_ALTURA'];
         $controller->US_PESO = $_POST['US_PESO'];
         $controller->US_OBJETIVO = $_POST['US_OBJETIVO'] ?? '';
-        $controller->US_PORC_MASSA_MAGRA = $_POST['US_PORC_MASSA_MAGRA'];
         $controller->US_TREINO_ANTERIOR = $_POST['US_TREINO_ANTERIOR'];
         $controller->US_TEMPO_TREINOANT = $_POST['US_TEMPO_TREINOANT'] ?? null;
         $controller->US_ENDERECO = $_POST['US_ENDERECO'];
@@ -57,13 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($acao === 'atualizar') {
         $controller->US_ID = $_POST['US_ID'];
         $controller->US_NOME = $_POST['US_NOME'];
-        $controller->US_IDADE = $_POST['US_IDADE'];
         $controller->US_GENERO = $_POST['US_GENERO'];
         $controller->US_DATA_NASCIMENTO = $_POST['US_DATA_NASCIMENTO'];
         $controller->US_ALTURA = $_POST['US_ALTURA'];
         $controller->US_PESO = $_POST['US_PESO'];
         $controller->US_OBJETIVO = $_POST['US_OBJETIVO'] ?? '';
-        $controller->US_PORC_MASSA_MAGRA = $_POST['US_PORC_MASSA_MAGRA'];
         $controller->US_TREINO_ANTERIOR = $_POST['US_TREINO_ANTERIOR'];
         $controller->US_TEMPO_TREINOANT = $_POST['US_TEMPO_TREINOANT'] ?? null;
         $controller->US_ENDERECO = $_POST['US_ENDERECO'];
@@ -175,12 +171,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="date" class="form-control" name="US_DATA_NASCIMENTO" required>
                 </div>
 
-                <!-- US_IDADE -->
-                <div class="col-md-2">
-                    <label class="form-label">Idade *</label>
-                    <input type="number" class="form-control" name="US_IDADE" required>
-                </div>
-
                 <!-- US_ALTURA -->
                 <div class="col-md-2">
                     <label class="form-label">Altura (cm) *</label>
@@ -193,11 +183,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="number" step="0.01" class="form-control" name="US_PESO" required>
                 </div>
 
-                <!-- US_PORC_MASSA_MAGRA -->
-                <div class="col-md-2">
-                    <label class="form-label">% Massa Magra *</label>
-                    <input type="number" step="0.01" class="form-control" name="US_PORC_MASSA_MAGRA" required>
-                </div>
 
                 <!-- US_OBJETIVO -->
                 <div class="col-md-4">
@@ -214,8 +199,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="col-md-3">
                     <label class="form-label">Já treinou antes? *</label>
                     <select class="form-select" name="US_TREINO_ANTERIOR" required>
-                        <option value="1">Sim</option>
-                        <option value="0">Não</option>
+                        <option value='1'>Sim</option>
+                        <option value='0'>Não</option>
                     </select>
                 </div>
 
@@ -300,7 +285,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <tr>
                             <th>#</th>
                             <th>Nome</th>
-                            <th>Idade</th>
+                            <th>Data de Nascimento</th>
                             <th>Peso</th>
                             <th>Altura</th>
                             <th>Plano</th>
@@ -326,7 +311,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <tr>
                                 <td>{$row['US_ID']}</td>
                                 <td>{$row['US_NOME']}</td>
-                                <td>{$row['US_IDADE']}</td>
+                                <td>" . date('d/m/Y', strtotime($row['US_DATA_NASCIMENTO'])) . "</td>
                                 <td>{$row['US_PESO']} kg</td>
                                 <td>{$row['US_ALTURA']} cm</td>
                                 <td>Plano {$row['PL_ID']}</td>
@@ -386,11 +371,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                                 
                                 <div class='col-md-2'>
-                                    <label class='form-label'>Idade</label>
-                                    <input type='number' class='form-control' name='US_IDADE' value='<?= $row['US_IDADE'] ?>' required>
-                                </div>
-                                
-                                <div class='col-md-2'>
                                     <label class='form-label'>Altura (cm)</label>
                                     <input type='number' class='form-control' name='US_ALTURA' value='<?= $row['US_ALTURA'] ?>' required>
                                 </div>
@@ -398,11 +378,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class='col-md-2'>
                                     <label class='form-label'>Peso (kg)</label>
                                     <input type='number' step='0.01' class='form-control' name='US_PESO' value='<?= $row['US_PESO'] ?>' required>
-                                </div>
-                                
-                                <div class='col-md-2'>
-                                    <label class='form-label'>% Massa Magra</label>
-                                    <input type='number' step='0.01' class='form-control' name='US_PORC_MASSA_MAGRA' value='<?= $row['US_PORC_MASSA_MAGRA'] ?>' required>
                                 </div>
                                 
                                 <div class='col-md-4'>

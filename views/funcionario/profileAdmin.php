@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="card-body">
                         <p><strong>Nível de Acesso:</strong> <?php echo $controller->FU_NIVEL_ACESSO ?></p>
                         <p><strong>Salário:</strong> R$ <?php echo number_format($controller->FU_SALARIO, 2, ',', '.') ?></p>
-                        <p><strong>Data de Admissão:</strong> <?php echo $controller->FU_DATA_ADMISSAO ?></p>
+                        <p><strong>Data de Admissão:</strong> <?php echo date('d/m/Y', strtotime($controller->FU_DATA_ADMISSAO )) ?></p>
                     </div>
                 </div>
                 

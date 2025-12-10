@@ -205,7 +205,7 @@ $controller->searchID();
                             <i class="bi bi-graph-up text-primary me-2"></i>
                             Dashboard Analytics
                         </h1>
-                        <p class="lead text-muted">Seja bem-vindo, <span id="user-name-main" class="text-primary fw-bold">User</span>!</p>
+                        <p class="lead text-muted">Seja bem-vindo, <span id="user-name-main" class="text-primary fw-bold"><?php echo $controller->FU_NOME ?></span>!</p>
                         <small class="text-muted">Última atualização: <span id="ultima-atualizacao">--:--</span></small>
                     </div>
                 </div>

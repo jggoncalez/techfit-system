@@ -551,7 +551,7 @@ async function carregarTabelaUsuarios() {
 async function carregarTabelaAulas() {
     try {
         log('📋 Carregando tabela de aulas...', 'debug');
-        const resposta = await fetch(`${API_URL}?tipo=aulas_proximas&limite=8`);
+        const resposta = await fetch(`${API_URL}?imite=8`);
         const data = await resposta.json();
         
         if (data.sucesso && data.dados) {

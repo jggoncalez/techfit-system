@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
 
-    <div class="d-flex" style="height: 100vh; overflow-y: auto;">
+    <div class="d-flex" style=" overflow-y: auto;">
         <!-- Sidebar -->
         <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">

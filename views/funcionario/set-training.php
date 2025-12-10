@@ -104,7 +104,7 @@ $listaTreinos = $controllerTr->list(); // pega todos os treinos
 
 <body>
 
-<div class="d-flex">
+<div class="d-flex min-vh-100">
     
     <!-- SIDEBAR -->
     <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">

@@ -119,8 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             <div class="card-body">
                                 <p><span class="info-label">Nome:</span> <?php echo $controller->US_NOME ?></p>
-                                <p><span class="info-label">Data de Nascimento:</span> <?php echo $controller->US_DATA_NASCIMENTO ?></p>
-                                <p><span class="info-label">Idade:</span> <?php echo $controller->US_IDADE ?></p>
+                                <p><span class="info-label">Data de Nascimento:</span> <?php echo date('d/m/Y', strtotime($controller->US_DATA_NASCIMENTO )) ?></p>
                                 <p><span class="info-label">Gênero:</span> 
                                     <?php 
                                     $genero = $controller->US_GENERO;
@@ -157,7 +156,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <p><span class="info-label">Objetivo:</span> <?php echo $controller->US_OBJETIVO ?></p>
                                 <p><span class="info-label">Altura (m):</span> <?php echo $controller->US_ALTURA ?></p>
                                 <p><span class="info-label">Peso (kg):</span> <?php echo $controller->US_PESO ?></p>
-                                <p><span class="info-label">Massa Magra (%):</span> <?php echo $controller->US_PORC_MASSA_MAGRA ?></p>
                                 <p><span class="info-label">Já treinou antes?:</span> 
                                     <?php 
                                     $treino = $controller->US_TREINO_ANTERIOR;
