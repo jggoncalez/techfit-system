@@ -13,52 +13,71 @@
 </head>
 
 <?php
+// Inclui o controller e usa o namespace
 require_once __DIR__ . '\\..\\..\\controllers\\FuncionarioController.php';
 
 use controllers\FuncionarioController;
-session_start();
 
-// Verifica se está logado
+// Inicia a sessão (melhor estar no topo do script PHP)
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Verifica se está logado e redireciona se necessário
 if (!isset($_SESSION['user_ID'])) {
     header("Location: /public/login.php");
     exit();
 }
 
 $controller = new FuncionarioController();
-$stmt = $controller->list();
-
 $controller->FU_ID = $_SESSION['user_ID'];
 
-// Busca os dados do funcionário
-$controller->searchID();
+// Busca os dados do funcionário logado
+$controller->searchID(); 
 
+// Variável para armazenar a lista de funcionários
+$stmt = $controller->list();
+
+// =========================================================================
+// TRATAMENTO DOS POSTS
+// =========================================================================
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $acao = $_POST['acao'] ?? '';
+    // Uso do operador de coalescência nula (??) para evitar "undefined index"
+    $acao = filter_input(INPUT_POST, 'acao', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
 
     if ($acao === 'criar') {
-        $controller->FU_NOME = $_POST['FU_NOME'];
-        $controller->FU_GENERO = $_POST['FU_GENERO'];
-        $controller->FU_SENHA = $_POST['FU_SENHA'];
-        $controller->FU_NIVEL_ACESSO = $_POST['FU_NIVEL_ACESSO'];
-        $controller->FU_SALARIO = $_POST['FU_SALARIO'];
-        $controller->FU_DATA_ADMISSAO = $_POST['FU_DATA_ADMISSAO'];
+        // Sanitização de entradas com htmlspecialchars e trim
+        $controller->FU_NOME = htmlspecialchars(trim(filter_input(INPUT_POST, 'FU_NOME', FILTER_SANITIZE_FULL_SPECIAL_CHARS)));
+        $controller->FU_GENERO = htmlspecialchars(trim(filter_input(INPUT_POST, 'FU_GENERO', FILTER_SANITIZE_FULL_SPECIAL_CHARS)));
+        $controller->FU_SENHA = $_POST['FU_SENHA'] ?? ''; // Senha não sanitizada aqui, deve ser tratada no Controller antes do hash
+        $controller->FU_NIVEL_ACESSO = filter_input(INPUT_POST, 'FU_NIVEL_ACESSO', FILTER_SANITIZE_NUMBER_INT);
+        $controller->FU_SALARIO = filter_input(INPUT_POST, 'FU_SALARIO', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $controller->FU_DATA_ADMISSAO = filter_input(INPUT_POST, 'FU_DATA_ADMISSAO', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         
         $controller->create();
+        // Redireciona para evitar reenvio do formulário (Post/Redirect/Get)
         header("Location: /funcionario/register/admin");
         exit;
     }
 
     if ($acao === 'atualizar') {
-        $controller->FU_ID = $_POST['FU_ID'];
-        $controller->FU_NOME = $_POST['FU_NOME'];
-        $controller->FU_GENERO = $_POST['FU_GENERO'];
-        $controller->FU_NIVEL_ACESSO = $_POST['FU_NIVEL_ACESSO'];
-        $controller->FU_SALARIO = $_POST['FU_SALARIO'];
-        $controller->FU_DATA_ADMISSAO = $_POST['FU_DATA_ADMISSAO'];
-        $controller->FU_EMAIL = $_POST['FU_EMAIL'];
+        // Captura e sanitiza todas as entradas
+        $controller->FU_ID = filter_input(INPUT_POST, 'FU_ID', FILTER_SANITIZE_NUMBER_INT);
+        $controller->FU_NOME = htmlspecialchars(trim(filter_input(INPUT_POST, 'FU_NOME', FILTER_SANITIZE_FULL_SPECIAL_CHARS)));
+        $controller->FU_GENERO = htmlspecialchars(trim(filter_input(INPUT_POST, 'FU_GENERO', FILTER_SANITIZE_FULL_SPECIAL_CHARS)));
+        $controller->FU_NIVEL_ACESSO = filter_input(INPUT_POST, 'FU_NIVEL_ACESSO', FILTER_SANITIZE_NUMBER_INT);
+        $controller->FU_SALARIO = filter_input(INPUT_POST, 'FU_SALARIO', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $controller->FU_DATA_ADMISSAO = filter_input(INPUT_POST, 'FU_DATA_ADMISSAO', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        // Uso de filter_input com FILTER_SANITIZE_EMAIL
+        $controller->FU_EMAIL = filter_input(INPUT_POST, 'FU_EMAIL', FILTER_SANITIZE_EMAIL);
+        
+        $nova_senha = $_POST['FU_SENHA'] ?? '';
         // Só atualiza a senha se foi fornecida uma nova
-        if (!empty($_POST['FU_SENHA'])) {
-            $controller->FU_SENHA = $_POST['FU_SENHA'];
+        if (!empty($nova_senha)) {
+            $controller->FU_SENHA = $nova_senha;
+        } else {
+            // Garante que a senha não será alterada se não for fornecida
+            unset($controller->FU_SENHA);
         }
         
         $controller->update();
@@ -67,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($acao === 'deletar') {
-        $controller->FU_ID = $_POST['FU_ID'];
+        $controller->FU_ID = filter_input(INPUT_POST, 'FU_ID', FILTER_SANITIZE_NUMBER_INT);
         $controller->delete();
         header("Location: /funcionario/register/admin");
         exit;
@@ -78,9 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
     <div class="d-flex">
-        <!-- Barra lateral -->
         <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+            <a href="/funcionario" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                 <img src="../../public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
             </a>
             <hr>
@@ -117,17 +135,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </li>
                 <li>
                     <a href="/funcionario/RFID" class="nav-link link-dark">
-                        <i class="bi bi-box-arrow-in-up-left"></i>
-                          Acessos
+                        <i class="bi bi-box-arrow-in-up-left"></i> Acessos
                     </a>
                 </li>
             </ul>
             <hr>
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" 
-                   id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="../../public/images/pfp_placeholder.webp" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong id="user-name-sidebar"><?php echo $controller->FU_NOME ?></strong>
+                    id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../../public/images/pfp_placeholder.webp" alt="Foto de Perfil" width="32" height="32" class="rounded-circle me-2">
+                    <strong id="user-name-sidebar"><?php echo htmlspecialchars($controller->FU_NOME ?? 'Usuário'); ?></strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="/funcionario/profile"><i class="bi bi-person me-2"></i>Perfil</a></li>
@@ -138,68 +155,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <main class="flex-grow-1 p-4" style="overflow-y: auto;">
-            <h2 class="mb-4">Cadastrar Funcionário</h2>
-            <form method="POST" class="row g-3">
+            <h2 class="mb-4">Cadastrar Novo Funcionário</h2>
+            <form method="POST" class="row g-3 needs-validation" novalidate>
                 <input type="hidden" name="acao" value="criar">
 
-                <!-- FU_NOME -->
                 <div class="col-md-6">
-                    <label class="form-label">Nome Completo *</label>
-                    <input type="text" class="form-control" name="FU_NOME" required>
+                    <label for="inputNome" class="form-label">Nome Completo *</label>
+                    <input type="text" class="form-control" id="inputNome" name="FU_NOME" required 
+                        maxlength="100" placeholder="Ex: João da Silva">
+                    <div class="invalid-feedback">Por favor, insira o nome completo.</div>
                 </div>
 
-                <!-- FU_GENERO -->
                 <div class="col-md-3">
-                    <label class="form-label">Gênero *</label>
-                    <select class="form-select" name="FU_GENERO" required>
-                        <option value="">Selecione...</option>
+                    <label for="inputGenero" class="form-label">Gênero *</label>
+                    <select class="form-select" id="inputGenero" name="FU_GENERO" required>
+                        <option value="" disabled>Selecione...</option>
                         <option value="M" selected>Masculino</option>
                         <option value="F">Feminino</option>
                         <option value="O">Outro</option>
                     </select>
+                    <div class="invalid-feedback">Por favor, selecione o gênero.</div>
                 </div>
 
-                <!-- FU_NIVEL_ACESSO -->
                 <div class="col-md-3">
-                    <label class="form-label">Nível de Acesso *</label>
-                    <select class="form-select" name="FU_NIVEL_ACESSO" required>
-                        <option value="">Selecione...</option>
-                        <option value="1" selected>Nível 1 - Básico</option>
+                    <label for="inputNivelAcesso" class="form-label">Nível de Acesso *</label>
+                    <select class="form-select" id="inputNivelAcesso" name="FU_NIVEL_ACESSO" required>
+                        <option value="" disabled>Selecione...</option>
+                        <option value="1">Nível 1 - Básico</option>
                         <option value="2">Nível 2 - Intermediário</option>
-                        <option value="3">Nível 3 - Administrador</option>
+                        <option value="3" selected>Nível 3 - Administrador</option>
                     </select>
+                    <div class="invalid-feedback">Por favor, selecione o nível de acesso.</div>
                 </div>
 
-                <!-- FU_SENHA -->
                 <div class="col-md-4">
-                    <label class="form-label">Senha *</label>
-                    <input type="password" class="form-control" name="FU_SENHA" required minlength="4">
-                    <small class="text-muted">Mínimo 4 caracteres</small>
+                    <label for="inputSenha" class="form-label">Senha *</label>
+                    <input type="password" class="form-control" id="inputSenha" name="FU_SENHA" required minlength="4">
+                    <small class="form-text text-muted">Mínimo 4 caracteres</small>
+                    <div class="invalid-feedback">A senha deve ter no mínimo 4 caracteres.</div>
                 </div>
 
-                <!-- FU_SALARIO -->
                 <div class="col-md-4">
-                    <label class="form-label">Salário (R$) *</label>
-                    <input type="number" class="form-control" name="FU_SALARIO" step="0.01" min="0" required>
+                    <label for="inputSalario" class="form-label">Salário (R$) *</label>
+                    <input type="number" class="form-control" id="inputSalario" name="FU_SALARIO" step="0.01" min="0" required
+                        placeholder="Ex: 2500.50">
+                    <div class="invalid-feedback">Por favor, insira um salário válido.</div>
                 </div>
 
-                <!-- FU_DATA_ADMISSAO -->
                 <div class="col-md-4">
-                    <label class="form-label">Data de Admissão *</label>
-                    <input type="date" class="form-control" name="FU_DATA_ADMISSAO" required>
+                    <label for="inputDataAdmissao" class="form-label">Data de Admissão *</label>
+                    <input type="date" class="form-control" id="inputDataAdmissao" name="FU_DATA_ADMISSAO" required
+                        max="<?php echo date('Y-m-d'); ?>"> <div class="invalid-feedback">Por favor, insira a data de admissão.</div>
                 </div>
 
-                <div class="col-12 mt-3">
+                <div class="col-12 mt-4">
                     <button type="submit" class="btn text-white" style="background-color: #e35c38;">
                         <i class="bi bi-save me-2"></i>Salvar Funcionário
                     </button>
                 </div>
             </form>
 
-            <!-- Tabela de Funcionários -->
-            <div class="table-responsive mt-5">
+            <hr class="my-5">
+
+            <div class="table-responsive">
                 <h3 class="mb-3">Funcionários Cadastrados</h3>
-                <table class="table table-striped table-hover">
+                <table class="table table-striped table-hover align-middle">
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
@@ -214,119 +234,146 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </thead>
                     <tbody>
                         <?php
+                        // Garante que $stmt existe e está pronto para ser percorrido
                         $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+                        if (empty($dados)) {
+                            echo '<tr><td colspan="8" class="text-center">Nenhum funcionário cadastrado.</td></tr>';
+                        }
+                        
                         foreach ($dados as $row) {
-                            $modalId = "modal-funcionario-" . $row['FU_ID'];
+                            // Sanitização de Saída (htmlspecialchars) em todas as variáveis exibidas
+                            $FU_ID = htmlspecialchars($row['FU_ID']);
+                            $FU_NOME_RAW = htmlspecialchars($row['FU_NOME']);
+                            $FU_GENERO_RAW = htmlspecialchars($row['FU_GENERO']);
+                            $FU_NIVEL_ACESSO = htmlspecialchars($row['FU_NIVEL_ACESSO']);
+                            $FU_SALARIO_RAW = htmlspecialchars($row['FU_SALARIO']);
+                            $FU_DATA_ADMISSAO_RAW = htmlspecialchars($row['FU_DATA_ADMISSAO']);
+                            $FU_EMAIL_RAW = htmlspecialchars($row['FU_EMAIL']);
 
-                            // Badge de nível de acesso
-                            $nivelClass = match ($row['FU_NIVEL_ACESSO']) {
+                            $modalId = "modal-funcionario-" . $FU_ID;
+
+                            // Formatação do Nível de Acesso
+                            $nivelClass = match ((int)$FU_NIVEL_ACESSO) {
                                 1 => 'bg-info',
                                 2 => 'bg-warning',
                                 3 => 'bg-danger',
                                 default => 'bg-secondary'
                             };
 
-                            $nivelTexto = match ($row['FU_NIVEL_ACESSO']) {
+                            $nivelTexto = match ((int)$FU_NIVEL_ACESSO) {
                                 1 => 'Básico',
                                 2 => 'Intermediário',
                                 3 => 'Admin',
                                 default => 'N/A'
                             };
 
-                            $generoTexto = match ($row['FU_GENERO']) {
+                            // Tradução do Gênero
+                            $generoTexto = match ($FU_GENERO_RAW) {
                                 'M' => 'Masculino',
                                 'F' => 'Feminino',
                                 'O' => 'Outro',
-                                default => $row['FU_GENERO']
+                                default => $FU_GENERO_RAW
                             };
+
+                            // **FORMATACAO: Capitalização do Nome para melhor leitura**
+                            $nomeFormatado = ucwords(strtolower($FU_NOME_RAW));
+
+                            // **FORMATACAO: Tratamento de Email Vazio**
+                            $emailFormatado = !empty($FU_EMAIL_RAW) ? $FU_EMAIL_RAW : '<span class="text-muted">Não Informado</span>';
+                            
+                            // Formatação de Salário (R$ 1.234,56)
+                            $salarioFormatado = "R$ " . number_format($FU_SALARIO_RAW, 2, ',', '.');
+                            
+                            // Formatação de Data (DD/MM/AAAA)
+                            $dataAdmissaoFormatada = date('d/m/Y', strtotime($FU_DATA_ADMISSAO_RAW));
 
                             echo "
                             <tr>
-                                <td>{$row['FU_ID']}</td>
-                                <td>{$row['FU_NOME']}</td>
+                                <td>{$FU_ID}</td>
+                                <td>{$nomeFormatado}</td>
                                 <td>{$generoTexto}</td>
                                 <td><span class='badge {$nivelClass}'>{$nivelTexto}</span></td>
-                                <td>R$ " . number_format($row['FU_SALARIO'], 2, ',', '.') . "</td>
-                                <td>" . date('d/m/Y', strtotime($row['FU_DATA_ADMISSAO'])) . "</td>
-                                <td>{$row['FU_EMAIL']}</td>
+                                <td>{$salarioFormatado}</td>
+                                <td>{$dataAdmissaoFormatada}</td>
+                                <td>{$emailFormatado}</td> 
                                 <td>
                                     <button class='btn btn-sm btn-warning' data-bs-toggle='modal' data-bs-target='#{$modalId}'>
-                                        <i class='bi bi-pencil'></i> Editar
+                                        Editar
                                     </button>
-                                    <form method='POST' style='display:inline;' onsubmit='return confirm(\"Tem certeza que deseja deletar este funcionário?\");'>
+                                    
+                                    <form method='POST' style='display:inline;' onsubmit='return confirm(\"Tem certeza que deseja deletar o funcionário **{$nomeFormatado}**?\");'>
                                         <input type='hidden' name='acao' value='deletar'>
-                                        <input type='hidden' name='FU_ID' value='{$row['FU_ID']}'>
+                                        <input type='hidden' name='FU_ID' value='{$FU_ID}'>
                                         <button class='btn btn-sm btn-danger' type='submit'>
                                             <i class='bi bi-trash'></i> Deletar
                                         </button>
                                     </form>
                                 </td>
                             </tr>
-
-                            <!-- Modal Editar -->
-                            <div class='modal fade' id='{$modalId}' tabindex='-1' aria-hidden='true'>
+                            
+                            <div class='modal fade' id='{$modalId}' tabindex='-1' aria-labelledby='{$modalId}Label' aria-hidden='true'>
                                 <div class='modal-dialog modal-lg'>
                                     <div class='modal-content'>
                                         <div class='modal-header'>
-                                            <h5 class='modal-title'>Editar Funcionário: {$row['FU_NOME']}</h5>
-                                            <button type='button' class='btn-close' data-bs-dismiss='modal'></button>
+                                            <h5 class='modal-title' id='{$modalId}Label'> Editar Funcionário: {$nomeFormatado}</h5>
+                                            <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Fechar'></button>
                                         </div>
                                         <div class='modal-body'>
                                             <form method='POST'>
                                                 <input type='hidden' name='acao' value='atualizar'>
-                                                <input type='hidden' name='FU_ID' value='{$row['FU_ID']}'>
+                                                <input type='hidden' name='FU_ID' value='{$FU_ID}'>
                                                 
                                                 <div class='row g-3'>
                                                     <div class='col-md-12'>
                                                         <label class='form-label'>Nome Completo</label>
-                                                        <input type='text' class='form-control' name='FU_NOME' value='{$row['FU_NOME']}' required>
+                                                        <input type='text' class='form-control' name='FU_NOME' value='{$FU_NOME_RAW}' required maxlength='100'>
                                                     </div>
-                                                
+                                                    
                                                     <div class='col-md-6'>
                                                         <label class='form-label'>Gênero</label>
                                                         <select class='form-select' name='FU_GENERO' required>
-                                                            <option value='M' " . ($row['FU_GENERO'] == 'M' ? 'selected' : '') . ">Masculino</option>
-                                                            <option value='F' " . ($row['FU_GENERO'] == 'F' ? 'selected' : '') . ">Feminino</option>
-                                                            <option value='O' " . ($row['FU_GENERO'] == 'O' ? 'selected' : '') . ">Outro</option>
+                                                            <option value='M' " . ($FU_GENERO_RAW == 'M' ? 'selected' : '') . ">Masculino</option>
+                                                            <option value='F' " . ($FU_GENERO_RAW == 'F' ? 'selected' : '') . ">Feminino</option>
+                                                            <option value='O' " . ($FU_GENERO_RAW == 'O' ? 'selected' : '') . ">Outro</option>
                                                         </select>
                                                     </div>
                                                     
                                                     <div class='col-md-6'>
                                                         <label class='form-label'>Nível de Acesso</label>
                                                         <select class='form-select' name='FU_NIVEL_ACESSO' required>
-                                                            <option value='1' " . ($row['FU_NIVEL_ACESSO'] == 1 ? 'selected' : '') . ">Nível 1 - Básico</option>
-                                                            <option value='2' " . ($row['FU_NIVEL_ACESSO'] == 2 ? 'selected' : '') . ">Nível 2 - Intermediário</option>
-                                                            <option value='3' " . ($row['FU_NIVEL_ACESSO'] == 3 ? 'selected' : '') . ">Nível 3 - Admin</option>
+                                                            <option value='1' " . ($FU_NIVEL_ACESSO == 1 ? 'selected' : '') . ">Nível 1 - Básico</option>
+                                                            <option value='2' " . ($FU_NIVEL_ACESSO == 2 ? 'selected' : '') . ">Nível 2 - Intermediário</option>
+                                                            <option value='3' " . ($FU_NIVEL_ACESSO == 3 ? 'selected' : '') . ">Nível 3 - Admin</option>
                                                         </select>
                                                     </div>
                                                     
                                                     <div class='col-md-6'>
                                                         <label class='form-label'>Nova Senha</label>
-                                                        <input type='password' class='form-control' name='FU_SENHA' minlength='4'>
-                                                        <small class='text-muted'>Deixe em branco para manter a senha atual</small>
+                                                        <input type='password' class='form-control' name='FU_SENHA' minlength='4' placeholder='****'>
+                                                        <small class='form-text text-muted'>Deixe em branco para manter a senha atual. Mínimo 4 caracteres se for alterar.</small>
                                                     </div>
                                                     
                                                     <div class='col-md-6'>
-                                                        <label class='form-label'>Novo Email</label>
-                                                        <input type='text' class='form-control' name='FU_EMAIL' value={$row['FU_EMAIL']} >
+                                                        <label class='form-label'>Email</label>
+                                                        <input type='email' class='form-control' name='FU_EMAIL' value='{$FU_EMAIL_RAW}' placeholder='email@exemplo.com'>
                                                     </div>
                                                     
                                                     <div class='col-md-6'>
                                                         <label class='form-label'>Salário (R$)</label>
-                                                        <input type='number' class='form-control' name='FU_SALARIO' value='{$row['FU_SALARIO']}' step='0.01' required>
+                                                        <input type='number' class='form-control' name='FU_SALARIO' value='{$FU_SALARIO_RAW}' step='0.01' min='0' required>
                                                     </div>
                                                     
-                                                    <div class='col-md-12'>
+                                                    <div class='col-md-6'>
                                                         <label class='form-label'>Data de Admissão</label>
-                                                        <input type='date' class='form-control' name='FU_DATA_ADMISSAO' value='{$row['FU_DATA_ADMISSAO']}' required>
+                                                        <input type='date' class='form-control' name='FU_DATA_ADMISSAO' value='{$FU_DATA_ADMISSAO_RAW}' required>
                                                     </div>
                                                 </div>
                                                 
-                                                <div class='modal-footer'>
+                                                <div class='modal-footer mt-4'>
                                                     <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancelar</button>
                                                     <button type='submit' class='btn text-white' style='background-color: #e35c38;'>
-                                                        <i class='bi bi-save me-2'></i>Atualizar Funcionário
+                                                        Atualizar Funcionário
                                                     </button>
                                                 </div>
                                             </form>

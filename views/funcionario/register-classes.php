@@ -1,8 +1,127 @@
+<?php
+session_start();
+
+// Verifica se está logado
+if (!isset($_SESSION['user_ID'])) {
+    header("Location: /public/login.php");
+    exit();
+}
+
+require_once __DIR__ . '/../../controllers/agendamento/AulaController.php';
+require_once __DIR__ . '/../../controllers/agendamento/ParticipacoesAulaController.php';
+require_once __DIR__ . '/../../controllers/FuncionarioController.php';
+
+use controllers\agendamento\AulaController;
+use controllers\agendamento\ParticipacoesAulaController;
+use controllers\FuncionarioController;
+
+$controller = new AulaController();
+$controllerPart = new ParticipacoesAulaController();
+$controllerFun = new FuncionarioController();
+$controllerFun->FU_ID = $_SESSION['user_ID'];
+$controllerFun->searchID();
+
+$stmt = $controller->list();
+$dadosAulas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmtPart = $controllerPart->buscarAvaliacoes();
+$dadosAvaliacoes = $stmtPart->fetchAll(PDO::FETCH_ASSOC);
+
+// Função para formatar o status em português
+function formatarStatus($status) {
+    return match ($status) {
+        'AGENDADA' => 'Agendada',
+        'EM_ANDAMENTO' => 'Em Andamento',
+        'CONCLUIDA' => 'Concluída',
+        'CANCELADA' => 'Cancelada',
+        default => $status
+    };
+}
+
+// Função para validar horários
+function validarHorarios($horaInicio, $horaFim) {
+    $inicio = strtotime($horaInicio);
+    $fim = strtotime($horaFim);
+    return $fim > $inicio;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $acao = $_POST['acao'] ?? '';
+
+    // Sanitização de dados
+    $AU_NOME = filter_input(INPUT_POST, 'AU_NOME', FILTER_SANITIZE_SPECIAL_CHARS);
+    $AU_DATA = filter_input(INPUT_POST, 'AU_DATA', FILTER_SANITIZE_SPECIAL_CHARS);
+    $AU_HORA_INICIO = filter_input(INPUT_POST, 'AU_HORA_INICIO', FILTER_SANITIZE_SPECIAL_CHARS);
+    $AU_HORA_FIM = filter_input(INPUT_POST, 'AU_HORA_FIM', FILTER_SANITIZE_SPECIAL_CHARS);
+    $AU_SALA = filter_input(INPUT_POST, 'AU_SALA', FILTER_SANITIZE_SPECIAL_CHARS);
+    $AU_VAGAS_TOTAIS = filter_input(INPUT_POST, 'AU_VAGAS_TOTAIS', FILTER_VALIDATE_INT);
+    $AU_VAGAS_DISPONIVEIS = filter_input(INPUT_POST, 'AU_VAGAS_DISPONIVEIS', FILTER_VALIDATE_INT);
+    $AU_STATUS = filter_input(INPUT_POST, 'AU_STATUS', FILTER_SANITIZE_SPECIAL_CHARS);
+    $AU_OBSERVACOES = filter_input(INPUT_POST, 'AU_OBSERVACOES', FILTER_SANITIZE_SPECIAL_CHARS);
+    $FU_ID = filter_input(INPUT_POST, 'FU_ID', FILTER_VALIDATE_INT);
+
+    // Validação de horários
+    if (!empty($AU_HORA_INICIO) && !empty($AU_HORA_FIM) && !validarHorarios($AU_HORA_INICIO, $AU_HORA_FIM)) {
+        header("Location: /funcionario/register/classes");
+        exit;
+    } elseif ($acao === 'criar' && $AU_VAGAS_TOTAIS !== false && $FU_ID !== false) {
+        $controller->AU_NOME = $AU_NOME;
+        $controller->AU_DATA = $AU_DATA;
+        $controller->AU_HORA_INICIO = $AU_HORA_INICIO;
+        $controller->AU_HORA_FIM = $AU_HORA_FIM;
+        $controller->AU_SALA = $AU_SALA;
+        $controller->AU_VAGAS_TOTAIS = $AU_VAGAS_TOTAIS;
+        $controller->AU_VAGAS_DISPONIVEIS = $AU_VAGAS_TOTAIS;
+        $controller->AU_STATUS = $AU_STATUS;
+        $controller->AU_OBSERVACOES = $AU_OBSERVACOES;
+        $controller->FU_ID = $FU_ID;
+        
+        $controller->create();
+        header("Location: /funcionario/register/classes");
+        exit;
+    } elseif ($acao === 'atualizar') {
+        $AU_ID = filter_input(INPUT_POST, 'AU_ID', FILTER_VALIDATE_INT);
+
+        if ($AU_ID !== false && $AU_VAGAS_TOTAIS !== false && $AU_VAGAS_DISPONIVEIS !== false && $FU_ID !== false) {
+            // Validação: vagas disponíveis não pode ser maior que totais
+            if ($AU_VAGAS_DISPONIVEIS > $AU_VAGAS_TOTAIS) {
+                header("Location: /funcionario/register/classes");
+                exit;
+            }
+            
+            $controller->AU_ID = $AU_ID;
+            $controller->AU_NOME = $AU_NOME;
+            $controller->AU_DATA = $AU_DATA;
+            $controller->AU_HORA_INICIO = $AU_HORA_INICIO;
+            $controller->AU_HORA_FIM = $AU_HORA_FIM;
+            $controller->AU_SALA = $AU_SALA;
+            $controller->AU_VAGAS_TOTAIS = $AU_VAGAS_TOTAIS;
+            $controller->AU_VAGAS_DISPONIVEIS = $AU_VAGAS_DISPONIVEIS;
+            $controller->AU_STATUS = $AU_STATUS;
+            $controller->AU_OBSERVACOES = $AU_OBSERVACOES;
+            $controller->FU_ID = $FU_ID;
+            
+            $controller->update();
+            header("Location: /funcionario/register/classes");
+            exit;
+        }
+    } elseif ($acao === 'deletar') {
+        $AU_ID = filter_input(INPUT_POST, 'AU_ID', FILTER_VALIDATE_INT);
+        if ($AU_ID !== false) {
+            $controller->AU_ID = $AU_ID;
+            
+            $controller->delete();
+            header("Location: /funcionario/register/classes");
+            exit;
+        }
+    }
+}
+?>
 <!doctype html>
 <html lang="pt-br">
 
 <head>
-    <title>TechFit</title>
+    <title>TechFit - Cadastro de Aulas</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="shortcut icon" href="../public/images/TechFit-icon.ico" type="image/x-icon">
@@ -12,86 +131,9 @@
     <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
 
-<?php
-require_once __DIR__ . '\\..\\..\\controllers\\agendamento\\AulaController.php';
-require_once __DIR__ . '\\..\\..\\controllers\\agendamento\\ParticipacoesAulaController.php';
-
-
-
-use controllers\agendamento\AulaController;
-use controllers\agendamento\ParticipacoesAulaController;
-require_once __DIR__ . "\\..\\..\\controllers\\FuncionarioController.php";
-use controllers\FuncionarioController;
-session_start();
-
-// Verifica se está logado
-if (!isset($_SESSION['user_ID'])) {
-    header("Location: /public/login.php");
-    exit();
-}
-
-$controller = new AulaController();
-$controllerPart = new ParticipacoesAulaController();
-$controllerFun = new FuncionarioController();
-$controllerFun->FU_ID = $_SESSION['user_ID'];
-$controllerFun->searchID();
-
-$stmt = $controller->list();
-
-
-$stmtPart = $controllerPart->buscarAvaliacoes();
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $acao = $_POST['acao'] ?? '';
-
-    if ($acao === 'criar') {
-        $controller->AU_NOME = $_POST['AU_NOME'];
-        $controller->AU_DATA = $_POST['AU_DATA'];
-        $controller->AU_HORA_INICIO = $_POST['AU_HORA_INICIO'];
-        $controller->AU_HORA_FIM = $_POST['AU_HORA_FIM'];
-        $controller->AU_SALA = $_POST['AU_SALA'];
-        $controller->AU_VAGAS_TOTAIS = $_POST['AU_VAGAS_TOTAIS'];
-        $controller->AU_VAGAS_DISPONIVEIS = $_POST['AU_VAGAS_TOTAIS'];
-        $controller->AU_STATUS = $_POST['AU_STATUS'];
-        $controller->AU_OBSERVACOES = $_POST['AU_OBSERVACOES'];
-        $controller->FU_ID = $_POST['FU_ID'];
-        
-        $controller->create();
-        header("Location: /funcionario/register/classes");
-        exit;
-    }
-
-    if ($acao === 'atualizar') {
-        $controller->AU_ID = $_POST['AU_ID'];
-        $controller->AU_NOME = $_POST['AU_NOME'];
-        $controller->AU_DATA = $_POST['AU_DATA'];
-        $controller->AU_HORA_INICIO = $_POST['AU_HORA_INICIO'];
-        $controller->AU_HORA_FIM = $_POST['AU_HORA_FIM'];
-        $controller->AU_SALA = $_POST['AU_SALA'];
-        $controller->AU_VAGAS_TOTAIS = $_POST['AU_VAGAS_TOTAIS'];
-        $controller->AU_VAGAS_DISPONIVEIS = $_POST['AU_VAGAS_DISPONIVEIS'];
-        $controller->AU_STATUS = $_POST['AU_STATUS'];
-        $controller->AU_OBSERVACOES = $_POST['AU_OBSERVACOES'];
-        $controller->FU_ID = $_POST['FU_ID'];
-        
-        $controller->update();
-        header("Location: /funcionario/register/classes");
-        exit;
-    }
-
-    if ($acao === 'deletar') {
-        $controller->AU_ID = $_POST['AU_ID'];
-        $controller->delete();
-        header("Location: /funcionario/register/classes");
-        exit;
-    }
-}
-?>
-
 <body>
-
     <div class="d-flex">
-        <!-- Barra lateral -->
+        <!-- Sidebar -->
         <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                 <img src="../../public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
@@ -130,8 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </li>
                 <li>
                     <a href="/funcionario/RFID" class="nav-link link-dark">
-                        <i class="bi bi-box-arrow-in-up-left"></i>
-                          Acessos
+                        <i class="bi bi-box-arrow-in-up-left me-2"></i>Acessos
                     </a>
                 </li>
             </ul>
@@ -140,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" 
                    id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="../../public/images/pfp_placeholder.webp" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong id="user-name-sidebar"><?php echo $controllerFun->FU_NOME ?></strong>
+                    <strong id="user-name-sidebar"><?php echo htmlspecialchars($controllerFun->FU_NOME ?? 'Usuário'); ?></strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="/funcionario/profile"><i class="bi bi-person me-2"></i>Perfil</a></li>
@@ -150,59 +191,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
 
+        <!-- Main Content -->
         <main class="flex-grow-1 p-4" style="overflow-y: auto;">
             <h2 class="mb-4">Cadastrar Aula</h2>
-            <form method="POST" class="row g-3">
+            <form method="POST" class="row g-3" id="formCriarAula">
                 <input type="hidden" name="acao" value="criar">
 
-                <!-- AU_NOME -->
                 <div class="col-md-6">
-                    <label class="form-label">Nome da Aula *</label>
-                    <input type="text" class="form-control" name="AU_NOME" required>
+                    <label class="form-label">Nome da Aula <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="AU_NOME" required maxlength="100">
                 </div>
 
-                <!-- FU_ID -->
                 <div class="col-md-3">
-                    <label class="form-label">Funcionário *</label>
+                    <label class="form-label">Funcionário <span class="text-danger">*</span></label>
                     <select class="form-select" name="FU_ID" required>
                         <option value="">Selecione...</option>
                         <?php echo $controller->buscarFuncionarios(); ?>
                     </select>
                 </div>
 
-                <!-- AU_DATA -->
                 <div class="col-md-3">
-                    <label class="form-label">Data *</label>
-                    <input type="date" class="form-control" name="AU_DATA" required>
+                    <label class="form-label">Data <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" name="AU_DATA" required min="<?php echo date('Y-m-d'); ?>">
                 </div>
 
-                <!-- AU_HORA_INICIO -->
                 <div class="col-md-2">
-                    <label class="form-label">Hora Início *</label>
-                    <input type="time" class="form-control" name="AU_HORA_INICIO" required>
+                    <label class="form-label">Hora Início <span class="text-danger">*</span></label>
+                    <input type="time" class="form-control" name="AU_HORA_INICIO" required id="horaInicio">
                 </div>
 
-                <!-- AU_HORA_FIM -->
                 <div class="col-md-2">
-                    <label class="form-label">Hora Fim *</label>
-                    <input type="time" class="form-control" name="AU_HORA_FIM" required>
+                    <label class="form-label">Hora Fim <span class="text-danger">*</span></label>
+                    <input type="time" class="form-control" name="AU_HORA_FIM" required id="horaFim">
                 </div>
 
-                <!-- AU_SALA -->
                 <div class="col-md-2">
-                    <label class="form-label">Sala *</label>
-                    <input type="text" class="form-control" name="AU_SALA" placeholder="Ex: Sala 1" required>
+                    <label class="form-label">Sala <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="AU_SALA" placeholder="Ex: Sala 1" required maxlength="50">
                 </div>
 
-                <!-- AU_VAGAS_TOTAIS -->
                 <div class="col-md-3">
-                    <label class="form-label">Vagas Totais *</label>
-                    <input type="number" class="form-control" name="AU_VAGAS_TOTAIS" min="1" value="15" required>
+                    <label class="form-label">Vagas Totais <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" name="AU_VAGAS_TOTAIS" min="1" max="100" value="15" required>
                 </div>
 
-                <!-- AU_STATUS -->
                 <div class="col-md-3">
-                    <label class="form-label">Status *</label>
+                    <label class="form-label">Status <span class="text-danger">*</span></label>
                     <select class="form-select" name="AU_STATUS" required>
                         <option value="AGENDADA" selected>Agendada</option>
                         <option value="EM_ANDAMENTO">Em Andamento</option>
@@ -211,15 +245,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </select>
                 </div>
 
-                <!-- AU_OBSERVACOES -->
                 <div class="col-md-12">
                     <label class="form-label">Observações</label>
-                    <textarea class="form-control" name="AU_OBSERVACOES" rows="3"></textarea>
+                    <textarea class="form-control" name="AU_OBSERVACOES" rows="3" maxlength="255"></textarea>
                 </div>
 
                 <div class="col-12 mt-3">
                     <button type="submit" class="btn text-white" style="background-color: #e35c38;">
-                        Salvar Aula
+                        <i class="bi bi-floppy-fill me-2"></i>Salvar Aula
                     </button>
                 </div>
             </form>
@@ -227,6 +260,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Tabela de Aulas -->
             <div class="table-responsive mt-5">
                 <h3 class="mb-3">Aulas Cadastradas</h3>
+                <?php if (empty($dadosAulas)): ?>
+                    <div class="alert alert-info" role="alert">
+                        <i class="bi bi-info-circle me-2"></i>Nenhuma aula cadastrada.
+                    </div>
+                <?php else: ?>
                 <table class="table table-striped table-hover">
                     <thead class="table-dark">
                         <tr>
@@ -242,98 +280,109 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </thead>
                     <tbody>
                         <?php
-                        $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                        foreach ($dados as $row) {
-                            $modalId = "modal-aula-" . $row['AU_ID'];
+                        foreach ($dadosAulas as $row) {
+                            $modalId = "modal-aula-" . htmlspecialchars($row['AU_ID']);
+                            $nomeEscapado = htmlspecialchars($row['AU_NOME'], ENT_QUOTES, 'UTF-8');
 
                             // Badge de status
                             $statusClass = match ($row['AU_STATUS']) {
                                 'AGENDADA' => 'bg-primary',
-                                'EM_ANDAMENTO' => 'bg-warning',
+                                'EM_ANDAMENTO' => 'bg-warning text-dark',
                                 'CONCLUIDA' => 'bg-success',
                                 'CANCELADA' => 'bg-danger',
                                 default => 'bg-secondary'
                             };
-
+                            $statusFormatado = formatarStatus($row['AU_STATUS']);
+                            
+                            // Formatação de Data e Hora
+                            $dataFormatada = date('d/m/Y', strtotime($row['AU_DATA']));
+                            $horaInicioFormatada = date('H:i', strtotime($row['AU_HORA_INICIO']));
+                            $horaFimFormatada = date('H:i', strtotime($row['AU_HORA_FIM']));
+                            $horarioCompleto = "{$horaInicioFormatada} - {$horaFimFormatada}";
+                            
                             echo "
                             <tr>
-                                <td>{$row['AU_ID']}</td>
-                                <td>{$row['AU_NOME']}</td>
-                                <td>" . date('d/m/Y', strtotime($row['AU_DATA'])) . "</td>
-                                <td>" . date('H:i', strtotime($row['AU_HORA_INICIO'])) . " - " . date('H:i', strtotime($row['AU_HORA_FIM'])) . "</td>
-                                <td>{$row['AU_SALA']}</td>
-                                <td>{$row['AU_VAGAS_DISPONIVEIS']}/{$row['AU_VAGAS_TOTAIS']}</td>
-                                <td><span class='badge {$statusClass}'>{$row['AU_STATUS']}</span></td>
+                                <td>" . htmlspecialchars($row['AU_ID']) . "</td>
+                                <td>{$nomeEscapado}</td>
+                                <td>{$dataFormatada}</td>
+                                <td>{$horarioCompleto}</td>
+                                <td>" . htmlspecialchars($row['AU_SALA']) . "</td>
+                                <td>" . htmlspecialchars($row['AU_VAGAS_DISPONIVEIS']) . "/" . htmlspecialchars($row['AU_VAGAS_TOTAIS']) . "</td>
+                                <td><span class='badge {$statusClass}'>{$statusFormatado}</span></td>
                                 <td>
-                                    <button class='btn btn-sm btn-warning' data-bs-toggle='modal' data-bs-target='#{$modalId}'>Editar</button>
-                                    <form method='POST' style='display:inline;'>
+                                    <button class='btn btn-sm btn-warning' data-bs-toggle='modal' data-bs-target='#{$modalId}' title='Editar Aula'>
+                                            Editar
+                                    </button>
+                                    <form method='POST' style='display:inline;' onsubmit='return confirmarDelecao(\"{$nomeEscapado}\")'>
                                         <input type='hidden' name='acao' value='deletar'>
-                                        <input type='hidden' name='AU_ID' value='{$row['AU_ID']}'>
-                                        <button class='btn btn-sm btn-danger' type='submit')'>Deletar</button>
+                                        <input type='hidden' name='AU_ID' value='" . htmlspecialchars($row['AU_ID']) . "'>
+                                        <button class='btn btn-sm btn-danger' type='submit' title='Deletar Aula'>
+                                            Deletar
+                                        </button>
                                     </form>
                                 </td>
-                            </tr>
+                            </tr>";
 
-                            <!-- Modal Editar -->
+                            // Modal de Edição
+                            echo "
                             <div class='modal fade' id='{$modalId}' tabindex='-1' aria-hidden='true'>
                                 <div class='modal-dialog modal-lg'>
                                     <div class='modal-content'>
                                         <div class='modal-header'>
-                                            <h5 class='modal-title'>Editar Aula: {$row['AU_NOME']}</h5>
+                                            <h5 class='modal-title'>Editar Aula: {$nomeEscapado}</h5>
                                             <button type='button' class='btn-close' data-bs-dismiss='modal'></button>
                                         </div>
                                         <div class='modal-body'>
-                                            <form method='POST'>
+                                            <form method='POST' class='formEditarAula'>
                                                 <input type='hidden' name='acao' value='atualizar'>
-                                                <input type='hidden' name='AU_ID' value='{$row['AU_ID']}'>
+                                                <input type='hidden' name='AU_ID' value='" . htmlspecialchars($row['AU_ID']) . "'>
                                                 
                                                 <div class='row g-3'>
                                                     <div class='col-md-6'>
-                                                        <label class='form-label'>Nome da Aula</label>
-                                                        <input type='text' class='form-control' name='AU_NOME' value='{$row['AU_NOME']}' required>
+                                                        <label class='form-label'>Nome da Aula <span class='text-danger'>*</span></label>
+                                                        <input type='text' class='form-control' name='AU_NOME' value='{$nomeEscapado}' required maxlength='100'>
                                                     </div>
                                                 
-                                                    <div class='col-md-4'>
-                                                        <label class='form-label'>Data</label>
-                                                        <input type='date' class='form-control' name='AU_DATA' value='{$row['AU_DATA']}' required>
-                                                    </div>
-                                                    
-                                                    <div class='col-md-4'>
-                                                        <label class='form-label'>Hora Início</label>
-                                                        <input type='time' class='form-control' name='AU_HORA_INICIO' value='{$row['AU_HORA_INICIO']}' required>
-                                                    </div>
-                                                    
-                                                    <div class='col-md-4'>
-                                                        <label class='form-label'>Hora Fim</label>
-                                                        <input type='time' class='form-control' name='AU_HORA_FIM' value='{$row['AU_HORA_FIM']}' required>
-                                                    </div>
-                                                    
-                                                    <div class='col-md-4'>
-                                                        <label class='form-label'>Sala</label>
-                                                        <input type='text' class='form-control' name='AU_SALA' value='{$row['AU_SALA']}' required>
-                                                    </div>
-                                                    
-                                                    <div class='col-md-4'>
-                                                        <label class='form-label'>Vagas Disponíveis</label>
-                                                        <input type='number' class='form-control' name='AU_VAGAS_DISPONIVEIS' value='{$row['AU_VAGAS_DISPONIVEIS']}' required>
-                                                    </div>
-                                                    
-                                                    <div class='col-md-4'>
-                                                        <label class='form-label'>Vagas Totais</label>
-                                                        <input type='number' class='form-control' name='AU_VAGAS_TOTAIS' value='{$row['AU_VAGAS_TOTAIS']}' required>
-                                                    </div>
-                                                    
                                                     <div class='col-md-6'>
-                                                        <label class='form-label'>Funcionário</label>
+                                                        <label class='form-label'>Data <span class='text-danger'>*</span></label>
+                                                        <input type='date' class='form-control' name='AU_DATA' value='" . htmlspecialchars($row['AU_DATA']) . "' required>
+                                                    </div>
+                                                    
+                                                    <div class='col-md-4'>
+                                                        <label class='form-label'>Hora Início <span class='text-danger'>*</span></label>
+                                                        <input type='time' class='form-control horaInicioEdit' name='AU_HORA_INICIO' value='" . htmlspecialchars(date('H:i', strtotime($row['AU_HORA_INICIO']))) . "' required>
+                                                    </div>
+                                                    
+                                                    <div class='col-md-4'>
+                                                        <label class='form-label'>Hora Fim <span class='text-danger'>*</span></label>
+                                                        <input type='time' class='form-control horaFimEdit' name='AU_HORA_FIM' value='" . htmlspecialchars(date('H:i', strtotime($row['AU_HORA_FIM']))) . "' required>
+                                                    </div>
+                                                    
+                                                    <div class='col-md-4'>
+                                                        <label class='form-label'>Sala <span class='text-danger'>*</span></label>
+                                                        <input type='text' class='form-control' name='AU_SALA' value='" . htmlspecialchars($row['AU_SALA']) . "' required maxlength='50'>
+                                                    </div>
+                                                    
+                                                    <div class='col-md-4'>
+                                                        <label class='form-label'>Vagas Disponíveis <span class='text-danger'>*</span></label>
+                                                        <input type='number' class='form-control' name='AU_VAGAS_DISPONIVEIS' value='" . htmlspecialchars($row['AU_VAGAS_DISPONIVEIS']) . "' required min='0' max='" . htmlspecialchars($row['AU_VAGAS_TOTAIS']) . "'>
+                                                    </div>
+                                                    
+                                                    <div class='col-md-4'>
+                                                        <label class='form-label'>Vagas Totais <span class='text-danger'>*</span></label>
+                                                        <input type='number' class='form-control' name='AU_VAGAS_TOTAIS' value='" . htmlspecialchars($row['AU_VAGAS_TOTAIS']) . "' required min='1' max='100'>
+                                                    </div>
+                                                    
+                                                    <div class='col-md-4'>
+                                                        <label class='form-label'>Funcionário <span class='text-danger'>*</span></label>
                                                         <select class='form-select' name='FU_ID' required>
-                                                        <option value=''>Selecione...</option>
-                                                        " . $controller->buscarFuncionarios($row['FU_ID']) . "
-                                                    </select>
+                                                            <option value=''>Selecione...</option>
+                                                            " . $controller->buscarFuncionarios($row['FU_ID']) . "
+                                                        </select>
                                                     </div>
                                                     
-                                                    <div class='col-md-6'>
-                                                        <label class='form-label'>Status</label>
+                                                    <div class='col-md-12'>
+                                                        <label class='form-label'>Status <span class='text-danger'>*</span></label>
                                                         <select class='form-select' name='AU_STATUS' required>
                                                             <option value='AGENDADA' " . ($row['AU_STATUS'] == 'AGENDADA' ? 'selected' : '') . ">Agendada</option>
                                                             <option value='EM_ANDAMENTO' " . ($row['AU_STATUS'] == 'EM_ANDAMENTO' ? 'selected' : '') . ">Em Andamento</option>
@@ -344,54 +393,109 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                     
                                                     <div class='col-12'>
                                                         <label class='form-label'>Observações</label>
-                                                        <textarea class='form-control' name='AU_OBSERVACOES' rows='3'>{$row['AU_OBSERVACOES']}</textarea>
+                                                        <textarea class='form-control' name='AU_OBSERVACOES' rows='3' maxlength='255'>" . htmlspecialchars($row['AU_OBSERVACOES'] ?? '') . "</textarea>
                                                     </div>
                                                 </div>
                                                 
                                                 <div class='modal-footer'>
                                                     <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancelar</button>
-                                                    <button type='submit' class='btn text-white' style='background-color: #e35c38;'>Atualizar Aula</button>
+                                                    <button type='submit' class='btn text-white' style='background-color: #e35c38;'>
+                                                        Atualizar Aula
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            ";
+                            </div>";
                         }
                         ?>
                     </tbody>
                 </table>
+                <?php endif; ?>
             </div>
-            <h2 class="mb-4">Avaliações</h2>
-            <div class="d-flex" style="gap:30px;">
+
+            <!-- Avaliações -->
+            <h2 class="mb-4 mt-5">Avaliações Recebidas</h2>
+            <div class="d-flex flex-wrap" style="gap:30px;">
                 <?php 
-                $dados = $stmtPart->fetchAll(PDO::FETCH_ASSOC);
+                $avaliacoesValidas = array_filter($dadosAvaliacoes, fn($row) => !empty($row['PA_AVALIACAO']));
                 
-                    if (empty($dados)){
-                        echo "Nenhuma avaliação feita...";
-                    }else {
-                        foreach ($dados as $row){
-                             if ($row['PA_AVALIACAO'] ==! null){
-                                echo "<div class='card' style='width: 18rem;'>
-                                <div class='card-body'>
-                                    <h5 class='card-title'>{$row['US_NOME']}</h5>
-                                    <h6 class='card-subtitle mb-2 text-body-secondary'>{$row['PA_AVALIACAO']}/10</h6>
-                                    <hr>
-                                    <p class='card-text'><strong>Comentario:</strong> {$row['PA_COMENTARIO']}</p>
-                                    <hr>
-                                    <p class='card-text'><strong>Avalição feita em: {$row['AU_NOME']}</strong></p>
-                                </div>
-                                </div> ";
-                    } 
-                    }
-                } ?>
+                if (empty($avaliacoesValidas)): ?>
+                    <div class="alert alert-secondary" role="alert">
+                        <i class="bi bi-info-circle me-2"></i>Nenhuma avaliação de aula foi registrada ainda.
+                    </div>
+                <?php else: 
+                    foreach ($avaliacoesValidas as $row): 
+                        $nota = intval($row['PA_AVALIACAO']);
+                        $comentario = htmlspecialchars($row['PA_COMENTARIO'] ?? 'Sem comentário.');
+                        $nomeAluno = htmlspecialchars($row['US_NOME'] ?? 'Aluno Desconhecido');
+                        $nomeAula = htmlspecialchars($row['AU_NOME'] ?? 'Aula Desconhecida');
+                        
+                        // Cor do card baseada na nota
+                        $badgeClass = '';
+                        if ($nota >= 8) {
+                            $badgeClass = 'bg-success';
+                        } elseif ($nota >= 5) {
+                            $badgeClass = 'bg-warning text-dark';
+                        } else {
+                            $badgeClass = 'bg-danger';
+                        }
+                        
+                        $borderClass = str_replace('bg-', 'border-', $badgeClass);
+                        
+                        echo "
+                        <div class='card {$borderClass}' style='width: 18rem; border-width: 2px;'>
+                            <div class='card-body'>
+                                <h5 class='card-title d-flex justify-content-between align-items-center'>
+                                    {$nomeAluno}
+                                    <span class='badge {$badgeClass}' style='font-size: 1.1em;'>{$nota}/10</span>
+                                </h5>
+                                <h6 class='card-subtitle mb-2 text-muted small'>Aula: {$nomeAula}</h6>
+                                <hr>
+                                <p class='card-text'><strong>Comentário:</strong> {$comentario}</p>
+                            </div>
+                        </div>";
+                    endforeach; 
+                endif; ?>
             </div>
         </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-</body>
+    
+    <script>
+        // Função para confirmar deleção
+        function confirmarDelecao(nomeAula) {
+            return confirm(`Tem certeza que deseja deletar a aula: ${nomeAula}?`);
+        }
 
+        // Validação de horários no formulário de criação
+        document.getElementById('formCriarAula').addEventListener('submit', function(e) {
+            const horaInicio = document.getElementById('horaInicio').value;
+            const horaFim = document.getElementById('horaFim').value;
+            
+            if (horaInicio && horaFim && horaFim <= horaInicio) {
+                e.preventDefault();
+                alert('A hora de fim deve ser posterior à hora de início!');
+                return false;
+            }
+        });
+
+        // Validação de horários nos formulários de edição
+        document.querySelectorAll('.formEditarAula').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const horaInicio = this.querySelector('.horaInicioEdit').value;
+                const horaFim = this.querySelector('.horaFimEdit').value;
+                
+                if (horaInicio && horaFim && horaFim <= horaInicio) {
+                    e.preventDefault();
+                    alert('A hora de fim deve ser posterior à hora de início!');
+                    return false;
+                }
+            });
+        });
+    </script>
+</body>
 </html>

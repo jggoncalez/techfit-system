@@ -1,93 +1,122 @@
-<!doctype html>
-<html lang="pt-br">
-<head>
-    <title>TechFit</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="shortcut icon" href="public/images/TechFit-icon.ico" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../../Assets/style/style.css">
-</head>
-
 <?php
-require_once __DIR__ . '\\..\\..\\controllers\\UsuarioController.php';
-require_once __DIR__ . "\\..\\..\\controllers\\FuncionarioController.php";
-use controllers\FuncionarioController;
 session_start();
 
-// Verifica se está logado
+// Verifica autenticação
 if (!isset($_SESSION['user_ID'])) {
     header("Location: /public/login.php");
     exit();
 }
+
+require_once __DIR__ . '/../../controllers/UsuarioController.php';
+require_once __DIR__ . '/../../controllers/FuncionarioController.php';
+
+use controllers\FuncionarioController;
 use controllers\UsuarioController;
+
+// Inicializa controladores
 $controllerFun = new FuncionarioController();
 $controllerFun->FU_ID = $_SESSION['user_ID'];
 $controllerFun->searchID();
-$controller = new UsuarioController();
-$stmt = $controller->list();
 
-// Processar ações do formulário
+$controller = new UsuarioController();
+
+// Funções auxiliares
+function formatStatus($status) {
+    return match ($status) {
+        'EM_DIA' => 'Em dia',
+        'ATRASADO' => 'Atrasado',
+        'CANCELADO' => 'Cancelado',
+        default => 'Desconhecido'
+    };
+}
+
+function getStatusClass($status) {
+    return match ($status) {
+        'EM_DIA' => 'bg-success',
+        'ATRASADO' => 'bg-warning text-dark',
+        'CANCELADO' => 'bg-danger',
+        default => 'bg-secondary'
+    };
+}
+
+// Processamento de formulário
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? '';
 
+    // Captura e sanitiza dados básicos (com valores padrão para evitar null)
+    $controller->US_NOME = filter_input(INPUT_POST, 'US_NOME', FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
+    $controller->US_GENERO = filter_input(INPUT_POST, 'US_GENERO', FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
+    $controller->US_DATA_NASCIMENTO = filter_input(INPUT_POST, 'US_DATA_NASCIMENTO', FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
+    $controller->US_ALTURA = filter_input(INPUT_POST, 'US_ALTURA', FILTER_VALIDATE_INT) ?? 0;
+    $controller->US_PESO = filter_input(INPUT_POST, 'US_PESO', FILTER_VALIDATE_FLOAT) ?? 0.0;
+    $controller->US_OBJETIVO = filter_input(INPUT_POST, 'US_OBJETIVO', FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
+    $controller->US_TREINO_ANTERIOR = filter_input(INPUT_POST, 'US_TREINO_ANTERIOR', FILTER_VALIDATE_INT) ?? 0;
+    $controller->US_TEMPO_TREINOANT = filter_input(INPUT_POST, 'US_TEMPO_TREINOANT', FILTER_VALIDATE_INT) ?? 0;
+    $controller->US_ENDERECO = filter_input(INPUT_POST, 'US_ENDERECO', FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
+    $controller->PL_ID = filter_input(INPUT_POST, 'PL_ID', FILTER_VALIDATE_INT) ?? 0;
+    $controller->US_STATUS_PAGAMENTO = filter_input(INPUT_POST, 'US_STATUS_PAGAMENTO', FILTER_SANITIZE_SPECIAL_CHARS) ?? 'EM_DIA';
+    
+    // Processa disponibilidade (checkbox)
+    $disponibilidade = $_POST['US_DISPONIBILIDADE'] ?? [];
+    $controller->US_DISPONIBILIDADE = json_encode($disponibilidade, JSON_UNESCAPED_UNICODE) ?: '[]';
+
+    // Executa ação
     if ($acao === 'criar') {
-        $controller->US_NOME = $_POST['US_NOME'];
-        $controller->US_GENERO = $_POST['US_GENERO'];
-        $controller->US_DATA_NASCIMENTO = $_POST['US_DATA_NASCIMENTO'];
-        $controller->US_ALTURA = $_POST['US_ALTURA'];
-        $controller->US_PESO = $_POST['US_PESO'];
-        $controller->US_OBJETIVO = $_POST['US_OBJETIVO'] ?? '';
-        $controller->US_TREINO_ANTERIOR = $_POST['US_TREINO_ANTERIOR'];
-        $controller->US_TEMPO_TREINOANT = $_POST['US_TEMPO_TREINOANT'] ?? null;
-        $controller->US_ENDERECO = $_POST['US_ENDERECO'];
-        $controller->US_DISPONIBILIDADE = json_encode($_POST['US_DISPONIBILIDADE'] ?? [], JSON_UNESCAPED_UNICODE);
-        $controller->PL_ID = $_POST['PL_ID'];
-        $controller->US_STATUS_PAGAMENTO = $_POST['US_STATUS_PAGAMENTO'] ?? 'EM_DIA';
-        
         $controller->create();
         header("Location: /funcionario/register/estudantes");
         exit;
     }
 
     if ($acao === 'atualizar') {
-        $controller->US_ID = $_POST['US_ID'];
-        $controller->US_NOME = $_POST['US_NOME'];
-        $controller->US_GENERO = $_POST['US_GENERO'];
-        $controller->US_DATA_NASCIMENTO = $_POST['US_DATA_NASCIMENTO'];
-        $controller->US_ALTURA = $_POST['US_ALTURA'];
-        $controller->US_PESO = $_POST['US_PESO'];
-        $controller->US_OBJETIVO = $_POST['US_OBJETIVO'] ?? '';
-        $controller->US_TREINO_ANTERIOR = $_POST['US_TREINO_ANTERIOR'];
-        $controller->US_TEMPO_TREINOANT = $_POST['US_TEMPO_TREINOANT'] ?? null;
-        $controller->US_ENDERECO = $_POST['US_ENDERECO'];
-        $controller->US_DISPONIBILIDADE = json_encode($_POST['US_DISPONIBILIDADE'] ?? [], JSON_UNESCAPED_UNICODE);
-        $controller->PL_ID = $_POST['PL_ID'];
-        $controller->US_STATUS_PAGAMENTO = $_POST['US_STATUS_PAGAMENTO'] ?? 'EM_DIA';
-        
+        $controller->US_ID = filter_input(INPUT_POST, 'US_ID', FILTER_VALIDATE_INT);
         $controller->update();
         header("Location: /funcionario/register/estudantes");
         exit;
     }
 
     if ($acao === 'deletar') {
-        $controller->US_ID = $_POST['US_ID'];
+        $controller->US_ID = filter_input(INPUT_POST, 'US_ID', FILTER_VALIDATE_INT);
         $controller->deleteRFID();
         $controller->delete();
         header("Location: /funcionario/register/estudantes");
         exit;
     }
 }
+
+// Busca dados
+$stmt = $controller->list();
+$dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Captura HTML dos planos usando output buffering
+ob_start();
+$controller->buscarPlanos();
+$planosHtml = ob_get_clean();
+
+// Mapeia planos para exibição na tabela
+$planosMap = [];
+if (preg_match_all('/<option value=\'(\d+)\'>(.*?)<\/option>/', $planosHtml, $matches)) {
+    $planosMap = array_combine($matches[1], $matches[2]);
+}
 ?>
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <title>TechFit - Cadastro de Alunos</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="shortcut icon" href="/public/images/TechFit-icon.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../Assets/style/style.css"> 
+</head>
 
 <body>
     <div class="d-flex">
-        <!-- Barra lateral -->
-        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <img src="../../public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
+        <!-- Sidebar -->
+        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light">
+            <a href="/funcionario" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <img src="/public/images/logo-fixed.webp" class="img-fluid mb-2" alt="TechFit Logo" style="max-width: 150px;">
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
@@ -102,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </a>
                 </li>
                 <li>
-                    <a href="/funcionario/register/estudantes" class="nav-link active text-white" style="background-color: #e35c38;" aria-current="page">
+                    <a href="/funcionario/register/estudantes" class="nav-link active text-white techfit-bg" aria-current="page">
                         <i class="bi bi-person-plus me-2"></i>Alunos
                     </a>
                 </li>
@@ -123,17 +152,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </li>
                 <li>
                     <a href="/funcionario/RFID" class="nav-link link-dark">
-                        <i class="bi bi-box-arrow-in-up-left"></i>
-                        Acessos
+                        <i class="bi bi-box-arrow-in-up-left me-2"></i>Acessos
                     </a>
                 </li>
             </ul>
             <hr>
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" 
-                   id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="../../public/images/pfp_placeholder.webp" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong id="user-name-sidebar"><?php echo $controllerFun->FU_NOME ?></strong>
+                    id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="/public/images/pfp_placeholder.webp" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong><?= htmlspecialchars($controllerFun->FU_NOME ?? 'Funcionário') ?></strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="/funcionario/profile"><i class="bi bi-person me-2"></i>Perfil</a></li>
@@ -143,149 +171,124 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
 
+        <!-- Main Content -->
         <main class="flex-grow-1 p-4" style="overflow-y: auto;">
-            <h2 class="mb-4">Cadastrar Usuário</h2>
-
+            <h2 class="mb-4">Cadastrar Aluno</h2>
             <form method="POST" class="row g-3">
                 <input type="hidden" name="acao" value="criar">
 
-                <!-- US_NOME -->
-                <div class="col-md-6">
-                    <label class="form-label">Nome *</label>
-                    <input type="text" class="form-control" name="US_NOME" maxlength="25" required>
-                </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Nome *</label>
+                                <input type="text" class="form-control" name="US_NOME" maxlength="50" required>
+                            </div>
 
-                <!-- US_GENERO -->
-                <div class="col-md-3">
-                    <label class="form-label">Gênero *</label>
-                    <select class="form-select" name="US_GENERO" required>
-                        <option value="M">Masculino</option>
-                        <option value="F">Feminino</option>
-                        <option value="O">Outro</option>
-                    </select>
-                </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Gênero *</label>
+                                <select class="form-select" name="US_GENERO" required>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                    <option value="O">Outro</option>
+                                </select>
+                            </div>
 
-                <!-- US_DATA_NASCIMENTO -->
-                <div class="col-md-3">
-                    <label class="form-label">Data de Nascimento *</label>
-                    <input type="date" class="form-control" name="US_DATA_NASCIMENTO" required>
-                </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Data de Nascimento *</label>
+                                <input type="date" class="form-control" name="US_DATA_NASCIMENTO" max="<?= date('Y-m-d') ?>" required>
+                            </div>
 
-                <!-- US_ALTURA -->
-                <div class="col-md-2">
-                    <label class="form-label">Altura (cm) *</label>
-                    <input type="number" class="form-control" name="US_ALTURA" required>
-                </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Altura (cm) *</label>
+                                <input type="number" class="form-control" name="US_ALTURA" min="50" max="300" required>
+                            </div>
 
-                <!-- US_PESO -->
-                <div class="col-md-2">
-                    <label class="form-label">Peso (kg) *</label>
-                    <input type="number" step="0.01" class="form-control" name="US_PESO" required>
-                </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Peso (kg) *</label>
+                                <input type="number" step="0.01" class="form-control" name="US_PESO" min="1" max="500" required>
+                            </div>
 
+                            <div class="col-md-4">
+                                <label class="form-label">Objetivo</label>
+                                <select class="form-select" name="US_OBJETIVO">
+                                    <option value="">Selecione...</option>
+                                    <option value="EMAGRECER">Emagrecer</option>
+                                    <option value="GANHAR PESO">Ganhar Massa</option>
+                                    <option value="SAÚDE">Saúde e Bem-estar</option>
+                                </select>
+                            </div>
 
-                <!-- US_OBJETIVO -->
-                <div class="col-md-4">
-                    <label class="form-label">Objetivo</label>
-                    <select class="form-select" name="US_OBJETIVO">
-                        <option value="">Selecione...</option>
-                        <option value="EMAGRECER">Emagrecer</option>
-                        <option value="GANHAR PESO">Ganhar Peso</option>
-                        <option value="SAÚDE">Saúde</option>
-                    </select>
-                </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Já treinou antes? *</label>
+                                <select class="form-select" name="US_TREINO_ANTERIOR" required>
+                                    <option value="0" selected>Não</option>
+                                    <option value="1">Sim</option>
+                                </select>
+                            </div>
 
-                <!-- US_TREINO_ANTERIOR -->
-                <div class="col-md-3">
-                    <label class="form-label">Já treinou antes? *</label>
-                    <select class="form-select" name="US_TREINO_ANTERIOR" required>
-                        <option value='1'>Sim</option>
-                        <option value='0'>Não</option>
-                    </select>
-                </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Tempo de treino (meses)</label>
+                                <input type="number" class="form-control" name="US_TEMPO_TREINOANT" min="0" value="0">
+                            </div>
 
-                <!-- US_TEMPO_TREINOANT -->
-                <div class="col-md-3">
-                    <label class="form-label">Tempo de treino (meses)</label>
-                    <input type="number" class="form-control" name="US_TEMPO_TREINOANT" value = 0>
-                </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Plano *</label>
+                                <select class="form-select" name="PL_ID" required>
+                                    <option value="">Selecione...</option>
+                                    <?= $planosHtml ?>
+                                </select>
+                            </div>
 
-                <!-- PL_ID -->
-                <div class="col-md-3">
-                    <label class="form-label">Plano *</label>
-                    <select class="form-select" name="PL_ID" required>
-                        <option value="">Selecione...</option>
-                        <?php echo $controller->buscarPlanos(); ?>
-                    </select>
-                </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Status do Pagamento</label>
+                                <select class="form-select" name="US_STATUS_PAGAMENTO">
+                                    <option value="EM_DIA">Em dia</option>
+                                    <option value="ATRASADO">Atrasado</option>
+                                    <option value="CANCELADO">Cancelado</option>
+                                </select>
+                            </div>
 
-                <!-- US_STATUS_PAGAMENTO -->
-                <div class="col-md-3">
-                    <label class="form-label">Status do Pagamento</label>
-                    <select class="form-select" name="US_STATUS_PAGAMENTO">
-                        <option value="EM_DIA">Em dia</option>
-                        <option value="ATRASADO">Atrasado</option>
-                        <option value="CANCELADO">Cancelado</option>
-                    </select>
-                </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Endereço *</label>
+                                <input type="text" class="form-control" name="US_ENDERECO" maxlength="255" required>
+                            </div>
 
-                <!-- US_ENDERECO -->
-                <div class="col-md-12">
-                    <label class="form-label">Endereço *</label>
-                    <input type="text" class="form-control" name="US_ENDERECO" maxlength="255" required>
-                </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Disponibilidade de Treino *</label>
+                                <div class="d-flex flex-wrap gap-3 p-2 border rounded">
+                                    <?php 
+                                        $diasSemana = ['segunda' => 'Segunda', 'terça' => 'Terça', 'quarta' => 'Quarta', 
+                                                       'quinta' => 'Quinta', 'sexta' => 'Sexta', 'sábado' => 'Sábado', 'domingo' => 'Domingo'];
+                                        foreach ($diasSemana as $value => $label):
+                                    ?>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="<?= $value ?>" id="<?= $value ?>">
+                                            <label class="form-check-label" for="<?= $value ?>"><?= $label ?></label>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
 
-                <!-- US_DISPONIBILIDADE -->
-                <div class="col-md-12">
-                    <label class="form-label">Disponibilidade *</label>
-                    <div class="d-flex flex-wrap gap-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="segunda" id="segunda">
-                            <label class="form-check-label" for="segunda">Segunda</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="terça" id="terça">
-                            <label class="form-check-label" for="terça">Terça</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="quarta" id="quarta">
-                            <label class="form-check-label" for="quarta">Quarta</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="quinta" id="quinta">
-                            <label class="form-check-label" for="quinta">Quinta</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="sexta" id="sexta">
-                            <label class="form-check-label" for="sexta">Sexta</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="sábado" id="sábado">
-                            <label class="form-check-label" for="sábado">Sábado</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" value="domingo" id="domingo">
-                            <label class="form-check-label" for="domingo">Domingo</label>
-                        </div>
+                            <div class="col-12 mt-3">
+                                <button type="submit" class="btn text-white" style="background-color: #e35c38;">
+                                    Salvar Aluno
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Tabela de Alunos -->
+                        <div class="table-responsive mt-5">
+                            <h3 class="mb-3">Alunos Cadastrados</h3>
+                
+                <?php if (empty($dados)): ?>
+                    <div class="alert alert-info text-center" role="alert">
+                        Nenhum aluno cadastrado.
                     </div>
-                </div>
-
-                <div class="col-12 mt-3">
-                    <button type="submit" class="btn text-white" style="background-color: #e35c38;">
-                        Salvar Usuário
-                    </button>
-                </div>
-            </form>
-
-            <!-- Tabela de Usuários -->
-            <div class="table-responsive mt-5">
-                <h3 class="mb-3">Usuários Cadastrados</h3>
+                <?php else: ?>
                 <table class="table table-striped table-hover">
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
                             <th>Nome</th>
-                            <th>Data de Nascimento</th>
+                            <th>Nascimento</th>
                             <th>Peso</th>
                             <th>Altura</th>
                             <th>Plano</th>
@@ -294,159 +297,164 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            <?php foreach ($dados as $row):
+                                $modalId = "modal-usuario-" . $row['US_ID'];
+                                $statusClass = getStatusClass($row['US_STATUS_PAGAMENTO']);
+                                $statusFormatado = formatStatus($row['US_STATUS_PAGAMENTO']);
+                                $nomePlano = $planosMap[$row['PL_ID']] ?? "Plano {$row['PL_ID']}";
+                                $nomeEscapado = htmlspecialchars($row['US_NOME'], ENT_QUOTES, 'UTF-8');
+                            ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($row['US_ID']) ?></td>
+                                    <td><?= $nomeEscapado ?></td>
+                                    <td><?= date('d/m/Y', strtotime($row['US_DATA_NASCIMENTO'])) ?></td>
+                                    <td><?= number_format($row['US_PESO'], 2, ',', '.') ?> kg</td>
+                                    <td><?= htmlspecialchars($row['US_ALTURA']) ?> cm</td>
+                                    <td><?= htmlspecialchars($nomePlano) ?></td>
+                                    <td><span class="badge <?= $statusClass ?>"><?= $statusFormatado ?></span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#<?= $modalId ?>">Editar</button>
+                                        <form method="POST" style="display:inline;">
+                                            <input type="hidden" name="acao" value="deletar">
+                                            <input type="hidden" name="US_ID" value="<?= $row['US_ID'] ?>">
+                                            <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('Tem certeza que deseja deletar <?= $nomeEscapado ?>?')">Deletar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <?php endif; ?>
 
-                        foreach ($dados as $row) {
-                            $modalId = "modal-usuario-" . $row['US_ID'];
-                            
-                            $statusClass = match ($row['US_STATUS_PAGAMENTO']) {
-                                'EM_DIA' => 'bg-success',
-                                'ATRASADO' => 'bg-warning',
-                                'CANCELADO' => 'bg-danger',
-                                default => 'bg-secondary'
-                            };
-                            
-                            echo "
-                            <tr>
-                                <td>{$row['US_ID']}</td>
-                                <td>{$row['US_NOME']}</td>
-                                <td>" . date('d/m/Y', strtotime($row['US_DATA_NASCIMENTO'])) . "</td>
-                                <td>{$row['US_PESO']} kg</td>
-                                <td>{$row['US_ALTURA']} cm</td>
-                                <td>Plano {$row['PL_ID']}</td>
-                                <td><span class='badge {$statusClass}'>{$row['US_STATUS_PAGAMENTO']}</span></td>
-                                <td>
-                                    <button class='btn btn-sm btn-warning' data-bs-toggle='modal' data-bs-target='#{$modalId}'>Editar</button>
-                                    <form method='POST' style='display:inline;'>
-                                        <input type='hidden' name='acao' value='deletar'>
-                                        <input type='hidden' name='US_ID' value='{$row['US_ID']}'>
-                                        <button class='btn btn-sm btn-danger' type='submit' onclick='return confirm(\"Tem certeza que deseja deletar este usuário?\")'>Deletar</button>
-                                    </form>
-                                </td>
-                            </tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
             </div>
         </main>
     </div>
 
-    <!-- Modals de Edição -->
+    <!-- Modais de Edição -->
     <?php foreach ($dados as $row):
         $modalId = "modal-usuario-" . $row['US_ID'];
-        $disponibilidade = json_decode($row['US_DISPONIBILIDADE'], true) ?? [];
+        $dispJson = $row['US_DISPONIBILIDADE'] ?? '[]';
+        $disponibilidade = is_string($dispJson) ? (json_decode($dispJson, true) ?? []) : [];
+        $nomeEscapado = htmlspecialchars($row['US_NOME'], ENT_QUOTES, 'UTF-8');
     ?>
-        <div class='modal fade' id='<?= $modalId ?>' tabindex='-1' aria-hidden='true'>
-            <div class='modal-dialog modal-xl'>
-                <div class='modal-content'>
-                    <div class='modal-header'>
-                        <h5 class='modal-title'>Editar Usuário: <?= htmlspecialchars($row['US_NOME']) ?></h5>
-                        <button type='button' class='btn-close' data-bs-dismiss='modal'></button>
+        <div class="modal fade" id="<?= $modalId ?>" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Aluno: <?= $nomeEscapado ?></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <div class='modal-body'>
-                        <form method='POST'>
-                            <input type='hidden' name='acao' value='atualizar'>
-                            <input type='hidden' name='US_ID' value='<?= $row['US_ID'] ?>'>
+                    <div class="modal-body">
+                        <form method="POST">
+                            <input type="hidden" name="acao" value="atualizar">
+                            <input type="hidden" name="US_ID" value="<?= $row['US_ID'] ?>">
                             
-                            <div class='row g-3'>
-                                <div class='col-md-6'>
-                                    <label class='form-label'>Nome</label>
-                                    <input type='text' class='form-control' name='US_NOME' value='<?= htmlspecialchars($row['US_NOME']) ?>' required>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nome *</label>
+                                    <input type="text" class="form-control" name="US_NOME" value="<?= $nomeEscapado ?>" required>
                                 </div>
                                 
-                                <div class='col-md-3'>
-                                    <label class='form-label'>Gênero</label>
-                                    <select class='form-select' name='US_GENERO' required>
-                                        <option value='M' <?= $row['US_GENERO'] == 'M' ? 'selected' : '' ?>>Masculino</option>
-                                        <option value='F' <?= $row['US_GENERO'] == 'F' ? 'selected' : '' ?>>Feminino</option>
-                                        <option value='O' <?= $row['US_GENERO'] == 'O' ? 'selected' : '' ?>>Outro</option>
+                                <div class="col-md-3">
+                                    <label class="form-label">Gênero *</label>
+                                    <select class="form-select" name="US_GENERO" required>
+                                        <option value="M" <?= $row['US_GENERO'] == 'M' ? 'selected' : '' ?>>Masculino</option>
+                                        <option value="F" <?= $row['US_GENERO'] == 'F' ? 'selected' : '' ?>>Feminino</option>
+                                        <option value="O" <?= $row['US_GENERO'] == 'O' ? 'selected' : '' ?>>Outro</option>
                                     </select>
                                 </div>
                                 
-                                <div class='col-md-3'>
-                                    <label class='form-label'>Data de Nascimento</label>
-                                    <input type='date' class='form-control' name='US_DATA_NASCIMENTO' value='<?= $row['US_DATA_NASCIMENTO'] ?>' required>
+                                <div class="col-md-3">
+                                    <label class="form-label">Data de Nascimento *</label>
+                                    <input type="date" class="form-control" name="US_DATA_NASCIMENTO" 
+                                           value="<?= htmlspecialchars($row['US_DATA_NASCIMENTO']) ?>" 
+                                           max="<?= date('Y-m-d') ?>" required>
                                 </div>
                                 
-                                <div class='col-md-2'>
-                                    <label class='form-label'>Altura (cm)</label>
-                                    <input type='number' class='form-control' name='US_ALTURA' value='<?= $row['US_ALTURA'] ?>' required>
+                                <div class="col-md-2">
+                                    <label class="form-label">Altura (cm) *</label>
+                                    <input type="number" class="form-control" name="US_ALTURA" 
+                                           value="<?= htmlspecialchars($row['US_ALTURA']) ?>" 
+                                           min="50" max="300" required>
                                 </div>
                                 
-                                <div class='col-md-2'>
-                                    <label class='form-label'>Peso (kg)</label>
-                                    <input type='number' step='0.01' class='form-control' name='US_PESO' value='<?= $row['US_PESO'] ?>' required>
+                                <div class="col-md-2">
+                                    <label class="form-label">Peso (kg) *</label>
+                                    <input type="number" step="0.01" class="form-control" name="US_PESO" 
+                                           value="<?= htmlspecialchars($row['US_PESO']) ?>" 
+                                           min="1" max="500" required>
                                 </div>
                                 
-                                <div class='col-md-4'>
-                                    <label class='form-label'>Objetivo</label>
-                                    <select class='form-select' name='US_OBJETIVO'>
-                                        <option value=''>Selecione...</option>
-                                        <option value='EMAGRECER' <?= $row['US_OBJETIVO'] == 'EMAGRECER' ? 'selected' : '' ?>>Emagrecer</option>
-                                        <option value='GANHAR PESO' <?= $row['US_OBJETIVO'] == 'GANHAR PESO' ? 'selected' : '' ?>>Ganhar Peso</option>
-                                        <option value='SAÚDE' <?= $row['US_OBJETIVO'] == 'SAÚDE' ? 'selected' : '' ?>>Saúde</option>
+                                <div class="col-md-4">
+                                    <label class="form-label">Objetivo</label>
+                                    <select class="form-select" name="US_OBJETIVO">
+                                        <option value="">Selecione...</option>
+                                        <option value="EMAGRECER" <?= $row['US_OBJETIVO'] == 'EMAGRECER' ? 'selected' : '' ?>>Emagrecer</option>
+                                        <option value="GANHAR PESO" <?= $row['US_OBJETIVO'] == 'GANHAR PESO' ? 'selected' : '' ?>>Ganhar Massa</option>
+                                        <option value="SAÚDE" <?= $row['US_OBJETIVO'] == 'SAÚDE' ? 'selected' : '' ?>>Saúde e Bem-estar</option>
                                     </select>
                                 </div>
                                 
-                                <div class='col-md-3'>
-                                    <label class='form-label'>Já treinou antes?</label>
-                                    <select class='form-select' name='US_TREINO_ANTERIOR' required>
-                                        <option value='1' <?= $row['US_TREINO_ANTERIOR'] == 1 ? 'selected' : '' ?>>Sim</option>
-                                        <option value='0' <?= $row['US_TREINO_ANTERIOR'] == 0 ? 'selected' : '' ?>>Não</option>
+                                <div class="col-md-2">
+                                    <label class="form-label">Já treinou? *</label>
+                                    <select class="form-select" name="US_TREINO_ANTERIOR" required>
+                                        <option value="0" <?= $row['US_TREINO_ANTERIOR'] == 0 ? 'selected' : '' ?>>Não</option>
+                                        <option value="1" <?= $row['US_TREINO_ANTERIOR'] == 1 ? 'selected' : '' ?>>Sim</option>
                                     </select>
                                 </div>
                                 
-                                <div class='col-md-3'>
-                                    <label class='form-label'>Tempo de treino (meses)</label>
-                                    <input type='number' class='form-control' name='US_TEMPO_TREINOANT' value='<?= $row['US_TEMPO_TREINOANT'] ?>'>
+                                <div class="col-md-2">
+                                    <label class="form-label">Tempo treino (meses)</label>
+                                    <input type="number" class="form-control" name="US_TEMPO_TREINOANT" 
+                                           value="<?= htmlspecialchars($row['US_TEMPO_TREINOANT'] ?? 0) ?>" min="0">
                                 </div>
                                 
-                                <div class='col-md-3'>
-                                    <label class='form-label'>Plano</label>
-                                    <select class='form-select' name='PL_ID' required>
-                                        <option value=''>Selecione...</option>
-                                        <?php echo $controller->buscarPlanos(); ?>
+                                <div class="col-md-3">
+                                    <label class="form-label">Plano *</label>
+                                    <select class="form-select" name="PL_ID" required>
+                                        <option value="">Selecione...</option>
+                                        <?= str_replace("value='{$row['PL_ID']}'", "value='{$row['PL_ID']}' selected", $planosHtml) ?>
                                     </select>
                                 </div>
                                 
-                                <div class='col-md-3'>
-                                    <label class='form-label'>Status Pagamento</label>
-                                    <select class='form-select' name='US_STATUS_PAGAMENTO'>
-                                        <option value='EM_DIA' <?= $row['US_STATUS_PAGAMENTO'] == 'EM_DIA' ? 'selected' : '' ?>>Em dia</option>
-                                        <option value='ATRASADO' <?= $row['US_STATUS_PAGAMENTO'] == 'ATRASADO' ? 'selected' : '' ?>>Atrasado</option>
-                                        <option value='CANCELADO' <?= $row['US_STATUS_PAGAMENTO'] == 'CANCELADO' ? 'selected' : '' ?>>Cancelado</option>
+                                <div class="col-md-3">
+                                    <label class="form-label">Status Pagamento</label>
+                                    <select class="form-select" name="US_STATUS_PAGAMENTO">
+                                        <option value="EM_DIA" <?= $row['US_STATUS_PAGAMENTO'] == 'EM_DIA' ? 'selected' : '' ?>>Em dia</option>
+                                        <option value="ATRASADO" <?= $row['US_STATUS_PAGAMENTO'] == 'ATRASADO' ? 'selected' : '' ?>>Atrasado</option>
+                                        <option value="CANCELADO" <?= $row['US_STATUS_PAGAMENTO'] == 'CANCELADO' ? 'selected' : '' ?>>Cancelado</option>
                                     </select>
                                 </div>
                                 
-                                <div class='col-md-12'>
-                                    <label class='form-label'>Endereço</label>
-                                    <input type='text' class='form-control' name='US_ENDERECO' value='<?= htmlspecialchars($row['US_ENDERECO']) ?>' required>
+                                <div class="col-md-6">
+                                    <label class="form-label">Endereço *</label>
+                                    <input type="text" class="form-control" name="US_ENDERECO" 
+                                           value="<?= htmlspecialchars($row['US_ENDERECO']) ?>" required>
                                 </div>
                                 
-                                <div class='col-md-12'>
-                                    <label class='form-label'>Disponibilidade</label>
-                                    <div class='d-flex flex-wrap gap-3'>
+                                <div class="col-md-12">
+                                    <label class="form-label">Disponibilidade de Treino *</label>
+                                    <div class="d-flex flex-wrap gap-3 p-2 border rounded">
                                         <?php
-                                        $diasSemana = ['segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado', 'domingo'];
-                                        foreach ($diasSemana as $dia):
-                                            $checked = in_array($dia, $disponibilidade) ? 'checked' : '';
-                                            $inputId = "edit-{$dia}-{$row['US_ID']}";
+                                            $diasSemana = ['segunda' => 'Segunda', 'terça' => 'Terça', 'quarta' => 'Quarta', 
+                                                           'quinta' => 'Quinta', 'sexta' => 'Sexta', 'sábado' => 'Sábado', 'domingo' => 'Domingo'];
+                                            foreach ($diasSemana as $value => $label):
+                                                $checked = in_array($value, $disponibilidade) ? 'checked' : '';
                                         ?>
-                                            <div class='form-check'>
-                                                <input class='form-check-input' type='checkbox' name='US_DISPONIBILIDADE[]' 
-                                                       value='<?= $dia ?>' id='<?= $inputId ?>' <?= $checked ?>>
-                                                <label class='form-check-label' for='<?= $inputId ?>'><?= ucfirst($dia) ?></label>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" name="US_DISPONIBILIDADE[]" 
+                                                       value="<?= $value ?>" id="edit-<?= $value ?>-<?= $row['US_ID'] ?>" <?= $checked ?>>
+                                                <label class="form-check-label" for="edit-<?= $value ?>-<?= $row['US_ID'] ?>"><?= $label ?></label>
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
                                 </div>
                             </div>
                             
-                            <div class='modal-footer'>
-                                <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancelar</button>
-                                <button type='submit' class='btn text-white' style='background-color: #e35c38;'>Atualizar Usuário</button>
+                            <div class="modal-footer mt-4">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn text-white" style="background-color: #e35c38;">Atualizar Aluno</button>
                             </div>
                         </form>
                     </div>

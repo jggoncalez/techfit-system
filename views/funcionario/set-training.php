@@ -100,6 +100,7 @@ $listaTreinos = $controllerTr->list(); // pega todos os treinos
     <title>Montar Treino</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../Assets/style/style.css">
 </head>
 
 <body>
@@ -183,7 +184,7 @@ $listaTreinos = $controllerTr->list(); // pega todos os treinos
 
             <div class="col-md-3">
                 <label class="form-label">Data</label>
-                <input type="date" name="TR_DATA_CRIACAO" class="form-control" required>
+                <input type="date" name="TR_DATA_CRIACAO" class="form-control" min="<?php echo date('Y-m-d'); ?>" required>
             </div>
 
             <div class="col-md-6">
@@ -298,7 +299,7 @@ $listaTreinos = $controllerTr->list(); // pega todos os treinos
 
                                                 <div class="mb-3">
                                                     <label class="form-label">Data</label>
-                                                    <input type="date" name="TR_DATA_CRIACAO" class="form-control" value="<?= $treino['TR_DATA_CRIACAO'] ?>" required>
+                                                    <input type="date" name="TR_DATA_CRIACAO" class="form-control" min="<?php echo date('Y-m-d'); ?>" value="<?= $treino['TR_DATA_CRIACAO'] ?>" required>
                                                 </div>
 
                                                 <div class="mb-3">
@@ -329,7 +330,7 @@ $listaTreinos = $controllerTr->list(); // pega todos os treinos
 
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                    <button type="submit" class="btn btn-primary">Atualizar</button>
+                                                    <button type="submit" class="btn btn-primary text-white">Atualizar</button>
                                                 </div>
                                             </form>
                                         </div>
